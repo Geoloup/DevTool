@@ -132,7 +132,7 @@ addEventListener("DOMContentLoaded", (event) => {
             event.preventDefault();
             toggleConsole();
         }
-        if (event.key === "i" && event.shiftKey && event.ctrlKey) {
+        if (event.code === "i".charCodeAt(0) && event.shiftKey && event.ctrlKey) {
             event.preventDefault();
             toggleConsole();
         }
