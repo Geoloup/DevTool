@@ -77,6 +77,11 @@ addEventListener("DOMContentLoaded", (event) => {
     #consoleInputContainer button:hover {
         background-color: #005f99;
     }
+    pre.element {
+        max-height:2rem;
+        font-size:1rem;
+        overflow:scroll;
+    }
 `;
     document.head.appendChild(style);
 
