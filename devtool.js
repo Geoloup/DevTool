@@ -33,6 +33,8 @@ addEventListener("DOMContentLoaded", (event) => {
         z-index: 1001;
         font-family: sans-serif;
     }
+
+
     #customConsole {
         position: fixed;
         bottom: 0;
@@ -97,6 +99,8 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Toggle console visibility
     function toggleConsole() {
+        document.body.style.width =  window.innerWidth - 250
+        document.body.style.maxWidth =  window.innerWidth - 250
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
     }
 
