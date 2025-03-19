@@ -181,11 +181,11 @@ addEventListener("DOMContentLoaded", (event) => {
                         return "[Error serializing object]";
                     }
                 } else {
-                    return String(arg);
+                    return String(arg).replaceAll('<','&lt;').replaceAll('>','&gt;');
                 }
             }).join(" ");
             const messageElement = document.createElement("div");
-            messageElement.textContent = `[${method.toUpperCase()}] ${message}`;
+            messageElement.innerHTML = `[${method.toUpperCase()}] ${message}`;
             messageElement.style.color = method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
             consoleOutput.appendChild(messageElement);
             consoleOutput.scrollTop = consoleOutput.scrollHeight;
