@@ -36,9 +36,9 @@ addEventListener("DOMContentLoaded", (event) => {
     #customConsole {
         position: fixed;
         bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 250px;
+        right: 0;
+        width: 250px;
+        height: 100%;
         background-color: #1e1e1e;
         color: #dcdcdc;
         font-family: monospace;
@@ -78,7 +78,7 @@ addEventListener("DOMContentLoaded", (event) => {
         background-color: #005f99;
     }
     pre.element {
-        max-height:2rem;
+        max-height:6rem;
         font-size:1rem;
         overflow:scroll;
     }
