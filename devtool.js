@@ -1,23 +1,22 @@
 addEventListener("DOMContentLoaded", (event) => {
+    // Create console elements
+    const consoleToggle = document.createElement("div");
+    const customConsole = document.createElement("div");
+    const consoleOutput = document.createElement("div");
+    const consoleInputContainer = document.createElement("div");
+    const consoleInput = document.createElement("input");
+    const consoleButton = document.createElement("button");
 
-// Create console elements
-const consoleToggle = document.createElement("div");
-const customConsole = document.createElement("div");
-const consoleOutput = document.createElement("div");
-const consoleInputContainer = document.createElement("div");
-const consoleInput = document.createElement("input");
-const consoleButton = document.createElement("button");
+    // Set element IDs
+    consoleToggle.id = "consoleToggle";
+    customConsole.id = "customConsole";
+    consoleOutput.id = "consoleOutput";
+    consoleInput.id = "consoleCommand";
+    consoleButton.innerText = "Run";
 
-// Set element IDs
-consoleToggle.id = "consoleToggle";
-customConsole.id = "customConsole";
-consoleOutput.id = "consoleOutput";
-consoleInput.id = "consoleCommand";
-consoleButton.innerText = "Run";
-
-// Add styles dynamically
-const style = document.createElement("style");
-style.innerHTML = `
+    // Add styles dynamically
+    const style = document.createElement("style");
+    style.innerHTML = `
     #consoleToggle {
         position: fixed;
         bottom: 20px;
@@ -79,103 +78,103 @@ style.innerHTML = `
         background-color: #005f99;
     }
 `;
-document.head.appendChild(style);
+    document.head.appendChild(style);
 
-// Append elements to body
-document.body.appendChild(consoleToggle);
-document.body.appendChild(customConsole);
-customConsole.appendChild(consoleOutput);
-customConsole.appendChild(consoleInputContainer);
-consoleInputContainer.appendChild(consoleInput);
-consoleInputContainer.appendChild(consoleButton);
+    // Append elements to body
+    document.body.appendChild(consoleToggle);
+    document.body.appendChild(customConsole);
+    customConsole.appendChild(consoleOutput);
+    customConsole.appendChild(consoleInputContainer);
+    consoleInputContainer.appendChild(consoleInput);
+    consoleInputContainer.appendChild(consoleButton);
 
-consoleToggle.innerHTML = "≡";
+    consoleToggle.innerHTML = "≡";
 
-// Toggle console visibility
-function toggleConsole() {
-    customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
-}
-
-// Make the console toggle button draggable
-function makeDraggable(element) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    element.onmousedown = function(e) {
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-    };
-
-    function elementDrag(e) {
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        element.style.top = (element.offsetTop - pos2) + "px";
-        element.style.left = (element.offsetLeft - pos1) + "px";
+    // Toggle console visibility
+    function toggleConsole() {
+        customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
     }
 
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-makeDraggable(consoleToggle);
+    // Make the console toggle button draggable
+    function makeDraggable(element) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        element.onmousedown = function (e) {
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        };
 
-// Toggle console on double-click of the toggle button
-consoleToggle.ondblclick = toggleConsole;
-
-// Override F12 key to toggle the custom console
-document.addEventListener("keydown", function(event) {
-    if (event.key === "F12") {
-        event.preventDefault();
-        toggleConsole();
-    }
-    if (event.key === "i" && event.shiftKey && event.ctrlKey) {
-        event.preventDefault();
-        toggleConsole();
-    }
-});
-
-// Execute JavaScript commands
-function executeCommand() {
-    const command = consoleInput.value;
-    if (command.trim() === "") return;
-    consoleInput.value = "";
-    const commandElement = document.createElement("div");
-    commandElement.textContent = `> ${command}`;
-    commandElement.style.color = "#9cdcfe";
-    consoleOutput.appendChild(commandElement);
-    try {
-        const result = eval(command);
-        if (result !== undefined) {
-            console.log(result);
+        function elementDrag(e) {
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            element.style.top = (element.offsetTop - pos2) + "px";
+            element.style.left = (element.offsetLeft - pos1) + "px";
         }
-    } catch (error) {
-        console.error(error);
-    }
-}
 
-consoleButton.onclick = executeCommand;
-consoleInput.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        executeCommand();
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
-});
+    makeDraggable(consoleToggle);
 
-// Override console log methods
-["log", "warn", "error", "info"].forEach(function(method) {
-    const original = console[method];
-    console[method] = function(...args) {
-        const message = args.map(arg => (typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg))).join(" ");
-        const messageElement = document.createElement("div");
-        messageElement.textContent = `[${method.toUpperCase()}] ${message}`;
-        messageElement.style.color = method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
-        consoleOutput.appendChild(messageElement);
-        consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        original.apply(console, args);
-    };
-});
+    // Toggle console on double-click of the toggle button
+    consoleToggle.ondblclick = toggleConsole;
+
+    // Override F12 key to toggle the custom console
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "F12") {
+            event.preventDefault();
+            toggleConsole();
+        }
+        if (event.key === "i" && event.shiftKey && event.ctrlKey) {
+            event.preventDefault();
+            toggleConsole();
+        }
+    });
+
+    // Execute JavaScript commands
+    function executeCommand() {
+        const command = consoleInput.value;
+        if (command.trim() === "") return;
+        consoleInput.value = "";
+        const commandElement = document.createElement("div");
+        commandElement.textContent = `> ${command}`;
+        commandElement.style.color = "#9cdcfe";
+        consoleOutput.appendChild(commandElement);
+        try {
+            const result = eval(command);
+            if (result !== undefined) {
+                console.log(result);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    consoleButton.onclick = executeCommand;
+    consoleInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            executeCommand();
+        }
+    });
+
+    // Override console log methods
+    ["log", "warn", "error", "info"].forEach(function (method) {
+        const original = console[method];
+        console[method] = function (...args) {
+            const message = args.map(arg => (typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg))).join(" ");
+            const messageElement = document.createElement("div");
+            messageElement.textContent = `[${method.toUpperCase()}] ${message}`;
+            messageElement.style.color = method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
+            consoleOutput.appendChild(messageElement);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            original.apply(console, args);
+        };
+    });
 });
