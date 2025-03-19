@@ -1,3 +1,5 @@
+addEventListener("DOMContentLoaded", (event) => {
+
 // Create console elements
 const consoleToggle = document.createElement("div");
 const customConsole = document.createElement("div");
@@ -194,3 +196,4 @@ function monitorNetworkRequests() {
     };
 }
 monitorNetworkRequests();
+});
