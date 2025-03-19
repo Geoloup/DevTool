@@ -166,7 +166,13 @@ addEventListener("DOMContentLoaded", (event) => {
     ["log", "warn", "error", "info"].forEach(function (method) {
         const original = console[method];
         console[method] = function (...args) {
-            const message = args.map(arg => (typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg))).join(" ");
+            const message = args.map(arg => {
+                try {
+                    return typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg);
+                } catch (e) {
+                    return "[Error serializing object]";
+                }
+            }).join(" ");
             const messageElement = document.createElement("div");
             messageElement.textContent = `[${method.toUpperCase()}] ${message}`;
             messageElement.style.color = method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
