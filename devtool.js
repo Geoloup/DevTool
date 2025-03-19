@@ -173,7 +173,7 @@ addEventListener("DOMContentLoaded", (event) => {
             }
             const message = filteredArgs.map(arg => {
                 if (arg instanceof Element) {
-                    return '<pre class="element">' + arg.innerHTML + '</pre>'; // Print element as HTML
+                    return '<pre class="element">' + arg.innerHTML.replaceAll('<','&lt;').replaceAll('>','&gt;') + '</pre>'; // Print element as HTML
                 } else if (typeof arg === "object") {
                     try {
                         return JSON.stringify(arg, null, 2);
