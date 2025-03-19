@@ -20,7 +20,7 @@ addEventListener("DOMContentLoaded", (event) => {
     #consoleToggle {
         position: fixed;
         bottom: 20px;
-        left: 10px;
+        right: 10px;
         width: 50px;
         height: 50px;
         background-color: #007acc;
@@ -166,7 +166,12 @@ addEventListener("DOMContentLoaded", (event) => {
     ["log", "warn", "error", "info"].forEach(function (method) {
         const original = console[method];
         console[method] = function (...args) {
-            const message = args.map(arg => {
+            const filteredArgs = args.filter(arg => arg !== null && arg !== undefined && arg !== "");
+
+            if (filteredArgs.length === 0) {
+                return; // If no valid arguments, do nothing
+            }
+            const message = filteredArgs.map(arg => {
                 try {
                     return typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg);
                 } catch (e) {
