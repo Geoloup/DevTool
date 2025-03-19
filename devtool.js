@@ -133,6 +133,10 @@ document.addEventListener("keydown", function(event) {
         event.preventDefault();
         toggleConsole();
     }
+    if (event.key === "i" && event.shiftKey && event.ctrlKey) {
+        event.preventDefault();
+        toggleConsole();
+    }
 });
 
 // Execute JavaScript commands
@@ -174,40 +178,4 @@ consoleInput.addEventListener("keypress", function(event) {
         original.apply(console, args);
     };
 });
-
-// Monitor network requests
-function monitorNetworkRequests() {
-// Override window.fetch
-const originalFetch = window.fetch;
-window.fetch = function(...args) {
-    console.log("Fetch request:", args);
-    return originalFetch.apply(this, args)
-        .then(response => {
-            console.log("Fetch response:", response);
-            // It's important to return the response or clone it if necessary for further use
-            return response.clone(); // to preserve the response body in case it's consumed
-        })
-        .catch(error => {
-            console.error("Fetch error:", error);
-            throw error; // Re-throw to allow further error handling if needed
-        });
-};
-
-// Override XMLHttpRequest.prototype.open
-const originalXHROpen = XMLHttpRequest.prototype.open;
-XMLHttpRequest.prototype.open = function(...args) {
-    this.addEventListener("load", function() {
-        console.log("XHR response:", this);
-    });
-
-    this.addEventListener("error", function() {
-        console.error("XHR error:", this);
-    });
-
-    console.log("XHR request:", args);
-    originalXHROpen.apply(this, args);
-};
-
-}
-monitorNetworkRequests();
 });
