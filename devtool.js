@@ -172,10 +172,16 @@ addEventListener("DOMContentLoaded", (event) => {
                 return; // If no valid arguments, do nothing
             }
             const message = filteredArgs.map(arg => {
-                try {
-                    return typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg);
-                } catch (e) {
-                    return "[Error serializing object]";
+                if (arg instanceof Element) {
+                    return '<pre class="element">' + arg.innerHTML + '</pre>'; // Print element as HTML
+                } else if (typeof arg === "object") {
+                    try {
+                        return JSON.stringify(arg, null, 2);
+                    } catch (e) {
+                        return "[Error serializing object]";
+                    }
+                } else {
+                    return String(arg);
                 }
             }).join(" ");
             const messageElement = document.createElement("div");
