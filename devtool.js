@@ -149,9 +149,7 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleOutput.appendChild(commandElement);
         try {
             const result = eval(command);
-            if (result !== undefined) {
-                console.log(result);
-            }
+            console.log(result);
         } catch (error) {
             console.error(error);
         }
