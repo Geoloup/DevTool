@@ -21,7 +21,7 @@ addEventListener("DOMContentLoaded", (event) => {
         position: fixed;
         bottom: 20px;
         right: 10px;
-        width: 50px;
+        width: 250px;
         height: 50px;
         background-color: #007acc;
         color: #fff;
