@@ -199,14 +199,25 @@ addEventListener("DOMContentLoaded", (event) => {
         if (arg instanceof Element) {
             return '<pre class="element">' + arg.outerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;') + '</pre>';
         }
-        if (typeof arg === "object") {
-            try {
-                return syntaxHighlightJSON(arg);
-            } catch (e) {
-                return "[Error serializing object] " + e.message;
-            }
+        if (typeof arg === "object" || typeof arg === "function") {
+            return createInspectableObject(arg);
         }
         return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    }
+
+    function createInspectableObject(obj) {
+        const wrapper = document.createElement("details");
+        const summary = document.createElement("summary");
+        summary.textContent = obj.constructor.name || "Object";
+        wrapper.appendChild(summary);
+
+        const content = document.createElement("pre");
+        content.textContent = Object.entries(obj)
+            .map(([key, value]) => `${key}: ${typeof value === 'object' ? '{...}' : value}`)
+            .join("\n");
+        wrapper.appendChild(content);
+
+        return wrapper.outerHTML;
     }
 
     function appendToConsoleOutput(type, message, color) {
@@ -217,18 +228,8 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
 
-    function syntaxHighlightJSON(obj) {
-        return '<pre class="json">' + JSON.stringify(obj, null, 2)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"(\w+)":/g, '<span class="json-key">"$1"</span>:')
-            .replace(/\b(true|false|null)\b/g, '<span class="json-boolean">$1</span>')
-            .replace(/\d+/g, '<span class="json-number">$&</span>')
-            + '</pre>';
-    }
-    
     function getColor(method) {
         return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
     }
+
 });
