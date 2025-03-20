@@ -151,17 +151,30 @@ addEventListener("DOMContentLoaded", (event) => {
         const command = consoleInput.value;
         if (command.trim() === "") return;
         consoleInput.value = "";
+    
         const commandElement = document.createElement("div");
         commandElement.textContent = `> ${command}`;
         commandElement.style.color = "#9cdcfe";
         consoleOutput.appendChild(commandElement);
+    
         try {
-            const result = eval('console.log(' + command + ')');
-            console.log(result);
+            const result = eval(command); // Directly execute command
+            console.log(result); // Log the result
+    
+            const outputElement = document.createElement("div");
+            outputElement.textContent = result !== undefined ? result : "undefined";
+            outputElement.style.color = "#4ec9b0";
+            consoleOutput.appendChild(outputElement);
         } catch (error) {
             console.error(error);
+    
+            const errorElement = document.createElement("div");
+            errorElement.textContent = `Error: ${error.message}`;
+            errorElement.style.color = "#f44747";
+            consoleOutput.appendChild(errorElement);
         }
     }
+    
 
     consoleButton.onclick = executeCommand;
     consoleInput.addEventListener("keypress", function (event) {
