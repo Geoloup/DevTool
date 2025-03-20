@@ -85,9 +85,19 @@ addEventListener("DOMContentLoaded", (event) => {
         overflow:scroll;
     }
 `;
-    document.head.appendChild(style);
+    function resizeBody() {
+        // Set body's width and height based on window size minus 250px from width
+        document.body.style.transform = "translateY(250px)";
+        document.body.style.width = (window.innerWidth - 250) + "px";
+        document.body.style.height = window.innerHeight + "px";
+    }
 
-    // Append elements to body
+    // Run on page load
+    resizeBody();
+
+    // Update on window resize
+    window.addEventListener("resize", resizeBody);
+    document.documentElement.appendChild(style);
     document.documentElement.appendChild(consoleToggle);
     document.documentElement.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
