@@ -13,7 +13,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleOutput.id = "consoleOutput";
     consoleInput.id = "consoleCommand";
     consoleButton.innerText = "Run";
-
+    consoleButton.ariaAutoComplete = false
     // Add styles dynamically
     const style = document.createElement("style");
     style.innerHTML = `
@@ -156,7 +156,7 @@ addEventListener("DOMContentLoaded", (event) => {
         commandElement.style.color = "#9cdcfe";
         consoleOutput.appendChild(commandElement);
         try {
-            const result = eval(command);
+            const result = eval('console.log(' + command + ')');
             console.log(result);
         } catch (error) {
             console.error(error);
