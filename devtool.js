@@ -88,8 +88,8 @@ addEventListener("DOMContentLoaded", (event) => {
     document.head.appendChild(style);
 
     // Append elements to body
-    document.body.appendChild(consoleToggle);
-    document.body.appendChild(customConsole);
+    document.documentElement.appendChild(consoleToggle);
+    document.documentElement.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
