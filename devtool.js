@@ -173,24 +173,17 @@ addEventListener("DOMContentLoaded", (event) => {
             console.error(error);
         }
     }
-    consoleInput.addEventListener("keyup", () => {
-        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
-    });
-    consoleInput.addEventListener("input", () => {
-        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
-    });
 
     consoleInput.addEventListener("keypress", function (event) {
-        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         if (event.key === "Enter" && !shiftKey) {
             executeCommand();
         }
+        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
     });
     function calcHeight(value) {
         let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-        // min-height + lines x line-height + padding + border
-        let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
-        return newHeight;
+        //min-height + lines x line-height + padding + border
+        return 20 + numberOfLineBreaks * 20 + 12 + 2;
     }
 
     // Override console log methods
