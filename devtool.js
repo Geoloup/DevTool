@@ -21,7 +21,7 @@ addEventListener("DOMContentLoaded", (event) => {
         position: fixed;
         bottom: 20px;
         right: 10px;
-        width: 250px;
+        width: 50px;
         height: 50px;
         background-color: #007acc;
         color: #fff;
@@ -39,7 +39,7 @@ addEventListener("DOMContentLoaded", (event) => {
         position: fixed;
         bottom: 0;
         right: 0;
-        width: 250px;
+        width: 400px;
         height: 100%;
         background-color: #1e1e1e;
         color: #dcdcdc;
@@ -99,8 +99,8 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Toggle console visibility
     function toggleConsole() {
-        document.body.style.width =  window.innerWidth - 250
-        document.body.style.maxWidth =  window.innerWidth - 250
+        document.body.style.width =  window.innerWidth - 400
+        document.body.style.maxWidth =  window.innerWidth - 400
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
     }
 
