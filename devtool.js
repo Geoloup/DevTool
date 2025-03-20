@@ -158,8 +158,8 @@ addEventListener("DOMContentLoaded", (event) => {
     // Execute JavaScript commands
     function executeCommand() {
         const command = consoleInput.value;
-        if (command.trim() === "") return;
         consoleInput.value = "";
+        if (command.trim() === "") return;
 
         const commandElement = document.createElement("div");
         commandElement.textContent = `> ${command}`;
@@ -179,7 +179,8 @@ addEventListener("DOMContentLoaded", (event) => {
 
     consoleInput.addEventListener("keypress", function (event) {
         if (event.key === "Enter" && !shiftKey) {
-            executeCommand();
+            executeCommand();   
+            consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         }
     });
     function calcHeight(value) {
