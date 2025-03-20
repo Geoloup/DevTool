@@ -36,7 +36,7 @@ addEventListener("DOMContentLoaded", (event) => {
         resize:none;
         width:100%;
         font-size:1rem;
-        height:1.5rem;
+        height:20px;
     }
 
     #customConsole {
@@ -193,11 +193,9 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Override console log methods
     addEventListener("error", (event) => {
-        const filteredArgs = event.message ? [event.message] : [];
-        if (filteredArgs.length === 0) return;
 
-        const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
-        appendToConsoleOutput("Error", message, "red");
+        const message = formatLog(event.message, 0)
+        appendToConsoleOutput("Error " + event.type, message, "red");
     });
 
     ["log", "warn", "error", "info"].forEach(function (method) {
