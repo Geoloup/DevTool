@@ -180,7 +180,6 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInput.addEventListener("keypress", function (event) {
         if (event.key === "Enter" && !shiftKey) {
             executeCommand();   
-            consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         }
     });
     function calcHeight(value) {
