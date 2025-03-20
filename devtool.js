@@ -9,7 +9,6 @@ addEventListener("DOMContentLoaded", (event) => {
     // Set element IDs
     consoleToggle.id = "consoleToggle";
     customConsole.id = "customConsole";
-    consoleInputContainer.id = 'consoleInputContainer'
     consoleOutput.id = "consoleOutput";
     consoleInput.id = "consoleCommand";
     consoleInput.setAttribute('autocomplete', 'off')
@@ -33,8 +32,11 @@ addEventListener("DOMContentLoaded", (event) => {
         font-family: sans-serif;
     }
 
-    #consoleInputContainer {
+    #consoleCommand {
         resize:none;
+        width:100%;
+        font-size:1rem;
+        height:1.5rem;
     }
 
     #customConsole {
