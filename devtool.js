@@ -195,9 +195,8 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Override console log methods
     addEventListener("error", (event) => {
-
         const message = formatLog(event.message, 0)
-        appendToConsoleOutput("Error " + event.type, message, "red");
+        console.error(event.type + message);
     });
 
     ["log", "warn", "error", "info"].forEach(function (method) {
