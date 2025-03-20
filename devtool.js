@@ -12,7 +12,7 @@ addEventListener("DOMContentLoaded", (event) => {
     customConsole.id = "customConsole";
     consoleOutput.id = "consoleOutput";
     consoleInput.id = "consoleCommand";
-    consoleInput.setAttribute('autocomplete','off')
+    consoleInput.setAttribute('autocomplete', 'off')
     consoleButton.innerText = "Run";
     // Add styles dynamically
     const style = document.createElement("style");
@@ -172,57 +172,52 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Override console log methods
     addEventListener("error", (event) => {
-        const filteredArgs = args.filter(arg => arg !== null && arg !== undefined && arg !== "");
+        const filteredArgs = event.message ? [event.message] : [];
 
         if (filteredArgs.length === 0) {
             return; // If no valid arguments, do nothing
         }
-        const message = filteredArgs.map(arg => {
-            if (arg instanceof Element) {
-                return '<pre class="element">' + arg.outerHTML.replaceAll('<','&lt;').replaceAll('>','&gt;') + '</pre>'; // Print element as HTML
-            } else if (typeof arg === "object") {
-                try {
-                    return JSON.stringify(arg, null, 2);
-                } catch (e) {
-                    return "[Error serializing object]";
-                }
-            } else {
-                return String(arg).replaceAll('<','&lt;').replaceAll('>','&gt;');
-            }
-        }).join(" ");
-        const messageElement = document.createElement("div");
-        messageElement.innerHTML = `[Error] ${message}`;
-        messageElement.style.color = "red";
-        consoleOutput.appendChild(messageElement);
-        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        const message = filteredArgs.map(formatLog).join(" ");
+        appendToConsoleOutput("Error", message, "red");
     });
+
     ["log", "warn", "error", "info"].forEach(function (method) {
         const original = console[method];
         console[method] = function (...args) {
-            const filteredArgs = args.filter(arg => arg !== null && arg !== undefined && arg !== "");
+            const filteredArgs = args.length > 0 ? args : ["undefined"];
+            const message = filteredArgs.map(formatLog).join(" ");
 
-            if (filteredArgs.length === 0) {
-                return; // If no valid arguments, do nothing
-            }
-            const message = filteredArgs.map(arg => {
-                if (arg instanceof Element) {
-                    return '<pre class="element">' + arg.outerHTML.replaceAll('<','&lt;').replaceAll('>','&gt;') + '</pre>'; // Print element as HTML
-                } else if (typeof arg === "object") {
-                    try {
-                        return JSON.stringify(arg, null, 2);
-                    } catch (e) {
-                        return "[Error serializing object]";
-                    }
-                } else {
-                    return String(arg).replaceAll('<','&lt;').replaceAll('>','&gt;');
-                }
-            }).join(" ");
-            const messageElement = document.createElement("div");
-            messageElement.innerHTML = `[${method.toUpperCase()}] ${message}`;
-            messageElement.style.color = method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
-            consoleOutput.appendChild(messageElement);
-            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
             original.apply(console, args);
         };
     });
+
+    function formatLog(arg) {
+        if (arg === null) return "null";
+        if (arg === undefined) return "undefined";
+        if (Array.isArray(arg)) return JSON.stringify(arg, null, 2);
+        if (arg instanceof Element) {
+            return '<pre class="element">' + arg.outerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;') + '</pre>';
+        }
+        if (typeof arg === "object") {
+            try {
+                return JSON.stringify(arg, null, 2);
+            } catch (e) {
+                return "[Error serializing object]";
+            }
+        }
+        return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    }
+
+    function appendToConsoleOutput(type, message, color) {
+        const messageElement = document.createElement("div");
+        messageElement.innerHTML = `[${type}] ${message}`;
+        messageElement.style.color = color;
+        consoleOutput.appendChild(messageElement);
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+
+    function getColor(method) {
+        return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
+    }
 });
