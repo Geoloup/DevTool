@@ -201,7 +201,7 @@ addEventListener("DOMContentLoaded", (event) => {
         }
         if (typeof arg === "object") {
             try {
-                return JSON.stringify(arg, null, 2);
+                return syntaxHighlightJSON(arg);
             } catch (e) {
                 return "[Error serializing object]";
             }
@@ -217,6 +217,17 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
 
+    function syntaxHighlightJSON(obj) {
+        return '<pre class="json">' + JSON.stringify(obj, null, 2)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"(\w+)":/g, '<span class="json-key">"$1"</span>:')
+            .replace(/\b(true|false|null)\b/g, '<span class="json-boolean">$1</span>')
+            .replace(/\d+/g, '<span class="json-number">$&</span>')
+            + '</pre>';
+    }
+    
     function getColor(method) {
         return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
     }
