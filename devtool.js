@@ -151,30 +151,20 @@ addEventListener("DOMContentLoaded", (event) => {
         const command = consoleInput.value;
         if (command.trim() === "") return;
         consoleInput.value = "";
-    
+
         const commandElement = document.createElement("div");
         commandElement.textContent = `> ${command}`;
         commandElement.style.color = "#9cdcfe";
         consoleOutput.appendChild(commandElement);
-    
+
         try {
             const result = eval(command); // Directly execute command
             console.log(result); // Log the result
-    
-            const outputElement = document.createElement("div");
-            outputElement.textContent = result !== undefined ? result : "undefined";
-            outputElement.style.color = "#4ec9b0";
-            consoleOutput.appendChild(outputElement);
         } catch (error) {
             console.error(error);
-    
-            const errorElement = document.createElement("div");
-            errorElement.textContent = `Error: ${error.message}`;
-            errorElement.style.color = "#f44747";
-            consoleOutput.appendChild(errorElement);
         }
     }
-    
+
 
     consoleButton.onclick = executeCommand;
     consoleInput.addEventListener("keypress", function (event) {
@@ -190,7 +180,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (filteredArgs.length === 0) {
             return; // If no valid arguments, do nothing
         }
-        const message = filteredArgs.map(formatLog).join(" ");
+        const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
         appendToConsoleOutput("Error", message, "red");
     });
 
@@ -198,27 +188,25 @@ addEventListener("DOMContentLoaded", (event) => {
         const original = console[method];
         console[method] = function (...args) {
             const filteredArgs = args.length > 0 ? args : ["undefined"];
-            const message = filteredArgs.map(formatLog).join(" ");
+            const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
 
             appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
             original.apply(console, args);
         };
     });
 
-    function formatLog(arg) {
+    function formatLog(arg, depth) {
+        if (depth > 5) return "[Max depth reached]";
         if (arg === null) return "null";
         if (arg === undefined) return "undefined";
-        if (Array.isArray(arg)) return JSON.stringify(arg, null, 2);
-        if (arg instanceof Element) {
-            return '<pre class="element">' + arg.outerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;') + '</pre>';
-        }
-        if (typeof arg === "object" || typeof arg === "function") {
-            return createInspectableObject(arg);
-        }
+        if (Array.isArray(arg)) return `[Array(${arg.length})] ` + JSON.stringify(arg, null, 2);
+        if (arg instanceof Element) return createInspectableElement(arg);
+        if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
+        if (typeof arg === "object") return createInspectableObject(arg, depth + 1);
         return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     }
 
-    function createInspectableObject(obj) {
+    function createInspectableObject(obj, depth) {
         const wrapper = document.createElement("details");
         const summary = document.createElement("summary");
         summary.textContent = obj.constructor.name || "Object";
@@ -226,8 +214,21 @@ addEventListener("DOMContentLoaded", (event) => {
 
         const content = document.createElement("pre");
         content.textContent = Object.entries(obj)
-            .map(([key, value]) => `${key}: ${typeof value === 'object' ? '{...}' : value}`)
+            .map(([key, value]) => `${key}: ${typeof value === 'object' ? formatLog(value, depth) : (typeof value === 'function' ? `[Function: ${value.name || "anonymous"}]` : value)}`)
             .join("\n");
+        wrapper.appendChild(content);
+
+        return wrapper.outerHTML;
+    }
+
+    function createInspectableElement(element) {
+        const wrapper = document.createElement("details");
+        const summary = document.createElement("summary");
+        summary.textContent = `<${element.tagName.toLowerCase()}>`;
+        wrapper.appendChild(summary);
+
+        const content = document.createElement("pre");
+        content.innerHTML = element.outerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
         wrapper.appendChild(content);
 
         return wrapper.outerHTML;
@@ -244,5 +245,6 @@ addEventListener("DOMContentLoaded", (event) => {
     function getColor(method) {
         return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
     }
+
 
 });
