@@ -86,6 +86,7 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 `;
     function resizeBody() {
+        if (!window.devtool) {return;}
         // Set body's width and height based on window size minus 250px from width
         document.body.style.transform = "translateY(250px)";
         document.body.style.width = (window.innerWidth - 250) + "px";
@@ -109,6 +110,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Toggle console visibility
     function toggleConsole() {
+        window.devtool = window.devtool ? false : true 
         resizeTo(window.outerWidth - 400, window.outerHeight)
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
     }
