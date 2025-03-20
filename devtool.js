@@ -100,7 +100,7 @@ addEventListener("DOMContentLoaded", (event) => {
     // Toggle console visibility
     function toggleConsole() {
         resizeTo(window.outerWidth - 400, window.outerHeight)
-a        customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
+        customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
     }
 
     // Make the console toggle button draggable
