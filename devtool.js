@@ -203,7 +203,7 @@ addEventListener("DOMContentLoaded", (event) => {
             try {
                 return syntaxHighlightJSON(arg);
             } catch (e) {
-                return "[Error serializing object]";
+                return "[Error serializing object] " + e.message;
             }
         }
         return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
