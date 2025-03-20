@@ -4,7 +4,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const customConsole = document.createElement("div");
     const consoleOutput = document.createElement("div");
     const consoleInputContainer = document.createElement("div");
-    const consoleInput = document.createElement("input");
+    const consoleInput = document.createElement("textarea");
     const consoleButton = document.createElement("button");
 
     // Set element IDs
@@ -86,9 +86,8 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 `;
     function resizeBody() {
-        if (!window.devtool) {return;}
+        if (!window.devtool) { return; }
         // Set body's width and height based on window size minus 250px from width
-        document.body.style.transform = "translateY(250px)";
         document.body.style.width = (window.innerWidth - 250) + "px";
         document.body.style.height = window.innerHeight + "px";
     }
@@ -110,8 +109,17 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Toggle console visibility
     function toggleConsole() {
-        window.devtool = window.devtool ? false : true 
-        resizeTo(window.outerWidth - 400, window.outerHeight)
+        window.devtool = window.devtool ? false : true
+        // Adjusting the viewport width dynamically
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (viewportMeta) {
+            viewportMeta.setAttribute('content', 'width=' + window.innerWidth-250 + ', initial-scale=1.0');
+        } else {
+            const newMeta = document.createElement('meta');
+            newMeta.setAttribute('name', 'viewport');
+            newMeta.setAttribute('content', 'width=' + window.innerWidth-250 + ', initial-scale=1.0');
+            document.head.appendChild(newMeta);
+        }
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
     }
 
@@ -180,7 +188,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     consoleButton.onclick = executeCommand;
     consoleInput.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && !shiftKey) {
             executeCommand();
         }
     });
