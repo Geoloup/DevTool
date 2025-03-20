@@ -171,6 +171,31 @@ addEventListener("DOMContentLoaded", (event) => {
     });
 
     // Override console log methods
+    addEventListener("error", (event) => {
+        const filteredArgs = args.filter(arg => arg !== null && arg !== undefined && arg !== "");
+
+        if (filteredArgs.length === 0) {
+            return; // If no valid arguments, do nothing
+        }
+        const message = filteredArgs.map(arg => {
+            if (arg instanceof Element) {
+                return '<pre class="element">' + arg.outerHTML.replaceAll('<','&lt;').replaceAll('>','&gt;') + '</pre>'; // Print element as HTML
+            } else if (typeof arg === "object") {
+                try {
+                    return JSON.stringify(arg, null, 2);
+                } catch (e) {
+                    return "[Error serializing object]";
+                }
+            } else {
+                return String(arg).replaceAll('<','&lt;').replaceAll('>','&gt;');
+            }
+        }).join(" ");
+        const messageElement = document.createElement("div");
+        messageElement.innerHTML = `[Error] ${message}`;
+        messageElement.style.color = "red";
+        consoleOutput.appendChild(messageElement);
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    });
     ["log", "warn", "error", "info"].forEach(function (method) {
         const original = console[method];
         console[method] = function (...args) {
