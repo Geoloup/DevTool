@@ -5,15 +5,14 @@ addEventListener("DOMContentLoaded", (event) => {
     const consoleOutput = document.createElement("div");
     const consoleInputContainer = document.createElement("div");
     const consoleInput = document.createElement("textarea");
-    const consoleButton = document.createElement("button");
 
     // Set element IDs
     consoleToggle.id = "consoleToggle";
     customConsole.id = "customConsole";
+    consoleInputContainer.id = 'consoleInputContainer'
     consoleOutput.id = "consoleOutput";
     consoleInput.id = "consoleCommand";
     consoleInput.setAttribute('autocomplete', 'off')
-    consoleButton.innerText = "Run";
     // Add styles dynamically
     const style = document.createElement("style");
     style.innerHTML = `
@@ -34,6 +33,9 @@ addEventListener("DOMContentLoaded", (event) => {
         font-family: sans-serif;
     }
 
+    #consoleInputContainer {
+        resize:none;
+    }
 
     #customConsole {
         position: fixed;
@@ -57,10 +59,6 @@ addEventListener("DOMContentLoaded", (event) => {
         white-space: pre-wrap;
         word-wrap: break-word;
     }
-    #consoleInputContainer {
-        display: flex;
-        border-top: 1px solid #333;
-    }
     #consoleCommand {
         flex: 1;
         padding: 10px;
@@ -68,16 +66,6 @@ addEventListener("DOMContentLoaded", (event) => {
         outline: none;
         background-color: #2d2d2d;
         color: #dcdcdc;
-    }
-    #consoleInputContainer button {
-        padding: 10px;
-        border: none;
-        background-color: #007acc;
-        color: #fff;
-        cursor: pointer;
-    }
-    #consoleInputContainer button:hover {
-        background-color: #005f99;
     }
     pre.element {
         max-height:6rem;
@@ -103,7 +91,6 @@ addEventListener("DOMContentLoaded", (event) => {
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
-    consoleInputContainer.appendChild(consoleButton);
 
     consoleToggle.innerHTML = "≡";
 
@@ -184,14 +171,24 @@ addEventListener("DOMContentLoaded", (event) => {
             console.error(error);
         }
     }
+    consoleInput.addEventListener("keyup", () => {
+        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
+    });
 
-
-    consoleButton.onclick = executeCommand;
     consoleInput.addEventListener("keypress", function (event) {
+        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
+
         if (event.key === "Enter" && !shiftKey) {
             executeCommand();
         }
     });
+    function calcHeight(value) {
+        let numberOfLineBreaks = (value.match(/\n/g) || []).length;
+        // min-height + lines x line-height + padding + border
+        let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
+        return newHeight;
+    }
+
     // Override console log methods
     addEventListener("error", (event) => {
         const filteredArgs = event.message ? [event.message] : [];
