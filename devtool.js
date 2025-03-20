@@ -12,8 +12,8 @@ addEventListener("DOMContentLoaded", (event) => {
     customConsole.id = "customConsole";
     consoleOutput.id = "consoleOutput";
     consoleInput.id = "consoleCommand";
+    consoleInput.setAttribute('autocomplete','off')
     consoleButton.innerText = "Run";
-    consoleButton.ariaAutoComplete = false
     // Add styles dynamically
     const style = document.createElement("style");
     style.innerHTML = `
