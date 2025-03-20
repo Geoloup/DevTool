@@ -172,7 +172,6 @@ addEventListener("DOMContentLoaded", (event) => {
             executeCommand();
         }
     });
-
     // Override console log methods
     addEventListener("error", (event) => {
         const filteredArgs = event.message ? [event.message] : [];
@@ -202,19 +201,24 @@ addEventListener("DOMContentLoaded", (event) => {
         if (Array.isArray(arg)) return `[Array(${arg.length})] ` + JSON.stringify(arg, null, 2);
         if (arg instanceof Element) return createInspectableElement(arg);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
-        if (typeof arg === "object") return createInspectableObject(arg, depth + 1);
+        if (typeof arg === "object") return createInspectableObject(arg, depth);
         return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     }
 
     function createInspectableObject(obj, depth) {
         const wrapper = document.createElement("details");
+        wrapper.open = depth === 0; // Keep only the top-level open
         const summary = document.createElement("summary");
         summary.textContent = obj.constructor.name || "Object";
         wrapper.appendChild(summary);
 
         const content = document.createElement("pre");
         content.textContent = Object.entries(obj)
-            .map(([key, value]) => `${key}: ${typeof value === 'object' ? formatLog(value, depth) : (typeof value === 'function' ? `[Function: ${value.name || "anonymous"}]` : value)}`)
+            .map(([key, value]) => {
+                if (typeof value === 'object') return `${key}: ${formatLog(value, depth + 1)}`;
+                if (typeof value === 'function') return `${key}: [Function: ${value.name || "anonymous"}]`;
+                return `${key}: ${value}`;
+            })
             .join("\n");
         wrapper.appendChild(content);
 
@@ -223,6 +227,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     function createInspectableElement(element) {
         const wrapper = document.createElement("details");
+        wrapper.open = false; // Keep elements collapsed initially
         const summary = document.createElement("summary");
         summary.textContent = `<${element.tagName.toLowerCase()}>`;
         wrapper.appendChild(summary);
@@ -230,6 +235,10 @@ addEventListener("DOMContentLoaded", (event) => {
         const content = document.createElement("pre");
         content.innerHTML = element.outerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
         wrapper.appendChild(content);
+
+        // Style for the summary (arrows)
+        summary.style.cursor = 'pointer';
+        summary.style.userSelect = 'none';
 
         return wrapper.outerHTML;
     }
@@ -245,6 +254,5 @@ addEventListener("DOMContentLoaded", (event) => {
     function getColor(method) {
         return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
     }
-
 
 });
