@@ -175,10 +175,8 @@ addEventListener("DOMContentLoaded", (event) => {
     // Override console log methods
     addEventListener("error", (event) => {
         const filteredArgs = event.message ? [event.message] : [];
+        if (filteredArgs.length === 0) return;
 
-        if (filteredArgs.length === 0) {
-            return; // If no valid arguments, do nothing
-        }
         const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
         appendToConsoleOutput("Error", message, "red");
     });
@@ -199,7 +197,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (arg === null) return "null";
         if (arg === undefined) return "undefined";
         if (Array.isArray(arg)) return `[Array(${arg.length})] ` + JSON.stringify(arg, null, 2);
-        if (arg instanceof Element) return createInspectableElement(arg);
+        if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
         if (typeof arg === "object") return createInspectableObject(arg, depth);
         return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -207,7 +205,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     function createInspectableObject(obj, depth) {
         const wrapper = document.createElement("details");
-        wrapper.open = depth === 0; // Keep only the top-level open
+        wrapper.open = depth === 0;
         const summary = document.createElement("summary");
         summary.textContent = obj.constructor.name || "Object";
         wrapper.appendChild(summary);
@@ -225,20 +223,33 @@ addEventListener("DOMContentLoaded", (event) => {
         return wrapper.outerHTML;
     }
 
-    function createInspectableElement(element) {
+    function createInspectableElement(element, depth) {
         const wrapper = document.createElement("details");
-        wrapper.open = false; // Keep elements collapsed initially
+        wrapper.open = false; // Elements collapsed by default
+
+        // Show the element's tag, class, and id in the summary
+        const tag = element.tagName.toLowerCase();
+        const classAttr = element.className ? ` class="${element.className}"` : "";
+        const idAttr = element.id ? ` id="${element.id}"` : "";
+
         const summary = document.createElement("summary");
-        summary.textContent = `<${element.tagName.toLowerCase()}>`;
+        summary.innerHTML = `&lt;${tag}${classAttr}${idAttr}&gt;`;
         wrapper.appendChild(summary);
 
-        const content = document.createElement("pre");
-        content.innerHTML = element.outerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-        wrapper.appendChild(content);
+        // If max depth is reached, show a message and don't expand further
+        if (depth >= 5) {
+            const content = document.createElement("pre");
+            content.textContent = "[Max depth reached]";
+            wrapper.appendChild(content);
+            return wrapper.outerHTML;
+        }
 
-        // Style for the summary (arrows)
-        summary.style.cursor = 'pointer';
-        summary.style.userSelect = 'none';
+        // Process and show direct children only
+        Array.from(element.children).forEach(child => {
+            const childWrapper = document.createElement("div");
+            childWrapper.innerHTML = createInspectableElement(child, depth + 1);
+            wrapper.appendChild(childWrapper);
+        });
 
         return wrapper.outerHTML;
     }
