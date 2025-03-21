@@ -276,7 +276,7 @@ addEventListener("DOMContentLoaded", (event) => {
         const wrapper = document.createElement("details");
         wrapper.open = false; // Elements collapsed by default
         const summary = document.createElement("summary");
-        summary.style.marginLeft = String(depth*4) + 'px'
+        summary.style.marginLeft = String(depth*8) + 'px'
         summary.innerHTML = `&lt;${info}&gt;`;
         wrapper.appendChild(summary);
         // if at the end of childrent stop inspectable element
