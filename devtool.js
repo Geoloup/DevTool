@@ -184,6 +184,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 event.preventDefault()
             } catch {}
             executeCommand();   
+            consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         }
     });
     function calcHeight(value) {
