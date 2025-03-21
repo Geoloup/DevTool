@@ -61,6 +61,10 @@ addEventListener("DOMContentLoaded", (event) => {
         white-space: pre-wrap;
         word-wrap: break-word;
     }
+    summary.element {
+        white-space: preserve nowrap;;
+        word-wrap: keep-all;
+    }
     #consoleCommand {
         flex: 1;
         padding: 10px;
@@ -248,19 +252,22 @@ addEventListener("DOMContentLoaded", (event) => {
 
         // Show the element's tag, class, and id in the summary
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
+        if (Array.from(element.children).length == 0) {
+            const summary = document.createElement("span");
+            summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
+            wrapper.appendChild(summary);
+            return wrapper.outerHTML;
+        }
         const summary = document.createElement("summary");
         summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
         wrapper.appendChild(summary);
+        // if at the end of childrent stop inspectable element
 
         // If max depth is reached, show a message and don't expand further
         if (depth >= 10) {
             const content = document.createElement("pre");
             content.textContent = "[Max depth reached]";
             wrapper.appendChild(content);
-            return wrapper.outerHTML;
-        }   
-        // if at the end of childrent stop inspectable element
-        if (Array.from(element.children).length == 0) {
             return wrapper.outerHTML;
         }
 
