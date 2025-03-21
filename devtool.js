@@ -266,10 +266,7 @@ addEventListener("DOMContentLoaded", (event) => {
     function createInspectableElement(element, depth) {
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
         if (Array.from(element.children).length == 0) {
-            const wrapper = document.createElement("summary"); // fake wrapper
-            wrapper.style.marginLeft = String(depth*8+8) + 'px'
-            wrapper.innerHTML = `&lt;${info}&gt;`;
-            return wrapper.innerHTML; // summary
+            return `<summary style="${String(8+depth*8) + 'px'}">&lt;${info}&gt;</summary>`;; // summary
         }
         const wrapper = document.createElement("details");
         wrapper.open = false; // Elements collapsed by default
