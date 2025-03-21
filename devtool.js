@@ -248,12 +248,8 @@ addEventListener("DOMContentLoaded", (event) => {
 
         // Show the element's tag, class, and id in the summary
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
-        const tag = element.tagName.toLowerCase();
-        const classAttr = element.className ? ` class="${element.className}"` : "";
-        const idAttr = element.id ? ` id="${element.id}"` : "";
-
         const summary = document.createElement("summary");
-        summary.innerHTML = `&lt;${info}&gt;`;
+        summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
         wrapper.appendChild(summary);
 
         // If max depth is reached, show a message and don't expand further
