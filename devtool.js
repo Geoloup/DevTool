@@ -94,7 +94,7 @@ addEventListener("DOMContentLoaded", (event) => {
         overflow:scroll;
     }
 `;
-    style.innerHTML = css.replace(/([^\n]*{)/g,devtoolId) // add devtool to be sure
+    style.innerHTML = css.replace(/([^\n]*{)/g,`${devtoolId} $1 {`) // add devtool to be sure
     function resizeBody() {
         if (!window.devtool) { return; }
         // Set body's width and height based on window size minus 250px from width
@@ -107,13 +107,13 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Update on window resize
     window.addEventListener("resize", resizeBody);
-    document.documentElement.appendChild(devtool)
     devtool.appendChild(style);
     devtool.appendChild(consoleToggle);
     devtool.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
+    document.documentElement.appendChild(devtool)
 
     consoleToggle.innerHTML = "≡";
 
