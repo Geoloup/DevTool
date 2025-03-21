@@ -245,7 +245,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     function createInspectableObject(obj, depth) {
         const wrapper = document.createElement("details");
-        wrapper.open = depth === 0;
+        wrapper.open = false
         const summary = document.createElement("summary");
         summary.textContent = obj.constructor.name || "Object";
         wrapper.appendChild(summary);
@@ -272,8 +272,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (Array.from(element.children).length == 0) {
             const summary = document.createElement("span");
             summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
-            wrapper.appendChild(summary);
-            return wrapper.outerHTML;
+            return summary;
         }
         const summary = document.createElement("summary");
         summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
