@@ -264,18 +264,20 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     function createInspectableElement(element, depth) {
-        const wrapper = document.createElement("details");
-        wrapper.open = false; // Elements collapsed by default
 
         // Show the element's tag, class, and id in the summary
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
         if (Array.from(element.children).length == 0) {
-            const summary = document.createElement("span");
+            const wrapper = document.createElement("span"); // fake wrapper
+            const summary = document.createElement("summary");
             summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
             return summary;
         }
+        const wrapper = document.createElement("details");
+        wrapper.open = false; // Elements collapsed by default
         const summary = document.createElement("summary");
-        summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
+        summary.style.marginLeft = depth*4
+        summary.innerHTML = `&lt;${info}&gt;`;
         wrapper.appendChild(summary);
         // if at the end of childrent stop inspectable element
 
