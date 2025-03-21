@@ -269,14 +269,14 @@ addEventListener("DOMContentLoaded", (event) => {
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
         if (Array.from(element.children).length == 0) {
             const wrapper = document.createElement("span"); // fake wrapper
-            wrapper.style.marginLeft = depth*4
+            wrapper.style.marginLeft = String(depth*4) + 'px'
             wrapper.innerHTML = `&lt;${info}&gt;`;
             return wrapper.outerHTML; // summary
         }
         const wrapper = document.createElement("details");
         wrapper.open = false; // Elements collapsed by default
         const summary = document.createElement("summary");
-        summary.style.marginLeft = depth*4
+        summary.style.marginLeft = String(depth*4) + 'px'
         summary.innerHTML = `&lt;${info}&gt;`;
         wrapper.appendChild(summary);
         // if at the end of childrent stop inspectable element
