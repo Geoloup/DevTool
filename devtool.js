@@ -94,7 +94,7 @@ addEventListener("DOMContentLoaded", (event) => {
         overflow:scroll;
     }
 `;
-    style.innerHTML = css.replace(/([^\n]*{)/g,`${devtoolId} $1 {`) // add devtool to be sure
+    style.innerHTML = css.replace(/([^\n]*{)/g,`${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
         if (!window.devtool) { return; }
         // Set body's width and height based on window size minus 250px from width
