@@ -310,5 +310,5 @@ addEventListener("DOMContentLoaded", (event) => {
     function getColor(method) {
         return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
     }
-
+    toggleConsole() // bug fix for the rest
 });
