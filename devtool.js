@@ -160,7 +160,7 @@ addEventListener("DOMContentLoaded", (event) => {
         const command = consoleInput.value;
         consoleInput.value = "";
         if (command.trim() === "") return;
-
+        
         const commandElement = document.createElement("div");
         commandElement.textContent = `> ${command}`;
         commandElement.style.color = "#9cdcfe";
