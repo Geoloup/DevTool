@@ -264,11 +264,9 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     function createInspectableElement(element, depth) {
-
-        // Show the element's tag, class, and id in the summary
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
         if (Array.from(element.children).length == 0) {
-            const wrapper = document.createElement("span"); // fake wrapper
+            const wrapper = document.createElement("summary"); // fake wrapper
             wrapper.style.marginLeft = String(depth*4) + 'px'
             wrapper.innerHTML = `&lt;${info}&gt;`;
             return wrapper.outerHTML; // summary
