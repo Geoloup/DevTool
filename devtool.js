@@ -269,9 +269,9 @@ addEventListener("DOMContentLoaded", (event) => {
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
         if (Array.from(element.children).length == 0) {
             const wrapper = document.createElement("span"); // fake wrapper
-            const summary = document.createElement("summary");
-            summary.innerHTML = `${"  ".repeat(depth)}&lt;${info}&gt;`;
-            return summary;
+            wrapper.style.marginLeft = depth*4
+            wrapper.innerHTML = `&lt;${info}&gt;`;
+            return wrapper.outerHTML; // summary
         }
         const wrapper = document.createElement("details");
         wrapper.open = false; // Elements collapsed by default
