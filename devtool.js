@@ -1,5 +1,17 @@
+function generateCustomUUID(prefix = 'd') {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let uuid = '';
+    
+    for (let i = 0; i < 32; i++) {
+        uuid += chars[Math.floor(Math.random() * chars.length)];
+    }
+    
+    return `${prefix}${uuid}`;
+}
+
 addEventListener("DOMContentLoaded", (event) => {
     // Create console elements
+    const devtool = document.createElement("div");
     const consoleToggle = document.createElement("div");
     const customConsole = document.createElement("div");
     const consoleOutput = document.createElement("div");
@@ -7,6 +19,9 @@ addEventListener("DOMContentLoaded", (event) => {
     const consoleInput = document.createElement("textarea");
 
     // Set element IDs
+    var devtoolId = generateCustomUUID('d')
+    devtool.id = devtoolId
+    devtool.class = "devtool"
     consoleToggle.id = "consoleToggle";
     customConsole.id = "customConsole";
     consoleOutput.id = "consoleOutput";
@@ -14,7 +29,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInput.setAttribute('autocomplete', 'off')
     // Add styles dynamically
     const style = document.createElement("style");
-    style.innerHTML = `
+    var css = `
     #consoleToggle {
         position: fixed;
         bottom: 20px;
@@ -79,6 +94,7 @@ addEventListener("DOMContentLoaded", (event) => {
         overflow:scroll;
     }
 `;
+    style.innerHTML = css.replace(/([^\n]*{)/g,devtoolId) // add devtool to be sure
     function resizeBody() {
         if (!window.devtool) { return; }
         // Set body's width and height based on window size minus 250px from width
@@ -91,9 +107,10 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // Update on window resize
     window.addEventListener("resize", resizeBody);
-    document.documentElement.appendChild(style);
-    document.documentElement.appendChild(consoleToggle);
-    document.documentElement.appendChild(customConsole);
+    document.documentElement.appendChild(devtool)
+    devtool.appendChild(style);
+    devtool.appendChild(consoleToggle);
+    devtool.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
