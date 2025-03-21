@@ -160,7 +160,7 @@ addEventListener("DOMContentLoaded", (event) => {
         const command = consoleInput.value;
         consoleInput.value = "";
         if (command.trim() === "") return;
-        
+
         const commandElement = document.createElement("div");
         commandElement.textContent = `> ${command}`;
         commandElement.style.color = "#9cdcfe";
@@ -178,10 +178,12 @@ addEventListener("DOMContentLoaded", (event) => {
     });
 
     consoleInput.addEventListener("keypress", function (event) {
+        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         if (event.key === "Enter" && !shiftKey) {
-            event.preventDefault()
+            try {
+                event.preventDefault()
+            } catch {}
             executeCommand();   
-            consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         }
     });
     function calcHeight(value) {
