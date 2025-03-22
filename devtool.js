@@ -250,7 +250,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
         if (typeof arg === "object") return createInspectableObject(arg, depth);
-        return sanitizeHTML(String(arg));
+        return sanitizeHTML(arg);
     }
 
     function createBetterArray(array, depth) {
