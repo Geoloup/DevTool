@@ -1,11 +1,11 @@
 function generateCustomUUID(prefix = 'd') {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let uuid = '';
-    
+
     for (let i = 0; i < 32; i++) {
         uuid += chars[Math.floor(Math.random() * chars.length)];
     }
-    
+
     return `${prefix}${uuid}`;
 }
 
@@ -94,7 +94,7 @@ addEventListener("DOMContentLoaded", (event) => {
         overflow:scroll;
     }
 `;
-    style.innerHTML = css.replace(/([^\n]*{)/g,`#${devtoolId} $1`) // add devtool to be sure
+    style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
         if (!window.devtool) { return; }
         // Set body's width and height based on window size minus 250px from width
@@ -123,11 +123,11 @@ addEventListener("DOMContentLoaded", (event) => {
         // Adjusting the viewport width dynamically
         const viewportMeta = document.querySelector('meta[name="viewport"]');
         if (viewportMeta) {
-            viewportMeta.setAttribute('content', 'width=' + window.innerWidth-250 + ', initial-scale=1.0');
+            viewportMeta.setAttribute('content', 'width=' + window.innerWidth - 250 + ', initial-scale=1.0');
         } else {
             const newMeta = document.createElement('meta');
             newMeta.setAttribute('name', 'viewport');
-            newMeta.setAttribute('content', 'width=' + window.innerWidth-250 + ', initial-scale=1.0');
+            newMeta.setAttribute('content', 'width=' + window.innerWidth - 250 + ', initial-scale=1.0');
             document.head.appendChild(newMeta);
         }
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
@@ -203,8 +203,8 @@ addEventListener("DOMContentLoaded", (event) => {
         if (event.key === "Enter" && !event.shiftKey) {
             try {
                 event.preventDefault()
-            } catch {}
-            executeCommand();   
+            } catch { }
+            executeCommand();
             consoleInput.style.height = calcHeight(consoleInput.value) + "px";
         }
     });
@@ -236,13 +236,34 @@ addEventListener("DOMContentLoaded", (event) => {
         if (depth > 5) return "[Max depth reached]";
         if (arg === null) return "null";
         if (arg === undefined) return "undefined";
-        if (Array.isArray(arg)) return `<details><summary>[Array(${arg.length})]</summary><p class='array'>${JSON.stringify(arg, null, 2)}</p></details>`;
+        if (Array.isArray(arg)) return `<details><summary>[Array(${arg.length})]</summary><p class='array'>${createBetterArray(arg, depth)}</p></details>`;
         if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
         if (typeof arg === "object") return createInspectableObject(arg, depth);
         return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     }
 
+    function createBetterArray(array, depth) {
+        const wrapper = document.createElement("details");
+        wrapper.open = false;
+
+        const summary = document.createElement("summary");
+        summary.textContent = array.constructor.name || "Array";
+        wrapper.appendChild(summary);
+
+        const content = document.createElement("pre");
+        content.textContent = Object.entries(array)
+            .map(([key, value]) => {
+                if (typeof value === 'object') return `${key}: ${formatLog(value, depth + 1)}`;
+                if (typeof value === 'function') return `${key}: [Function: ${value.name || "anonymous"}]`;
+                return `${key}: ${value}`;
+            })
+            .join("\n");
+
+        wrapper.appendChild(content);
+        return wrapper.outerHTML;
+    }
+    
     function createInspectableObject(obj, depth) {
         const wrapper = document.createElement("details");
         wrapper.open = false
@@ -266,12 +287,12 @@ addEventListener("DOMContentLoaded", (event) => {
     function createInspectableElement(element, depth) {
         const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
         if (Array.from(element.children).length == 0) {
-            return `<summary style="margin-left:${String(8+depth*8) + 'px'};">&lt;${info}&gt;</summary>`;; // summary
+            return `<summary style="margin-left:${String(8 + depth * 8) + 'px'};">&lt;${info}&gt;</summary>`;; // summary
         }
         const wrapper = document.createElement("details");
         wrapper.open = false; // Elements collapsed by default
         const summary = document.createElement("summary");
-        summary.style.marginLeft = String(depth*8) + 'px'
+        summary.style.marginLeft = String(depth * 8) + 'px'
         summary.innerHTML = `&lt;${info}&gt;`;
         wrapper.appendChild(summary);
         // if at the end of childrent stop inspectable element
