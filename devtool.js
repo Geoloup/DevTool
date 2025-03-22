@@ -231,7 +231,17 @@ addEventListener("DOMContentLoaded", (event) => {
             original.apply(console, args);
         };
     });
-
+    function sanitizeHTML(html) {
+        const allowedTags = new Set(["pre", "p", "details", "summary", "span"]);
+        
+        return html.replace(/<\/?(\w+)(\s+[^>]*)?>/g, (match, tag) => {
+            if (allowedTags.has(tag.toLowerCase())) {
+                return `<${tag}>`;
+            }
+            return ""; // Remove disallowed tags
+        }).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+    
     function formatLog(arg, depth) {
         if (depth > 5) return "[Max depth reached]";
         if (arg === null) return "null";
@@ -240,7 +250,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
         if (typeof arg === "object") return createInspectableObject(arg, depth);
-        return String(arg).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+        return sanitizeHTML(String(arg));
     }
 
     function createBetterArray(array, depth) {
@@ -263,7 +273,7 @@ addEventListener("DOMContentLoaded", (event) => {
         wrapper.appendChild(content);
         return wrapper.outerHTML;
     }
-    
+
     function createInspectableObject(obj, depth) {
         const wrapper = document.createElement("details");
         wrapper.open = false
