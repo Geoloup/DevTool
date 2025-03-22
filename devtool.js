@@ -1,15 +1,14 @@
-function generateCustomUUID(prefix = 'd') {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let uuid = '';
-
-    for (let i = 0; i < 32; i++) {
-        uuid += chars[Math.floor(Math.random() * chars.length)];
-    }
-
-    return `${prefix}${uuid}`;
-}
-
 addEventListener("DOMContentLoaded", (event) => {
+    function generateCustomUUID(prefix = 'd') {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let uuid = '';
+    
+        for (let i = 0; i < 32; i++) {
+            uuid += chars[Math.floor(Math.random() * chars.length)];
+        }
+    
+        return `${prefix}${uuid}`;
+    }
     // Create console elements
     const devtool = document.createElement("div");
     const consoleToggle = document.createElement("div");
@@ -236,7 +235,8 @@ addEventListener("DOMContentLoaded", (event) => {
         
         return html.replace(/<\/?(\w+)(\s+[^>]*)?>/g, (match, tag) => {
             if (allowedTags.has(tag.toLowerCase())) {
-                return `<${tag}>`;
+                // remove onclick src href (To-do)
+
             }
             return ""; // Remove disallowed tags
         });
