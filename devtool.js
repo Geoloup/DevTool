@@ -236,7 +236,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (depth > 5) return "[Max depth reached]";
         if (arg === null) return "null";
         if (arg === undefined) return "undefined";
-        if (Array.isArray(arg)) return `[Array(${arg.length})] ` + JSON.stringify(arg, null, 2);
+        if (Array.isArray(arg)) return `<details><summary>[Array(${arg.length})]</summary><p class='array'>${JSON.stringify(arg, null, 2)}</p></details>`;
         if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
         if (typeof arg === "object") return createInspectableObject(arg, depth);
