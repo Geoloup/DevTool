@@ -239,7 +239,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 return `<${tag}>`;
             }
             return ""; // Remove disallowed tags
-        }).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        });
     }
     
     function formatLog(arg, depth) {
