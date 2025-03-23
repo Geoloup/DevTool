@@ -231,9 +231,13 @@ addEventListener("DOMContentLoaded", (event) => {
         };
     });
     function sanitizeHTML(html) {
-        const allowedTags = new Set(["pre", "p", "details", "summary", "span"]);
-        return html.replace(/<\/?(\w+)(\s+[^>]*)?>/g, (match, tag) =>
-            allowedTags.has(tag.toLowerCase()) ? match.replace(/\son\w+="[^"]*"|\s(?:src|href)="[^"]*"/g, '') : "");
+        const allowedTags = new Set(["pre", "p", "details", "summary", "span", "img", "a"]);
+        return html.replace(/<(\/?)(\w+)(\s+[^>]*)?>/g, (match, slash, tag, attrs = '') => {
+            if (!allowedTags.has(tag.toLowerCase())) return "";
+            attrs = attrs.replace(/\son\w+="[^"]*"/g, '') 
+                         .replace(/\s(?:href|src)="([^"]*)"/g, ' $&');
+            return `<${slash}${tag}${attrs}>`;
+        });
     }
     
     function formatLog(arg, depth = 0) {
@@ -256,9 +260,13 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     
     function createInspectableElement(element, depth) {
-        if (!element.children.length) return `<summary style="margin-left:${8 + depth * 8}px;">&lt;${element.tagName.toLowerCase()}&gt;</summary>`;
         if (depth >= 10) return "[Max depth reached]";
-        return `<details><summary style="margin-left:${depth * 8}px">&lt;${element.tagName.toLowerCase()}&gt;</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
+        let attributes = Array.from(element.attributes)
+            .map(attr => `${attr.name}="${attr.value}"`)
+            .join(" ");
+        let tagOpen = `<${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}>`;
+        if (!element.children.length) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
+        return `<details><summary style="margin-left:${depth * 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
     
     function appendToConsoleOutput(type, message, color) {
@@ -270,5 +278,6 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     
     const getColor = method => ({ error: "red", warn: "orange" }[method] || "inherit");
+    
     toggleConsole() // bug fix for the rest
 });
