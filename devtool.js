@@ -232,99 +232,35 @@ addEventListener("DOMContentLoaded", (event) => {
     });
     function sanitizeHTML(html) {
         const allowedTags = new Set(["pre", "p", "details", "summary", "span"]);
-        
-        return html.replace(/<\/?(\w+)(\s+[^>]*)?>/g, (match, tag) => {
-            if (allowedTags.has(tag.toLowerCase())) {
-                // remove onclick src href (To-do)
-
-            }
-            return ""; // Remove disallowed tags
-        });
+        return html.replace(/<\/?(\w+)(\s+[^>]*)?>/g, (match, tag) =>
+            allowedTags.has(tag.toLowerCase()) ? match.replace(/\son\w+="[^"]*"|\s(?:src|href)="[^"]*"/g, '') : "");
     }
     
-    function formatLog(arg, depth) {
+    function formatLog(arg, depth = 0) {
         if (depth > 5) return "[Max depth reached]";
         if (arg === null) return "null";
         if (arg === undefined) return "undefined";
-        if (Array.isArray(arg)) return `<details><summary>[Array(${arg.length})]</summary><p class='array'>${createBetterArray(arg, depth)}</p></details>`;
-        if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (typeof arg === "function") return `[Function: ${arg.name || "anonymous"}]`;
+        if (arg instanceof Element) return createInspectableElement(arg, depth);
+        if (Array.isArray(arg)) return createBetterArray(arg, depth);
         if (typeof arg === "object") return createInspectableObject(arg, depth);
-        return sanitizeHTML(arg);
+        return sanitizeHTML(String(arg));
     }
-
+    
     function createBetterArray(array, depth) {
-        const wrapper = document.createElement("details");
-        wrapper.open = false;
-
-        const summary = document.createElement("summary");
-        summary.textContent = array.constructor.name || "Array";
-        wrapper.appendChild(summary);
-
-        const content = document.createElement("pre");
-        content.textContent = Object.entries(array)
-            .map(([key, value]) => {
-                if (typeof value === 'object') return `${key}: ${formatLog(value, depth + 1)}`;
-                if (typeof value === 'function') return `${key}: [Function: ${value.name || "anonymous"}]`;
-                return `${key}: ${value}`;
-            })
-            .join("\n");
-
-        wrapper.appendChild(content);
-        return wrapper.outerHTML;
+        return `<details><summary>[Array(${array.length})]</summary><pre>${array.map(v => formatLog(v, depth + 1)).join("\n")}</pre></details>`;
     }
-
+    
     function createInspectableObject(obj, depth) {
-        const wrapper = document.createElement("details");
-        wrapper.open = false
-        const summary = document.createElement("summary");
-        summary.textContent = obj.constructor.name || "Object";
-        wrapper.appendChild(summary);
-
-        const content = document.createElement("pre");
-        content.textContent = Object.entries(obj)
-            .map(([key, value]) => {
-                if (typeof value === 'object') return `${key}: ${formatLog(value, depth + 1)}`;
-                if (typeof value === 'function') return `${key}: [Function: ${value.name || "anonymous"}]`;
-                return `${key}: ${value}`;
-            })
-            .join("\n");
-        wrapper.appendChild(content);
-
-        return wrapper.outerHTML;
+        return `<details><summary>${obj.constructor.name || "Object"}</summary><pre>${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
     }
-
+    
     function createInspectableElement(element, depth) {
-        const info = element.outerHTML.split('<').join('').split('>')[0] // select elment
-        if (Array.from(element.children).length == 0) {
-            return `<summary style="margin-left:${String(8 + depth * 8) + 'px'};">&lt;${info}&gt;</summary>`;; // summary
-        }
-        const wrapper = document.createElement("details");
-        wrapper.open = false; // Elements collapsed by default
-        const summary = document.createElement("summary");
-        summary.style.marginLeft = String(depth * 8) + 'px'
-        summary.innerHTML = `&lt;${info}&gt;`;
-        wrapper.appendChild(summary);
-        // if at the end of childrent stop inspectable element
-
-        // If max depth is reached, show a message and don't expand further
-        if (depth >= 10) {
-            const content = document.createElement("pre");
-            content.textContent = "[Max depth reached]";
-            wrapper.appendChild(content);
-            return wrapper.outerHTML;
-        }
-
-        // Process and show direct children only
-        Array.from(element.children).forEach(child => {
-            const childWrapper = document.createElement("div");
-            childWrapper.innerHTML = createInspectableElement(child, depth + 1);
-            wrapper.appendChild(childWrapper);
-        });
-
-        return wrapper.outerHTML;
+        if (!element.children.length) return `<summary style="margin-left:${8 + depth * 8}px;">&lt;${element.tagName.toLowerCase()}&gt;</summary>`;
+        if (depth >= 10) return "[Max depth reached]";
+        return `<details><summary style="margin-left:${depth * 8}px">&lt;${element.tagName.toLowerCase()}&gt;</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
-
+    
     function appendToConsoleOutput(type, message, color) {
         const messageElement = document.createElement("div");
         messageElement.innerHTML = `[${type}] ${message}`;
@@ -332,9 +268,7 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleOutput.appendChild(messageElement);
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
-
-    function getColor(method) {
-        return method === "error" ? "red" : method === "warn" ? "orange" : "inherit";
-    }
+    
+    const getColor = method => ({ error: "red", warn: "orange" }[method] || "inherit");
     toggleConsole() // bug fix for the rest
 });
