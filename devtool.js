@@ -312,9 +312,9 @@ addEventListener("DOMContentLoaded", (event) => {
     // element selector
     function startSelection() {
         var viewer = document.createElement('p')
-        document.body.appendChild(viewer)
-        viewer.position = 'fixed'
-        viewer.display = "block"
+        document.documentElement.appendChild(viewer)
+        viewer.style.position = 'fixed'
+        viewer.style.display = "block"
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
