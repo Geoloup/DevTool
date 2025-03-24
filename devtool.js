@@ -95,7 +95,7 @@ addEventListener("DOMContentLoaded", (event) => {
         font-size:1rem;
         overflow:scroll;
     }
-    selectElement {
+    .selectElement {
         position:fixed;
         top:10px;
         right:250px;
@@ -314,21 +314,31 @@ addEventListener("DOMContentLoaded", (event) => {
         var viewer = document.createElement('pre')
         document.documentElement.appendChild(viewer)
         viewer.position = 'fixed'
+        var lastEv = undefined
+        var lastB = undefined
         const mouseMoveHandler = (event) => {
             viewer.style.left = event.clientY
             viewer.style.top  = event.clientX
-            createInspectableElement(event.target,9) // limit depth to be sure
+            if (lastEv) {
+                lastEv.style.border = lastB
+            }
+            lastB = event.target.style.border
+            lastEv = event.target
+            event.target.style.border = "1px solid blue !important"
+            viewer.innerHTML = event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','&gt;')
         };
         
         const clickHandler2 = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (lastEv) {
+                lastEv.style.border = lastB
+            }
             console.log("Run devtool.last() to get more info on element like onclick event etc")
             console.log("Clicked element:", event.target); // send to console element from the selector for inspection
             window.devToolLastClick = event.target
             document.body.removeEventListener("mousemove", mouseMoveHandler);
             document.body.removeEventListener("click", clickHandler2);
-        
-            event.stopPropagation();
-            event.preventDefault()
         };
         
         document.body.addEventListener("mousemove", mouseMoveHandler);
