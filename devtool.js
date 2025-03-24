@@ -311,8 +311,8 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // element selector
     function startSelection() {
-        var viewer = document.createElement('pre')
-        document.documentElement.appendChild(viewer)
+        var viewer = document.createElement('p')
+        document.body.appendChild(viewer)
         viewer.position = 'fixed'
         viewer.display = "block"
         var lastEv = undefined
