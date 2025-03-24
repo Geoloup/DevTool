@@ -313,23 +313,26 @@ addEventListener("DOMContentLoaded", (event) => {
     function startSelection() {
         var viewer = document.createElement('pre')
         document.documentElement.appendChild(viewer)
+        viewer.position = 'fixed'
         const mouseMoveHandler = (event) => {
+            viewer.style.left = event.clientY
+            viewer.style.top  = event.clientX
             createInspectableElement(event.target,9) // limit depth to be sure
         };
         
-        const mouseDownHandler = (event) => {
+        const clickHandler2 = (event) => {
             console.log("Run devtool.last() to get more info on element like onclick event etc")
             console.log("Clicked element:", event.target); // send to console element from the selector for inspection
             window.devToolLastClick = event.target
             document.body.removeEventListener("mousemove", mouseMoveHandler);
-            document.body.removeEventListener("mousedown", mouseDownHandler);
+            document.body.removeEventListener("click", clickHandler2);
         
             event.stopPropagation();
             event.preventDefault()
         };
         
         document.body.addEventListener("mousemove", mouseMoveHandler);
-        document.body.addEventListener("mousedown", mouseDownHandler);        
+        document.body.addEventListener("click", clickHandler2);        
     }
     elementSelector.onclick = startSelection
 });
