@@ -15,12 +15,15 @@ addEventListener("DOMContentLoaded", (event) => {
     const customConsole = document.createElement("div");
     const consoleOutput = document.createElement("div");
     const consoleInputContainer = document.createElement("div");
+    const elementSelector = document.createElement("button");
     const consoleInput = document.createElement("textarea");
 
     // Set element IDs
     var devtoolId = generateCustomUUID('d')
     devtool.id = devtoolId
     devtool.class = "devtool"
+    elementSelector.class = 'selectElement'
+    elementSelector.textContent = '🖱️' // emoji
     consoleToggle.id = "consoleToggle";
     customConsole.id = "customConsole";
     consoleOutput.id = "consoleOutput";
@@ -92,6 +95,11 @@ addEventListener("DOMContentLoaded", (event) => {
         font-size:1rem;
         overflow:scroll;
     }
+    selectElement {
+        position:fixed;
+        top:10px;
+        right:250px;
+    }
 `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
@@ -111,6 +119,7 @@ addEventListener("DOMContentLoaded", (event) => {
     devtool.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
+    customConsole.appendChild(elementSelector)
     consoleInputContainer.appendChild(consoleInput);
     document.documentElement.appendChild(devtool)
 
@@ -185,7 +194,9 @@ addEventListener("DOMContentLoaded", (event) => {
         commandElement.textContent = `> ${command}`;
         commandElement.style.color = "#9cdcfe";
         consoleOutput.appendChild(commandElement);
-
+        if (command == 'devtool.last()') {
+            return moreinfo();
+        }
         try {
             const result = eval(command); // Directly execute command
             console.log(result); // Log the result
@@ -280,4 +291,44 @@ addEventListener("DOMContentLoaded", (event) => {
     const getColor = method => ({ error: "red", warn: "orange" }[method] || "inherit");
     
     toggleConsole() // bug fix for the rest
+
+    function internalFunc1(element) {
+        const classNames = element.classList;
+        const inlineStyles = element.style;
+        const eventListeners = {};
+        return {
+          eventType: event.type,
+          classNames: classNames,
+          inlineStyles: inlineStyles,
+          eventListeners: eventListeners
+        };
+    }
+
+    function moreinfo() {
+        const element = window.devToolLastClick
+        const info = internalFunc1(element);
+        console.log(info)
+    }
+
+    // element selector
+    function startSelection() {
+        const mouseMoveHandler = (event) => {
+            console.log("User is moving the mouse");
+        };
+        
+        const mouseDownHandler = (event) => {
+            console.log("Run devtool.last() to get more info on element like onclick event etc")
+            console.log("Clicked element:", event.target); // send to console element from the selector for inspection
+            window.devToolLastClick = event.target
+            document.body.removeEventListener("mousemove", mouseMoveHandler);
+            document.body.removeEventListener("mousedown", mouseDownHandler);
+        
+            event.stopPropagation();
+            event.preventDefault()
+        };
+        
+        document.body.addEventListener("mousemove", mouseMoveHandler);
+        document.body.addEventListener("mousedown", mouseDownHandler);        
+    }
+    elementSelector.onclick = startSelection
 });
