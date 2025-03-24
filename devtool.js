@@ -326,9 +326,9 @@ addEventListener("DOMContentLoaded", (event) => {
             }
             lastB = event.target.style.border
             lastEv = event.target
-            console.log(event.clientY,event.clientX,viewer)
             event.target.style.border = "1px solid blue !important"
             viewer.innerHTML = event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','&gt;')
+            console.log(event.clientY,event.clientX,viewer)
         };
         
         const clickHandler2 = (event) => {
@@ -342,6 +342,7 @@ addEventListener("DOMContentLoaded", (event) => {
             window.devToolLastClick = event.target
             document.body.removeEventListener("mousemove", mouseMoveHandler);
             document.body.removeEventListener("click", clickHandler2);
+            viewer.remove()
         };
         
         document.body.addEventListener("mousemove", mouseMoveHandler);
