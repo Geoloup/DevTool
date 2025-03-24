@@ -314,11 +314,12 @@ addEventListener("DOMContentLoaded", (event) => {
         var viewer = document.createElement('pre')
         document.documentElement.appendChild(viewer)
         viewer.position = 'fixed'
+        viewer.display = "block"
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
-            viewer.style.left = event.clientY
-            viewer.style.top  = event.clientX
+            viewer.style.left = event.clientX
+            viewer.style.top  = event.clientY
             if (lastEv) {
                 lastEv.style.border = lastB
             }
