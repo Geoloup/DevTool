@@ -264,7 +264,7 @@ addEventListener("DOMContentLoaded", (event) => {
         let attributes = Array.from(element.attributes)
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(" ");
-        let tagOpen = `<${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}>`;
+        let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
         if (!element.children.length) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
         return `<details><summary style="margin-left:${depth * 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
