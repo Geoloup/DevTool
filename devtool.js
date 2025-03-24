@@ -315,6 +315,7 @@ addEventListener("DOMContentLoaded", (event) => {
         document.documentElement.appendChild(viewer)
         viewer.style.position = 'fixed'
         viewer.style.display = "block"
+        viewer.style.zIndex = 1000000000
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
