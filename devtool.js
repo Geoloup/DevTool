@@ -22,7 +22,7 @@ addEventListener("DOMContentLoaded", (event) => {
     var devtoolId = generateCustomUUID('d')
     devtool.id = devtoolId
     devtool.class = "devtool"
-    elementSelector.class = 'selectElement'
+    elementSelector.classList.add('selectElement')
     elementSelector.textContent = '🖱️' // emoji
     consoleToggle.id = "consoleToggle";
     customConsole.id = "customConsole";
@@ -116,7 +116,7 @@ addEventListener("DOMContentLoaded", (event) => {
     window.addEventListener("resize", resizeBody);
     devtool.appendChild(style);
     devtool.appendChild(consoleToggle);
-    devtool.appendChild(customConsole);
+    customConsole.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
     customConsole.appendChild(elementSelector)
@@ -324,6 +324,7 @@ addEventListener("DOMContentLoaded", (event) => {
             }
             lastB = event.target.style.border
             lastEv = event.target
+            console.log(event.clientY,event.clientX)
             event.target.style.border = "1px solid blue !important"
             viewer.innerHTML = event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','&gt;')
         };
