@@ -318,8 +318,8 @@ addEventListener("DOMContentLoaded", (event) => {
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
-            viewer.style.left = event.clientX
-            viewer.style.top  = event.clientY
+            viewer.style.left = String(event.clientX + 1) + 'px'
+            viewer.style.top  = String(event.clientY + 1) + 'px'
             if (lastEv) {
                 lastEv.style.border = lastB
             }
