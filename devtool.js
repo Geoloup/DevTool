@@ -116,7 +116,7 @@ addEventListener("DOMContentLoaded", (event) => {
     window.addEventListener("resize", resizeBody);
     devtool.appendChild(style);
     devtool.appendChild(consoleToggle);
-    customConsole.appendChild(customConsole);
+    devtool.appendChild(customConsole);
     customConsole.appendChild(consoleOutput);
     customConsole.appendChild(consoleInputContainer);
     customConsole.appendChild(elementSelector)
