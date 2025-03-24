@@ -22,7 +22,7 @@ addEventListener("DOMContentLoaded", (event) => {
     var devtoolId = generateCustomUUID('d')
     devtool.id = devtoolId
     devtool.class = "devtool"
-    elementSelector.classList.add('selectElement')
+    elementSelector.class = 'selectElement'
     elementSelector.textContent = '🖱️' // emoji
     consoleToggle.id = "consoleToggle";
     customConsole.id = "customConsole";
