@@ -271,12 +271,11 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     
     function createInspectableElement(element, depth) {
-        if (depth >= 10) return "[Max depth reached]";
         let attributes = Array.from(element.attributes)
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(" ");
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
-        if (!element.children.length) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
+        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
         return `<details><summary style="margin-left:${depth * 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
     
@@ -312,8 +311,10 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // element selector
     function startSelection() {
+        var viewer = document.createElement('pre')
+        document.documentElement.appendChild(viewer)
         const mouseMoveHandler = (event) => {
-            console.log("User is moving the mouse");
+            createInspectableElement(event.target,9) // limit depth to be sure
         };
         
         const mouseDownHandler = (event) => {
