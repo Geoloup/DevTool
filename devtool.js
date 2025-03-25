@@ -314,7 +314,6 @@ addEventListener("DOMContentLoaded", (event) => {
         var viewer = document.createElement('div')
         document.documentElement.appendChild(viewer)
         viewer.style.position = 'fixed'
-        viewer.style.display = "block"
         viewer.style.zIndex = 1000000000
         viewer.style.background = "white"
         viewer.style.borderRadius = "10px"
@@ -322,6 +321,7 @@ addEventListener("DOMContentLoaded", (event) => {
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
+            viewer.style.display = "block"
             viewer.style.left = String(event.clientX + 10) + 'px'
             viewer.style.top  = String(event.clientY + 10) + 'px'
             if (lastEv) {
@@ -340,6 +340,9 @@ addEventListener("DOMContentLoaded", (event) => {
             // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
+        const stopProp = (event) => {
+            viewer.display = "none" // hide it
+        };
         const clickHandler2 = (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -357,6 +360,7 @@ addEventListener("DOMContentLoaded", (event) => {
         document.body.addEventListener("mousemove", mouseMoveHandler);
         viewer.addEventListener("mousemove", mouseMoveHandler);
         document.body.addEventListener("click", clickHandler2);        
+        devtool.addEventListener("mousemove", stopProp);
     }
     elementSelector.onclick = startSelection
 });
