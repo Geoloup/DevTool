@@ -311,11 +311,14 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // element selector
     function startSelection() {
-        var viewer = document.createElement('p')
+        var viewer = document.createElement('div')
         document.documentElement.appendChild(viewer)
         viewer.style.position = 'fixed'
         viewer.style.display = "block"
         viewer.style.zIndex = 1000000000
+        viewer.style.background = "white"
+        viewer.style.borderRadius = "10px"
+        viewer.style.padding = "10px"
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
@@ -327,8 +330,8 @@ addEventListener("DOMContentLoaded", (event) => {
             lastB = event.target.style.border
             lastEv = event.target
             event.target.style.border = "1px solid blue !important"
-            viewer.innerHTML = event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
-            console.log(event.clientY,event.clientX,viewer,event.target.outerHTML)
+            viewer.innerHTML = `<span>${event.target.tagName}</span><div><span>${event.clientX} | ${event.clientY}</span></div>`
+            // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
         const clickHandler2 = (event) => {
