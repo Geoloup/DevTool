@@ -331,7 +331,7 @@ addEventListener("DOMContentLoaded", (event) => {
             lastEv = event.target
             event.target.style.border = "1px solid blue !important"
             var info = event.target.outerHTML.replace(event.target.innerHTML, "").trim();
-            viewer.innerHTML = `<p>${info.replaceAll('<','&lt;').replaceAll('>','&gt;')}</p><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
+            viewer.innerHTML = `<p style="padding:5px;margin:0x;">${info.replaceAll('<','&lt;').replaceAll('>','&gt;')}</p><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
             // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
