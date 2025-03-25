@@ -327,6 +327,7 @@ addEventListener("DOMContentLoaded", (event) => {
             lastB = event.target.style.border
             lastEv = event.target
             event.target.style.border = "1px solid blue !important"
+            viewer.innerHTML = 'salut'
             viewer.innerHTML = event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','&gt;')
             console.log(event.clientY,event.clientX,viewer)
         };
