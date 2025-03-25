@@ -322,15 +322,15 @@ addEventListener("DOMContentLoaded", (event) => {
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
-            viewer.style.left = String(event.clientX + 1) + 'px'
-            viewer.style.top  = String(event.clientY + 1) + 'px'
+            viewer.style.left = String(event.clientX + 10) + 'px'
+            viewer.style.top  = String(event.clientY + 10) + 'px'
             if (lastEv) {
                 lastEv.style.border = lastB
             }
             lastB = event.target.style.border
             lastEv = event.target
             event.target.style.border = "1px solid blue !important"
-            viewer.innerHTML = `<span>${event.target.tagName}</span><div><span>${event.clientX} | ${event.clientY}</span></div>`
+            viewer.innerHTML = `<span>${event.target.tag}</span><div><span>X : ${event.clientX} <br> Y:${event.clientY}</span></div>`
             // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
