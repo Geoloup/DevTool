@@ -331,7 +331,7 @@ addEventListener("DOMContentLoaded", (event) => {
             lastEv = event.target
             event.target.style.border = "1px solid blue !important"
             var info = event.target.outerHTML.replace(event.target.innerHTML, "").trim();
-            viewer.innerHTML = `<span>${info.replaceAll('<','&lt;').replaceAll('>','&gt;')}</span><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
+            viewer.innerHTML = `<p>${info.replaceAll('<','&lt;').replaceAll('>','&gt;')}</p><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
             // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
@@ -350,6 +350,7 @@ addEventListener("DOMContentLoaded", (event) => {
         };
         
         document.body.addEventListener("mousemove", mouseMoveHandler);
+        viewer.addEventListener("mousemove", mouseMoveHandler);
         document.body.addEventListener("click", clickHandler2);        
     }
     elementSelector.onclick = startSelection
