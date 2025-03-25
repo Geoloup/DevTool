@@ -45,7 +45,7 @@ addEventListener("DOMContentLoaded", (event) => {
         line-height: 50px;
         border-radius: 50%;
         cursor: move;
-        z-index: 1001;
+        z-index: 10000000000000000000;
         font-family: sans-serif;
     }
 
