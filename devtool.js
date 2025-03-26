@@ -314,7 +314,7 @@ addEventListener("DOMContentLoaded", (event) => {
         var viewer = document.createElement('div')
         var overlay = document.createElement('div')
         document.documentElement.appendChild(viewer)
-        document.documentElement.appendChild(overlay)
+        document.body.appendChild(overlay)
         viewer.style.position = 'fixed'
         viewer.style.zIndex =  2000000001
         viewer.style.background = "white"
@@ -368,6 +368,7 @@ addEventListener("DOMContentLoaded", (event) => {
             document.body.removeEventListener("mousemove", mouseMoveHandler);
             document.body.removeEventListener("click", clickHandler2);
             devtool.removeEventListener("mousemove", mousehandle);
+            overlay.remove()
             viewer.remove()
         };
         
