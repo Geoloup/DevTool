@@ -364,7 +364,8 @@ addEventListener("DOMContentLoaded", (event) => {
             if (lastEv) {
                 lastEv.style.border = lastB
             }
-            console.log("devtool.last() to get more | Clicked element:", event.target); // send to console element from the selector for inspection
+            var target = document.elementsFromPoint(event.clientX, event.clientY)[1]
+            console.log("devtool.last() to get more | Clicked element:", target); // send to console element from the selector for inspection
             window.devToolLastClick = event.target
             document.body.removeEventListener("mousemove", mouseMoveHandler);
             document.body.removeEventListener("click", clickHandler2);
