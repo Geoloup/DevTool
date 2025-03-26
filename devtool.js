@@ -341,7 +341,7 @@ addEventListener("DOMContentLoaded", (event) => {
         };
         
         const mousehandle = (event) => {
-            viewer.display = "none" // hide it
+            viewer.style.display = "none" // hide it
         };
         const clickHandler2 = (event) => {
             event.preventDefault();
