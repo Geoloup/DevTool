@@ -45,7 +45,7 @@ addEventListener("DOMContentLoaded", (event) => {
         line-height: 50px;
         border-radius: 50%;
         cursor: move;
-        z-index: 10000000000000000000;
+        z-index: 1000000000000000000;
         font-family: sans-serif;
     }
 
@@ -69,7 +69,7 @@ addEventListener("DOMContentLoaded", (event) => {
         display: none;
         flex-direction: column;
         border-top: 2px solid #333;
-        z-index: 1000;
+        z-index: 100000000;
     }
     #consoleOutput {
         flex: 1;
