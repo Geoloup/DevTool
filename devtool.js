@@ -340,7 +340,7 @@ addEventListener("DOMContentLoaded", (event) => {
             // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
-        const stopProp = (event) => {
+        const mousehandle = (event) => {
             viewer.display = "none" // hide it
         };
         const clickHandler2 = (event) => {
@@ -360,7 +360,7 @@ addEventListener("DOMContentLoaded", (event) => {
         document.body.addEventListener("mousemove", mouseMoveHandler);
         viewer.addEventListener("mousemove", mouseMoveHandler);
         document.body.addEventListener("click", clickHandler2);        
-        devtool.addEventListener("mousemove", stopProp);
+        devtool.addEventListener("mousemove", mousehandle);
     }
     elementSelector.onclick = startSelection
 });
