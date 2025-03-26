@@ -338,20 +338,21 @@ addEventListener("DOMContentLoaded", (event) => {
             viewer.style.display = "block"
             viewer.style.left = String(event.clientX + 10) + 'px'
             viewer.style.top  = String(event.clientY + 10) + 'px'
+            var target = document.elementsFromPoint(event.clientX, event.clientY)[1]
             if (lastEv) {
                 lastEv.style.border = lastB
             }
-            lastB = event.target.style.border
-            lastEv = event.target
-            event.target.style.border = "1px solid blue !important"
-            var info = event.target.outerHTML.replace(event.target.innerHTML, "").trim();
+            lastB = target.style.border
+            lastEv = target
+            target.style.border = "1px solid blue !important"
+            var info = target.outerHTML.replace(target.innerHTML, "").trim();
             // info.replaceAll('<','&lt;').replaceAll('>','&gt;')
-            if (event.target.id.length > 50) {
-                viewer.innerHTML = `<span style="padding:5px;margin:0x;color:blue;">${event.target.tagName}#${event.target.id}.${event.target.classList.value.replaceAll(' ','.')}</span><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
+            if (target.id.length > 50) {
+                viewer.innerHTML = `<span style="padding:5px;margin:0x;color:blue;">${target.tagName}#${target.id}.${target.classList.value.replaceAll(' ','.')}</span><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
             } else {
-                viewer.innerHTML = `<span style="padding:5px;margin:0x;color:blue;">${event.target.tagName}.${event.target.classList.value.replaceAll(' ','.')}</span><br><span style="">ID: ${event.target.id}</span><br><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
+                viewer.innerHTML = `<span style="padding:5px;margin:0x;color:blue;">${target.tagName}.${target.classList.value.replaceAll(' ','.')}</span><br><span style="">ID: ${target.id}</span><br><div><span>X: ${event.clientX}<br>Y: ${event.clientY}</span></div>`
             }
-            // event.target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
+            // target.outerHTML.replaceAll('<','<p class="element">&lt;').replaceAll('>','</p>&gt;')
         };
         
         const mousehandle = (event) => {
