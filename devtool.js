@@ -312,12 +312,26 @@ addEventListener("DOMContentLoaded", (event) => {
     // element selector
     function startSelection() {
         var viewer = document.createElement('div')
+        var overlay = document.createElement('div')
         document.documentElement.appendChild(viewer)
+        document.documentElement.appendChild(overlay)
         viewer.style.position = 'fixed'
-        viewer.style.zIndex = 1000000000
+        viewer.style.zIndex =  2000000001
         viewer.style.background = "white"
         viewer.style.borderRadius = "10px"
         viewer.style.padding = "10px"
+        overlay.style.position = 'fixed'
+        overlay.style.zIndex = 1000000000
+        overlay.style.background = 'white'
+        overlay.style.opacity = "0"
+        overlay.style.display = "block"
+        overlay.style.left = "0px"
+        overlay.style.top = "0px"
+        overlay.style.width = "100vw"
+        overlay.style.height = "100vh"
+        overlay.style.cursor = "default"
+        overlay.style.userSelect = "none"
+
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
@@ -349,8 +363,7 @@ addEventListener("DOMContentLoaded", (event) => {
             if (lastEv) {
                 lastEv.style.border = lastB
             }
-            console.log("Run devtool.last() to get more info on element like onclick event etc")
-            console.log("Clicked element:", event.target); // send to console element from the selector for inspection
+            console.log("devtool.last() to get more | Clicked element:", event.target); // send to console element from the selector for inspection
             window.devToolLastClick = event.target
             document.body.removeEventListener("mousemove", mouseMoveHandler);
             document.body.removeEventListener("click", clickHandler2);
