@@ -316,18 +316,18 @@ addEventListener("DOMContentLoaded", (event) => {
         document.documentElement.appendChild(viewer)
         document.body.appendChild(overlay)
         viewer.style.position = 'fixed'
-        viewer.style.zIndex =  2000000001
+        viewer.style.zIndex =  100000
         viewer.style.background = "white"
         viewer.style.borderRadius = "10px"
         viewer.style.padding = "10px"
         overlay.style.position = 'fixed'
-        overlay.style.zIndex = 1000000000
+        overlay.style.zIndex = 100000
         overlay.style.background = 'white'
         overlay.style.opacity = "0"
         overlay.style.display = "block"
         overlay.style.left = "0px"
         overlay.style.top = "0px"
-        overlay.style.width = "100vw"
+        overlay.style.width = "calc(100vw - 250px)"
         overlay.style.height = "100vh"
         overlay.style.cursor = "default"
         overlay.style.userSelect = "none"
