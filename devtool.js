@@ -354,6 +354,7 @@ addEventListener("DOMContentLoaded", (event) => {
             window.devToolLastClick = event.target
             document.body.removeEventListener("mousemove", mouseMoveHandler);
             document.body.removeEventListener("click", clickHandler2);
+            devtool.removeEventListener("mousemove", mousehandle);
             viewer.remove()
         };
         
