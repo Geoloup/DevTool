@@ -100,7 +100,8 @@ addEventListener("DOMContentLoaded", (event) => {
     .selectElement {
         position:fixed;
         top:10px;
-        right:${devtoolSize-20}px;
+        padding:0px;
+        right:${devtoolSize-40}px;
     }
 `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
