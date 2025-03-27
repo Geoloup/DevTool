@@ -248,6 +248,7 @@ addEventListener("DOMContentLoaded", (event) => {
         };
     });
     function sanitizeHTML(html) {
+        var html = html.replaceAll('\n','&#92;n;')
         const allowedTags = new Set(["pre", "p", "details", "summary", "span", "img", "a"]);
         return html.replace(/<(\/?)(\w+)(\s+[^>]*)?>/g, (match, slash, tag, attrs = '') => {
             if (!allowedTags.has(tag.toLowerCase())) return "";
@@ -265,7 +266,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (arg instanceof Element) return createInspectableElement(arg, depth);
         if (Array.isArray(arg)) return createBetterArray(arg, depth);
         if (typeof arg === "object") return createInspectableObject(arg, depth);
-        return sanitizeHTML(String(arg));
+        return sanitizeHTML(String(arg)); // sanitize the string and html
     }
     
     function createBetterArray(array, depth) {
