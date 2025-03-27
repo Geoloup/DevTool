@@ -334,7 +334,15 @@ addEventListener("DOMContentLoaded", (event) => {
         overlay.style.height = "100vh"
         overlay.style.cursor = "default"
         overlay.style.userSelect = "none"
-
+        function stopSeletion() {
+            document.body.removeEventListener("mousemove", mouseMoveHandler);
+            document.body.removeEventListener("click", clickHandler2);
+            devtool.removeEventListener("mousemove", mousehandle);
+            overlay.remove()
+            viewer.remove()
+            elementSelector.onclick = startSelection
+        }
+        elementSelector.onclick = stopSeletion
         var lastEv = undefined
         var lastB = undefined
         const mouseMoveHandler = (event) => {
