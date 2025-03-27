@@ -269,11 +269,11 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     
     function createBetterArray(array, depth) {
-        return `<details><summary>[Array(${array.length})]</summary><pre style="margin-left:${depth * 8}px">${array.map(v => formatLog(v, depth + 1)).join("\n")}</pre></details>`;
+        return `<details><summary>[Array(${array.length})]</summary><pre style="margin-left:${depth * 8 + 8}px">${array.map(v => formatLog(v, depth + 1)).join("\n")}</pre></details>`;
     }
     
     function createInspectableObject(obj, depth) {
-        return `<details><summary>${obj.constructor.name || "Object"}</summary><pre style="margin-left:${depth * 8}px">${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
+        return `<details><summary>${obj.constructor.name || "Object"}</summary><pre style="margin-left:${depth * 8 + 8}px">${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
     }
     
     function createInspectableElement(element, depth) {
@@ -282,7 +282,7 @@ addEventListener("DOMContentLoaded", (event) => {
             .join(" ");
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
         if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
-        return `<details><summary style="margin-left:${depth * 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
+        return `<details><summary style="margin-left:${depth * 8 + 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
     
     function appendToConsoleOutput(type, message, color) {
