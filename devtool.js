@@ -30,6 +30,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInput.id = "consoleCommand";
     consoleInput.setAttribute('autocomplete', 'off')
     // Add styles dynamically
+    var devtoolSize = 400
     const style = document.createElement("style");
     var css = `
     #consoleToggle {
@@ -59,8 +60,9 @@ addEventListener("DOMContentLoaded", (event) => {
     #customConsole {
         position: fixed;
         bottom: 0;
+        padding-top:10px;
         right: 0;
-        width: 400px;
+        width: ${devtoolSize}px;
         height: 100%;
         background-color: #1e1e1e;
         color: #dcdcdc;
@@ -98,7 +100,7 @@ addEventListener("DOMContentLoaded", (event) => {
     .selectElement {
         position:fixed;
         top:10px;
-        right:250px;
+        right:${devtoolSize-20}px;
     }
 `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
@@ -131,11 +133,11 @@ addEventListener("DOMContentLoaded", (event) => {
         // Adjusting the viewport width dynamically
         const viewportMeta = document.querySelector('meta[name="viewport"]');
         if (viewportMeta) {
-            viewportMeta.setAttribute('content', 'width=' + window.innerWidth - 250 + ', initial-scale=1.0');
+            viewportMeta.setAttribute('content', 'width=' + window.innerWidth - devtoolSize + ', initial-scale=1.0');
         } else {
             const newMeta = document.createElement('meta');
             newMeta.setAttribute('name', 'viewport');
-            newMeta.setAttribute('content', 'width=' + window.innerWidth - 250 + ', initial-scale=1.0');
+            newMeta.setAttribute('content', 'width=' + window.innerWidth - devtoolSize + ', initial-scale=1.0');
             document.head.appendChild(newMeta);
         }
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
