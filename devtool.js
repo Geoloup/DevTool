@@ -99,7 +99,7 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     .selectElement {
         position:fixed;
-        top:10px;
+        top:0px;
         padding:0px;
         right:${devtoolSize-40}px;
     }
