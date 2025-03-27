@@ -97,6 +97,9 @@ addEventListener("DOMContentLoaded", (event) => {
         font-size:1rem;
         overflow:scroll;
     }
+    pre {
+        margin:0px;
+    }
     .selectElement {
         position:fixed;
         top:0px;
