@@ -132,19 +132,29 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleToggle.innerHTML = "≡";
 
     // Toggle console visibility
+    var lastMeta = undefined
     function toggleConsole() {
-        window.devtool = window.devtool ? false : true
-        // Adjusting the viewport width dynamically
-        const viewportMeta = document.querySelector('meta[name="viewport"]');
-        if (viewportMeta) {
-            viewportMeta.setAttribute('content', 'width=' + window.innerWidth - devtoolSize + ', initial-scale=1.0');
+        const state = window.devtool
+        if (state) {
+            localStorage.setItem('devtoolOpen&url=' + location.origin,true)
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                lastMeta = viewportMeta
+                viewportMeta.setAttribute('content', 'width=' + String(window.innerWidth - devtoolSize) + ', initial-scale=1.0');
+            } else {
+                const newMeta = document.createElement('meta');
+                newMeta.setAttribute('name', 'viewport');
+                newMeta.setAttribute('content', 'width=' + String(window.innerWidth - devtoolSize) + ', initial-scale=1.0');
+                document.head.appendChild(newMeta);
+            }
         } else {
-            const newMeta = document.createElement('meta');
-            newMeta.setAttribute('name', 'viewport');
-            newMeta.setAttribute('content', 'width=' + window.innerWidth - devtoolSize + ', initial-scale=1.0');
-            document.head.appendChild(newMeta);
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.outerHTML = lastMeta.outerHTML
+            }
         }
         customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
+        window.devtool = window.devtool ? false : true
     }
 
     // Make the console toggle button draggable
@@ -395,4 +405,7 @@ addEventListener("DOMContentLoaded", (event) => {
         devtool.addEventListener("mousemove", mousehandle);
     }
     elementSelector.onclick = startSelection
+    if (localStorage.getItem('devtoolOpen&url=' + location.origin) == true) {
+        toggleConsole()
+    }
 });
