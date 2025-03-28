@@ -133,14 +133,12 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleToggle.innerHTML = "≡";
 
         // Toggle console visibility
-        var lastMeta = undefined
         function toggleConsole() {
             const state = window.devtool
             if (state) {
                 localStorage.setItem('devtoolOpen&url=' + location.origin,true)
                 const viewportMeta = document.querySelector('meta[name="viewport"]');
                 if (viewportMeta) {
-                    lastMeta = viewportMeta
                     viewportMeta.setAttribute('content', 'width=' + String(window.innerWidth - devtoolSize) + ', initial-scale=1.0');
                 } else {
                     const newMeta = document.createElement('meta');
@@ -150,9 +148,6 @@ addEventListener("DOMContentLoaded", (event) => {
                 }
             } else {
                 const viewportMeta = document.querySelector('meta[name="viewport"]');
-                if (viewportMeta) {
-                    viewportMeta.outerHTML = lastMeta.outerHTML
-                }
             }
             customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
             window.devtool = window.devtool ? false : true
