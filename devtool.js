@@ -241,12 +241,17 @@ addEventListener("DOMContentLoaded", (event) => {
         return newHeight;
     }
 
-    // Override console log methods
     addEventListener("error", (event) => {
-        const message = formatLog(event.message, 0)
-        console.error(event.type + message);
+        console.error(
+            "Error detected!\n" +
+            "Message  : " + event.message + "\n" +
+            "Source   : " + event.filename + "\n" +
+            "Line     : " + event.lineno + "\n" +
+            "Column   : " + event.colno + "\n" +
+            "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
+        );
     });
-
+    
     ["log", "warn", "error", "info"].forEach(function (method) {
         const original = console[method];
         console[method] = function (...args) {
