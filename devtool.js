@@ -241,7 +241,7 @@ addEventListener("DOMContentLoaded", (event) => {
         return newHeight;
     }
 
-    addEventListener("error", (event) => {
+    window.addEventListener("error", (event) => {
         console.error(
             "Error detected!\n" +
             "Message  : " + event.message + "\n" +
