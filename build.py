@@ -23,20 +23,20 @@ def html_to_js(html_content):
     first = """addEventListener("DOMContentLoaded", (event) => {var HL = document.createElement('div');HL.id = devtoolGL;HL.classList.add('devtool');});"""
     js = ['var HL{} = document.createElement("{}")','HL{}.classList.add("{}")','HL{}.id = "{}"','HL{}.dataset.{} = "{}"','HL{}.style.{} = "{}"','HL.appendChild(HL{})']
     finalHTML = []
-    for x in len(html):
+    for x in html:
         # x = id
         # id = content of elment
-        element = html.split(' ') # split for id
-        for y in len(element):
-            el = element[y]
+        element = x.split(' ') # split for id
+        for y in element:
+            el = y
             id = random.randint(1,100000000)
             match el:
                 case el.startWith('class='):
-                    for s in len(el[7:len(el)-1].split(' ')):
-                        finalHTML.append(js[1] + ';')
+                    for s in el[7:len(el)-1].split(' '):
+                        finalHTML.append(js[1].format(id,s) + ';')
                 case el.startWith('style='):
-                    for s in len(el[7:len(el)-1].split(' ')):
-                        finalHTML.append(js[3] + ';')
+                    for s in el[7:len(el)-1].split(' '):
+                        finalHTML.append(js[3].format(id,s) + ';')
                 case el.startWith('id='):
                     finalHTML.append(js[2].format(id,el[4:len(el)-1]) + ';')
                 case _:
