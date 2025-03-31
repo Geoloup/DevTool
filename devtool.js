@@ -20,7 +20,7 @@ addEventListener("DOMContentLoaded", (event) => {
         const consoleInput = document.createElement("textarea");
 
         // Set element IDs
-        var devtoolId = generateCustomUUID('d')
+        var devtoolId = 'devtoolGL'
         devtool.id = devtoolId
         devtool.classList.add('devtool')
         elementSelector.classList.add('selectElement')

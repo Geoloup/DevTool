@@ -20,9 +20,10 @@ class betterString(str):
 def html_to_js(html_content):
     # use format
     html = html_content.split('\n')
-    js = ['var HL{} = document.createElement({})','HL{}.classList.add({})','HL{}.id = {}','HL{}.dataset.{} = {}','HL{}.style.{} = {}']
+    first = """var HL = document.createElement('div');HL.id = devtoolGL;HL.classList.add('devtool');"""
+    js = ['var HL{} = document.createElement("{}")','HL{}.classList.add("{}")','HL{}.id = "{}"','HL{}.dataset.{} = "{}"','HL{}.style.{} = "{}"']
     html_content = html_content
-    return ''
+    return first
     
 
 with open(html_file, "r", encoding="utf-8") as f:
