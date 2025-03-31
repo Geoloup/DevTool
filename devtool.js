@@ -113,6 +113,7 @@ addEventListener("DOMContentLoaded", (event) => {
         #consoleTopBar {
             width:100%;
             height:20px;
+            background:rgb(255,255,255,0.1)
         }
     `;
         style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
