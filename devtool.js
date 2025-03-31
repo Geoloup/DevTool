@@ -14,6 +14,7 @@ addEventListener("DOMContentLoaded", (event) => {
         const devtool = document.createElement("div");
         const consoleToggle = document.createElement("div");
         const customConsole = document.createElement("div");
+        const consoleTopBar = document.createElement("div")
         const consoleOutput = document.createElement("div");
         const consoleInputContainer = document.createElement("div");
         const elementSelector = document.createElement("button");
@@ -28,6 +29,7 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleToggle.id = "consoleToggle";
         customConsole.id = "customConsole";
         consoleOutput.id = "consoleOutput";
+        consoleTopBar.id = "consoleTopBar"
         consoleInput.id = "consoleCommand";
         consoleInput.setAttribute('autocomplete', 'off')
         // Add styles dynamically
@@ -102,10 +104,11 @@ addEventListener("DOMContentLoaded", (event) => {
             margin:0px;
         }
         .selectElement {
-            position:fixed;
-            top:0px;
             padding:0px;
-            right:${devtoolSize-40}px;
+        }
+        .selectElement.selected {
+            padding:0px;
+            background:gray;
         }
     `;
         style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
@@ -124,9 +127,10 @@ addEventListener("DOMContentLoaded", (event) => {
         devtool.appendChild(style);
         devtool.appendChild(consoleToggle);
         devtool.appendChild(customConsole);
+        customConsole.appendChild(consoleTopBar)
         customConsole.appendChild(consoleOutput);
         customConsole.appendChild(consoleInputContainer);
-        customConsole.appendChild(elementSelector)
+        consoleTopBar.appendChild(elementSelector)
         consoleInputContainer.appendChild(consoleInput);
         document.documentElement.appendChild(devtool)
 
