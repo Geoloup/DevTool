@@ -1,4 +1,4 @@
-[build]
-  environment = { PYTHON_VERSION = "3.13" }
-  command = "python build.py"
-  publish = "dist"
+#[build]
+#  environment = { PYTHON_VERSION = "3.13" }
+#  command = "python build.py"
+#  publish = "dist"
