@@ -110,6 +110,10 @@ addEventListener("DOMContentLoaded", (event) => {
             padding:0px;
             background:gray;
         }
+        #consoleTopBar {
+            width:100%;
+            height:20px;
+        }
     `;
         style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
         function resizeBody() {
