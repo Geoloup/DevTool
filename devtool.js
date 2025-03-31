@@ -147,6 +147,7 @@ addEventListener("DOMContentLoaded", (event) => {
                     document.head.appendChild(newMeta);
                 }
             } else {
+                localStorage.setItem('devtoolOpen&url=' + location.origin,false)
                 const viewportMeta = document.querySelector('meta[name="viewport"]');
             }
             customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
