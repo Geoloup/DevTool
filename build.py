@@ -29,6 +29,7 @@ def html_to_js(html_content):
         element = x.split(' ') # split for id
         for y in element:
             el = y
+            print(el)
             id = random.randint(1,100000000)
             match el:
                 case el.startswith('class='):
