@@ -31,13 +31,13 @@ def html_to_js(html_content):
             el = y
             id = random.randint(1,100000000)
             match el:
-                case el.startWith('class='):
+                case el.startswith('class='):
                     for s in el[7:len(el)-1].split(' '):
                         finalHTML.append(js[1].format(id,s) + ';')
-                case el.startWith('style='):
+                case el.startswith('style='):
                     for s in el[7:len(el)-1].split(' '):
                         finalHTML.append(js[3].format(id,s) + ';')
-                case el.startWith('id='):
+                case el.startswith('id='):
                     finalHTML.append(js[2].format(id,el[4:len(el)-1]) + ';')
                 case _:
                     finalHTML.append(js[0].format(id,el[1:len(el)-1]) + ';')
