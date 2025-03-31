@@ -22,29 +22,24 @@ def html_to_js(html_content):
     html = html_content.split('\n')
     js = ['var HL{} = document.createElement({})','HL{}.classList.add({})','HL{}.id = {}','HL{}.dataset.{} = {}','HL{}.style.{} = {}']
     html_content = html_content
+    return ''
     
 
-try:
-    # Read HTML file
-    with open(html_file, "r", encoding="utf-8") as f:
-        html_content = f.read()
-    
-    # Convert HTML to JS function
-    js_function = html_to_js(html_content)
+with open(html_file, "r", encoding="utf-8") as f:
+    html_content = f.read()
 
-    # Read JavaScript file
-    with open(js_file, "r", encoding="utf-8") as f:
-        js_content = f.read()
+# Convert HTML to JS function
+js_function = html_to_js(html_content)
 
-    # Insert function at the top of JS file
-    final_js = js_function + "\n" + js_content
+# Read JavaScript file
+with open(js_file, "r", encoding="utf-8") as f:
+    js_content = f.read()
 
-    # Write output file
-    with open(output_js, "w", encoding="utf-8") as f:
-        f.write(final_js)
+# Insert function at the top of JS file
+final_js = js_function + "\n" + js_content
 
-    print(f"✅ Successfully created {output_js}")
+# Write output file
+with open(output_js, "w", encoding="utf-8") as f:
+    f.write(final_js)
 
-except FileNotFoundError as e:
-    print(f"❌ Error: {e}")
-    exit(1)
+print(f"✅ Successfully created {output_js}")
