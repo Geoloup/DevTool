@@ -20,9 +20,28 @@ class betterString(str):
 def html_to_js(html_content):
     # use format
     html = html_content.split('\n')
-    first = """var HL = document.createElement('div');HL.id = devtoolGL;HL.classList.add('devtool');"""
-    js = ['var HL{} = document.createElement("{}")','HL{}.classList.add("{}")','HL{}.id = "{}"','HL{}.dataset.{} = "{}"','HL{}.style.{} = "{}"']
-    html_content = html_content
+    first = """addEventListener("DOMContentLoaded", (event) => {var HL = document.createElement('div');HL.id = devtoolGL;HL.classList.add('devtool');});"""
+    js = ['var HL{} = document.createElement("{}")','HL{}.classList.add("{}")','HL{}.id = "{}"','HL{}.dataset.{} = "{}"','HL{}.style.{} = "{}"','HL.appendChild(HL{})']
+    finalHTML = []
+    for x in len(html):
+        # x = id
+        # id = content of elment
+        element = html.split(' ') # split for id
+        for y in len(element):
+            el = element[y]
+            id = random.randint(1,100000000)
+            match el:
+                case el.startWith('class='):
+                    for s in len(el[7:len(el)-1].split(' ')):
+                        finalHTML.append(js[1] + ';')
+                case el.startWith('style='):
+                    for s in len(el[7:len(el)-1].split(' ')):
+                        finalHTML.append(js[3] + ';')
+                case el.startWith('id='):
+                    finalHTML.append(js[2].format(id,el[4:len(el)-1]) + ';')
+                case _:
+                    finalHTML.append(js[0].format(id,el[1:len(el)-1]) + ';')
+
     return first
     
 
