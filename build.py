@@ -20,7 +20,7 @@ class betterString(str):
 def html_to_js(html_content):
     # use format
     html = html_content.split('\n')
-    first = """addEventListener("DOMContentLoaded", (event) => {var HL = document.createElement('div');HL.id = devtoolGL;HL.classList.add('devtool');});"""
+    first = """var HL = document.createElement('div');HL.id = devtoolGL;HL.classList.add('devtool');"""
     js = ['var HL{} = document.createElement("{}")','HL{}.classList.add("{}")','HL{}.id = "{}"','HL{}.dataset.{} = "{}"','HL{}.style.{} = "{}"','HL.appendChild(HL{})']
     finalHTML = []
     for x in html:
@@ -33,16 +33,16 @@ def html_to_js(html_content):
             id = random.randint(1,100000000)
             if el.startswith('class='):
                 for s in el[7:len(el)-1].split(' '):
-                    finalHTML.append(js[1].format(id,s) + ';')
+                    finalHTML.append(js[1].format(id,s))
             elif el.startswith('style='):
                 for s in el[7:len(el)-1].split(' '):
-                    finalHTML.append(js[3].format(id,s) + ';')
+                    finalHTML.append(js[3].format(id,s))
             elif el.startswith('id='):
-                finalHTML.append(js[2].format(id,el[4:len(el)-1]) + ';')
+                finalHTML.append(js[2].format(id,el[4:len(el)-1]))
             else:
-                finalHTML.append(js[0].format(id,el[1:len(el)-1]) + ';')
+                finalHTML.append(js[0].format(id,el[1:len(el)-1]))
 
-    return first
+    return "addEventListener('DOMContentLoaded', (event) => {" + first + ";".join(finalHTML) + "});"
     
 
 with open(html_file, "r", encoding="utf-8") as f:
