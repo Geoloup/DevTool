@@ -106,9 +106,10 @@ addEventListener("DOMContentLoaded", (event) => {
         #consoleOutput {
             flex: 1;
             padding: 10px;
-            overflow-y: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
+            overflow:scroll;
+            max-height: calc(100vh - 40px);
         }
         summary.element {
             white-space: preserve nowrap;;
