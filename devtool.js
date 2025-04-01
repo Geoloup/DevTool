@@ -48,6 +48,8 @@ addEventListener("DOMContentLoaded", (event) => {
             text-align: center;
             line-height: 50px;
             border-radius: 50%;
+            padding:0px;
+            margin:0px;
             cursor: move;
             z-index: 1000000000000000000;
             font-family: sans-serif;
