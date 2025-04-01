@@ -295,14 +295,14 @@ addEventListener("DOMContentLoaded", (event) => {
         }
 
         addEventListener("error", (event) => {
-            console.error(
+            var message = 
                 "Error detected!\n" +
                 "Message  : " + event.message + "\n" +
                 "Source   : " + event.filename + "\n" +
                 "Line     : " + event.lineno + "\n" +
                 "Column   : " + event.colno + "\n" +
                 "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
-            );
+            appendToConsoleOutput('ERROR', message, getColor(method));
         });
         
         ["log", "warn", "error", "info"].forEach(function (method) {
@@ -311,7 +311,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 const filteredArgs = args.length > 0 ? args : ["undefined"];
                 const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
 
-                appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
+                appendToConsoleOutput(method.toUpperCase(), message, getColor(error));
                 //original.apply(console, args);
             };
         });
