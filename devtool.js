@@ -1,7 +1,4 @@
 addEventListener("DOMContentLoaded", (event) => {
-    var script = document.createElement('script')
-    script.src = "https://devtoolgeoloup.netlify.app/fallback.js"
-    document.head.appendChild(script)
     try {
         function generateCustomUUID(prefix = 'd') {
             const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
