@@ -312,7 +312,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
 
                 appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
-                original.apply(console, args);
+                //original.apply(console, args);
             };
         });
         function sanitizeHTML(html) {
