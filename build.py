@@ -17,12 +17,6 @@ class betterString(str):
         return self.replace(old, new,self.count(old))
 
 
-with open(html_file, "r", encoding="utf-8") as f:
-    html_content = f.read()
-
-# Convert HTML to JS function
-js_function = html_to_js(html_content)
-
 # Read JavaScript file
 with open(js_file, "r", encoding="utf-8") as f:
     js_content = f.read()
