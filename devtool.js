@@ -10,29 +10,39 @@ addEventListener("DOMContentLoaded", (event) => {
         
             return `${prefix}${uuid}`;
         }
-        // Create console elements
+        // devtool elements and top bar
         const devtool = document.createElement("div");
         const consoleToggle = document.createElement("div");
-        const customConsole = document.createElement("div");
-        const consoleTopBar = document.createElement("div")
-        const consoleOutput = document.createElement("div");
-        const consoleInputContainer = document.createElement("div");
+        const view = document.createElement("div");
+        const topBar = document.createElement("div")
         const elementSelector = document.createElement("button");
-        const consoleInput = document.createElement("textarea");
-
-        // Set element IDs
+        const elementSwitch = document.createElement("button");
+        const consoleSwitch = document.createElement("button");
         var devtoolId = 'devtoolGL'
         devtool.id = devtoolId
         devtool.classList.add('devtool')
+        view.id = "view";
+        topBar.id = "topBar"
         elementSelector.classList.add('selectElement')
         elementSelector.textContent = '🖱️' // emoji
+        elementSwitch.classList.add('DevButton')
+        consoleSwitch.classList.add('DevButton')
+        // element view
+        const elementView = document.createElement("div");
+        elementView.id = "elementView"
+
+        // console
+        const console = document.createElement("div");
+        const consoleOutput = document.createElement("div");
+        const consoleInputContainer = document.createElement("div");
+        const consoleInput = document.createElement("textarea");
         consoleToggle.id = "consoleToggle";
-        customConsole.id = "customConsole";
         consoleOutput.id = "consoleOutput";
-        consoleTopBar.id = "consoleTopBar"
         consoleInput.id = "consoleCommand";
         consoleInput.setAttribute('autocomplete', 'off')
-        // Add styles dynamically
+        consoleToggle.innerHTML = "≡";
+
+        // Add style to html
         var devtoolSize = 400
         const style = document.createElement("style");
         var css = `
@@ -62,7 +72,7 @@ addEventListener("DOMContentLoaded", (event) => {
             height:20px;
         }
 
-        #customConsole {
+        #view {
             position: fixed;
             bottom: 0;
             padding-top:10px;
@@ -78,6 +88,21 @@ addEventListener("DOMContentLoaded", (event) => {
             border-top: 2px solid #333;
             z-index: 100000000;
         }
+
+        #div > div {
+            position:fixed;
+            top:20px;
+            right:0px;
+            max-width:100%;
+            overflow:scroll;
+            max-height: calc(100vh - 20px);
+            display:none;
+        }
+
+        #div > div.show {
+            display:block;
+        }
+
         #consoleOutput {
             flex: 1;
             padding: 10px;
@@ -112,10 +137,22 @@ addEventListener("DOMContentLoaded", (event) => {
             padding:0px;
             background:gray;
         }
-        #consoleTopBar {
+        #topBar {
+            margin-top:0px;
             width:100%;
             height:20px;
             background:rgb(255,255,255,0.1)
+        }
+        
+        .DevButton {
+            background:none;
+            border:none;
+            border-bottom:solid 1px blue;
+        }
+        .DevButton.showed {
+            background:none;
+            border:none;
+            border-bottom:solid 1px blue;
         }
     `;
         style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
@@ -131,17 +168,23 @@ addEventListener("DOMContentLoaded", (event) => {
 
         // Update on window resize
         window.addEventListener("resize", resizeBody);
-        devtool.appendChild(style);
+        // join devtool content
         devtool.appendChild(consoleToggle);
-        devtool.appendChild(customConsole);
-        customConsole.appendChild(consoleTopBar)
-        customConsole.appendChild(consoleOutput);
-        customConsole.appendChild(consoleInputContainer);
-        consoleTopBar.appendChild(elementSelector)
+        devtool.appendChild(view);
+        view.appendChild(topBar)
+        topBar.appendChild(elementSelector)
+        
+        // append element to the vieww
+        view.appendChild(elementView)
+        view.appendChild(console)
+
+        console.appendChild(consoleOutput);
+        console.appendChild(consoleInputContainer);
         consoleInputContainer.appendChild(consoleInput);
+
+        // append devtool to body
         document.documentElement.appendChild(devtool)
 
-        consoleToggle.innerHTML = "≡";
 
         // Toggle console visibility
         function toggleConsole() {
@@ -161,7 +204,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 localStorage.setItem('devtoolOpen&url=' + location.origin,false)
                 const viewportMeta = document.querySelector('meta[name="viewport"]');
             }
-            customConsole.style.display = customConsole.style.display === "none" ? "flex" : "none";
+            view.style.display = view.style.display === "none" ? "flex" : "none";
             window.devtool = window.devtool ? false : true
         }
 
