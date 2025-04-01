@@ -302,7 +302,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 "Line     : " + event.lineno + "\n" +
                 "Column   : " + event.colno + "\n" +
                 "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
-            appendToConsoleOutput('ERROR', message, getColor(method));
+            appendToConsoleOutput('ERROR', message.replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('\n','<br>'), getColor(method));
         });
         
         ["log", "warn", "error", "info"].forEach(function (method) {
