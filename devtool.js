@@ -170,6 +170,7 @@ addEventListener("DOMContentLoaded", (event) => {
         window.addEventListener("resize", resizeBody);
         // join devtool content
         devtool.appendChild(consoleToggle);
+        document.head.appendChild(style)
         devtool.appendChild(view);
         view.appendChild(topBar)
         topBar.appendChild(elementSelector)
