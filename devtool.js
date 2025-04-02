@@ -43,7 +43,6 @@ addEventListener("error", (event) => {
 
 
 addEventListener("DOMContentLoaded", (event) => {
-    try {
         function generateCustomUUID(prefix = 'd') {
             const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let uuid = '';
@@ -537,10 +536,5 @@ addEventListener("DOMContentLoaded", (event) => {
         if (localStorage.getItem('devtoolOpen&url=' + location.origin) == true) {
             toggleConsole()
         }
-    } catch {
-        showMessage('Fatal Error injected fallback devtool',10000)
-        var script = document.createElement('script')
-        script.src = "https://devtoolgeoloup.netlify.app/fallback.js"
-        document.head.appendChild(script)
-    }
+    
 });
