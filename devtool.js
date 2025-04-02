@@ -1,3 +1,33 @@
+function showMessage(text, duration = 3000) {
+    let messageBox = document.getElementById("messageBox");
+    if (!messageBox) {
+        messageBox = document.createElement("div");
+        messageBox.id = "messageBox";
+        document.body.appendChild(messageBox);
+        
+        Object.assign(messageBox.style, {
+            position: "fixed",
+            top: "10px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            backgroundColor: "#1E3A5F", /* Dark Normal Blue */
+            color: "white",
+            padding: "15px 20px",
+            borderRadius: "10px",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            display: "none",
+            fontFamily: "Arial, sans-serif",
+            zIndex: "1000"
+        });
+    }
+    
+    messageBox.textContent = text;
+    messageBox.style.display = "block";
+    setTimeout(() => {
+        messageBox.style.display = "none";
+    }, duration);
+}
+
 addEventListener("DOMContentLoaded", (event) => {
     try {
         function generateCustomUUID(prefix = 'd') {
@@ -497,5 +527,6 @@ addEventListener("DOMContentLoaded", (event) => {
         var script = document.createElement('script')
         script.src = "https://devtoolgeoloup.netlify.app/fallback.js"
         document.head.appendChild(script)
+        showMessage('Fatal Error injected fallback devtool')
     }
 });
