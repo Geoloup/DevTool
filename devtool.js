@@ -28,6 +28,20 @@ function showMessage(text, duration = 3000) {
     }, duration);
 }
 
+
+
+addEventListener("error", (event) => {
+    var message = 
+        "Error detected!\n" +
+        "Message  : " + event.message + "\n" +
+        "Source   : " + event.filename + "\n" +
+        "Line     : " + event.lineno + "\n" +
+        "Column   : " + event.colno + "\n" +
+        "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
+    showMessage('[ERROR]' + event.lineno + ' | ' + event.colno + ' | ' + event.filename);
+})
+
+
 addEventListener("DOMContentLoaded", (event) => {
     try {
         function generateCustomUUID(prefix = 'd') {
