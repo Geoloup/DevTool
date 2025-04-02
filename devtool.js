@@ -28,20 +28,6 @@ function showMessage(text, duration = 3000) {
     }, duration);
 }
 
-
-
-addEventListener("error", (event) => {
-    var message = 
-        "Error detected!\n" +
-        "Message  : " + event.message + "\n" +
-        "Source   : " + event.filename + "\n" +
-        "Line     : " + event.lineno + "\n" +
-        "Column   : " + event.colno + "\n" +
-        "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
-    showMessage('[ERROR]' + message);
-})
-
-
 addEventListener("DOMContentLoaded", (event) => {
         function generateCustomUUID(prefix = 'd') {
             const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -222,10 +208,10 @@ addEventListener("DOMContentLoaded", (event) => {
         devtool.appendChild(view);
         
         // append element to the vieww
-        view.appendChild(topBar)
         topBar.appendChild(elementSelector)
         topBar.appendChild(elementView)
         topBar.appendChild(console)
+        view.appendChild(topBar)
 
         console.appendChild(consoleOutput);
         console.appendChild(consoleInputContainer);
