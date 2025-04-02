@@ -32,6 +32,7 @@ addEventListener("DOMContentLoaded", (event) => {
         // element view
         const elementView = document.createElement("div");
         elementView.id = "elementView"
+        elementView.setAttribute('DevToolTabGeoloup','true')
 
         // console
         const console = document.createElement("div");
@@ -43,6 +44,7 @@ addEventListener("DOMContentLoaded", (event) => {
         consoleInput.id = "consoleCommand";
         consoleInput.setAttribute('autocomplete', 'off')
         consoleToggle.innerHTML = "≡";
+        console.setAttribute('DevToolTabGeoloup','true')
 
         // Add style to html
         var devtoolSize = 400
@@ -175,12 +177,12 @@ addEventListener("DOMContentLoaded", (event) => {
         devtool.appendChild(consoleToggle);
         document.head.appendChild(style)
         devtool.appendChild(view);
-        view.appendChild(topBar)
-        topBar.appendChild(elementSelector)
         
         // append element to the vieww
-        view.appendChild(elementView)
-        view.appendChild(console)
+        view.appendChild(topBar)
+        topBar.appendChild(elementSelector)
+        topBar.appendChild(elementView)
+        topBar.appendChild(console)
 
         console.appendChild(consoleOutput);
         console.appendChild(consoleInputContainer);
@@ -189,6 +191,29 @@ addEventListener("DOMContentLoaded", (event) => {
         // append devtool to body
         document.documentElement.appendChild(devtool)
 
+        // toggle tabs
+        function switchTab(event) {
+            var target = event.target
+            var text   = target.innerHTML
+            var tabs = devtool.querySelectorAll('div[DevToolTabGeoloup]')
+            for (const tab of tabs) {
+                tab.classList.remove('show')
+            }
+            switch (text) {
+                case 'element':
+                    elementView.classList.add('show')
+                    break;
+                case 'element':
+                    elementView.classList.add('show')
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+
+        consoleSwitch.onclick = switchTab
+        elementSwitch.onclick = switchTab
 
         // Toggle console visibility
         function toggleConsole() {
