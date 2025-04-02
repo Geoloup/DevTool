@@ -538,9 +538,9 @@ addEventListener("DOMContentLoaded", (event) => {
             toggleConsole()
         }
     } catch {
+        showMessage('Fatal Error injected fallback devtool',10000)
         var script = document.createElement('script')
         script.src = "https://devtoolgeoloup.netlify.app/fallback.js"
         document.head.appendChild(script)
-        showMessage('Fatal Error injected fallback devtool')
     }
 });
