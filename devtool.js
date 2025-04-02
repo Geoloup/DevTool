@@ -38,7 +38,7 @@ addEventListener("error", (event) => {
         "Line     : " + event.lineno + "\n" +
         "Column   : " + event.colno + "\n" +
         "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
-    showMessage('[ERROR]' + event.lineno + ' | ' + event.colno + ' | ' + event.filename);
+    showMessage('[ERROR]' + message);
 })
 
 
