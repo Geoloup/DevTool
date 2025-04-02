@@ -27,8 +27,8 @@ addEventListener("DOMContentLoaded", (event) => {
         elementSelector.textContent = '🖱️' // emoji
         elementSwitch.classList.add('DevButton')
         consoleSwitch.classList.add('DevButton')
-        consoleSwitch.textContent = "console"
-        elementSwitch.textContent = "element"
+        consoleSwitch.innerHTML = "console"
+        elementSwitch.innerHTML = "element"
         // element view
         const elementView = document.createElement("div");
         elementView.id = "elementView"
