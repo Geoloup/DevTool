@@ -421,13 +421,13 @@ addEventListener("DOMContentLoaded", (event) => {
         return `<details><summary>${obj.constructor.name || "Object"}</summary><pre style="margin-left:${depth * 8 + 8}px">${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
     }
 
-    function createInspectableElement(element, depth) {
+    function createInspectableElement(element, depth,maxDepth=10) {
         let attributes = Array.from(element.attributes)
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(" ");
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
-        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
-        return `<details><summary style="margin-left:${depth * 8 + 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
+        if (!element.children.length || depth >= maxDepth) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
+        return `<details><summary style="margin-left:${depth * 8 + 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1,maxDepth)).join('')}</details>`;
     }
 
     function appendToConsoleOutput(type, message, color) {
@@ -542,4 +542,18 @@ addEventListener("DOMContentLoaded", (event) => {
     if (localStorage.getItem('devtoolOpen&url=' + location.origin) == true) {
         toggleConsole()
     }
+
+
+    // element view
+    function updateTreeView() {
+        elementView.innerHTML = createInspectableElement(document.body,0,20)
+    }
+    const targetNode = document.body;
+    const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] };
+    const callback = (mutationsList) => {
+        updateTreeView()
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+    updateTreeView()
 });
