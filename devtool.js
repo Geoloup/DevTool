@@ -138,6 +138,7 @@ addEventListener("DOMContentLoaded", (event) => {
             position:absolute;
             top:20px;
             left:0px;
+            z-index:100000000000000
             width:400px;
             overflow:scroll;
             max-height: calc(100vh - 20px);
