@@ -378,7 +378,7 @@ addEventListener("DOMContentLoaded", (event) => {
             "Line     : " + event.lineno + "\n" +
             "Column   : " + event.colno + "\n" +
             "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
-        appendToConsoleOutput('ERROR', message.replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('\n', '<br>'), getColor(method));
+        console.error(message)
     });
 
     ["log", "warn", "error", "info"].forEach(function (method) {
@@ -388,7 +388,7 @@ addEventListener("DOMContentLoaded", (event) => {
             const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
 
             appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
-            //original.apply(console, args);
+            original.apply(console, args);
         };
     });
     function sanitizeHTML(html) {
