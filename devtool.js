@@ -548,7 +548,10 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // element view
     function updateTreeView() {
-        elementView.innerHTML = `<p style='margin-left:10px;'>${formatLog(document.body,0)}</p>`
+        elementView.innerHTML = ''
+        var tree = document.createElement('p')
+        tree.innerHTML = formatLog(document.body,0)
+        elementView.appendChild(tree)
     }
     const targetNode = document.body;
     const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] };
