@@ -421,13 +421,13 @@ addEventListener("DOMContentLoaded", (event) => {
         return `<details><summary style="margin-left:${depth * 8 + 8}px">${obj.constructor.name || "Object"}</summary><pre style="margin-left:${depth * 8 + 8}px">${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
     }
 
-    function createInspectableElement(element, depth,maxDepth=10) {
+    function createInspectableElement(element, depth) {
         let attributes = Array.from(element.attributes)
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(" ");
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
-        if (!element.children.length || depth >= maxDepth) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
-        return `<details><summary style="margin-left:${depth * 8 + 8}px">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1,maxDepth)).join('')}</details>`;
+        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
+        return `<details><summary>${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1,maxDepth)).join('')}</details>`;
     }
 
     function appendToConsoleOutput(type, message, color) {
