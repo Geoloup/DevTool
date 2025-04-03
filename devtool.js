@@ -220,7 +220,6 @@ addEventListener("DOMContentLoaded", (event) => {
     // append element to the vieww
     topBar.appendChild(elementSwitch)
     topBar.appendChild(consoleSwitch)
-    topBar.appendChild(console)
     view.appendChild(topBar)
     view.appendChild(elementView)
     view.appendChild(consoleView)
@@ -229,7 +228,6 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleView.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
 
-    // append devtool to body
     document.documentElement.appendChild(devtool)
 
     // toggle tabs
