@@ -32,7 +32,9 @@ function exec(jsCode) {
     const blob = new Blob([jsCode], { type: "application/javascript" });
     const blobURL = URL.createObjectURL(blob);
     const script = document.createElement("script");
-    script.onload = ()=> {}
+    script.onload = ()=> {
+        console.log('Code loaded')
+    }
     script.src = blobURL;
     document.body.appendChild(script);
 
