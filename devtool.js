@@ -74,7 +74,7 @@ addEventListener("DOMContentLoaded", (event) => {
     elementView.setAttribute('DevToolTabGeoloup', 'true')
 
     // console
-    const console = document.createElement("div");
+    const consoleView = document.createElement("div");
     const consoleOutput = document.createElement("div");
     const consoleInputContainer = document.createElement("div");
     const consoleInput = document.createElement("textarea");
@@ -83,7 +83,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInput.id = "consoleCommand";
     consoleInput.setAttribute('autocomplete', 'off')
     consoleToggle.innerHTML = "≡";
-    console.setAttribute('DevToolTabGeoloup', 'true')
+    consoleView.setAttribute('DevToolTabGeoloup', 'true')
 
     // Add style to html
     var devtoolSize = 400
@@ -223,8 +223,8 @@ addEventListener("DOMContentLoaded", (event) => {
     topBar.appendChild(console)
     view.appendChild(topBar)
 
-    console.appendChild(consoleOutput);
-    console.appendChild(consoleInputContainer);
+    consoleView.appendChild(consoleOutput);
+    consoleView.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
 
     // append devtool to body
