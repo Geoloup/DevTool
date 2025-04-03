@@ -345,10 +345,16 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     consoleInput.addEventListener("keyup", () => {
         consoleInput.style.height = calcHeight(consoleInput.value) + "px";
+        consoleView.scrollTop = consoleView.scrollHeight
+    });
+    consoleInput.addEventListener("input", () => {
+        consoleInput.style.height = calcHeight(consoleInput.value) + "px";
+        consoleView.scrollTop = consoleView.scrollHeight
     });
 
     consoleInput.addEventListener("keypress", function (event) {
         consoleInput.style.height = calcHeight(consoleInput.value) + "px";
+        consoleView.scrollTop = consoleView.scrollHeight
         if (event.key === "Enter" && !event.shiftKey) {
             try {
                 event.preventDefault()
