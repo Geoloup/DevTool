@@ -57,7 +57,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const elementSelector = document.createElement("button");
     const elementSwitch = document.createElement("button");
     const consoleSwitch = document.createElement("button");
-    var devtoolId = 'devtoolGL'
+    var devtoolId = generateCustomUUID()
     devtool.id = devtoolId
     devtool.classList.add('devtool')
     view.id = "view";
@@ -244,8 +244,8 @@ addEventListener("DOMContentLoaded", (event) => {
             case 'element':
                 elementView.classList.add('show')
                 break;
-            case 'element':
-                elementView.classList.add('show')
+            case 'console':
+                consoleView.classList.add('show')
                 break;
 
             default:
