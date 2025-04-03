@@ -66,8 +66,8 @@ addEventListener("DOMContentLoaded", (event) => {
     elementSelector.textContent = '🖱️' // emoji
     elementSwitch.classList.add('DevButton')
     consoleSwitch.classList.add('DevButton')
-    consoleSwitch.innerHTML = "console"
-    elementSwitch.innerHTML = "element"
+    consoleSwitch.textContent = "console"
+    elementSwitch.textContent = "element"
     // element view
     const elementView = document.createElement("div");
     elementView.id = "elementView"
@@ -218,10 +218,12 @@ addEventListener("DOMContentLoaded", (event) => {
     devtool.appendChild(view);
 
     // append element to the vieww
-    topBar.appendChild(elementSelector)
-    topBar.appendChild(elementView)
+    topBar.appendChild(elementSwitch)
+    topBar.appendChild(consoleSwitch)
     topBar.appendChild(console)
     view.appendChild(topBar)
+    view.appendChild(elementView)
+    view.appendChild(consoleView)
 
     consoleView.appendChild(consoleOutput);
     consoleView.appendChild(consoleInputContainer);
