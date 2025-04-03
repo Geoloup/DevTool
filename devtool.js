@@ -28,6 +28,16 @@ function showMessage(text, duration = 3000) {
     }, duration);
 }
 
+function exec(jsCode) { 
+    const blob = new Blob([jsCode], { type: "application/javascript" });
+    const blobURL = URL.createObjectURL(blob);
+    const script = document.createElement("script");
+    script.onload = ()=> {}
+    script.src = blobURL;
+    document.body.appendChild(script);
+
+}
+
 addEventListener("DOMContentLoaded", (event) => {
     function generateCustomUUID(prefix = 'd') {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -323,7 +333,7 @@ addEventListener("DOMContentLoaded", (event) => {
             return moreinfo();
         }
         try {
-            const result = eval(command); // Directly execute command
+            const result = exec(command); // Directly execute command
             console.log(result); // Log the result
         } catch (error) {
             console.error(error);
