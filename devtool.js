@@ -546,7 +546,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // element view
     function updateTreeView() {
-        elementView.innerHTML = createInspectableElement(document.body,0,20)
+        elementView.innerHTML = `<p style='margin-left:10px;'>${createInspectableElement(document.body,0,20)}</p>`
     }
     const targetNode = document.body;
     const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] };
