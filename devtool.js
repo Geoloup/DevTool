@@ -118,10 +118,11 @@ addEventListener("DOMContentLoaded", (event) => {
         #view {
             position: fixed;
             bottom: 0;
-            padding-top:10px;
+            padding-top:20px;
             right: 0;
             width: ${devtoolSize}px;
-            height: 100%;
+            max-height: calc(100vh - 10px);
+            height: calc(100vh - 10px);
             background-color: #1e1e1e;
             color: #dcdcdc;
             font-family: monospace;
@@ -182,10 +183,12 @@ addEventListener("DOMContentLoaded", (event) => {
             background:gray;
         }
         #topBar {
-            margin-top:0px;
+            position:absolute;
+            top:10px;
+            left:0px;
             width:100%;
             height:20px;
-            background:rgb(255,255,255,0.1)
+            background:rgb(255,255,255,0.5)
         }
         
         .DevButton {
