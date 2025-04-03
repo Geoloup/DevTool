@@ -427,7 +427,7 @@ addEventListener("DOMContentLoaded", (event) => {
             .join(" ");
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
         if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
-        return `<details><summary>${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1,maxDepth)).join('')}</details>`;
+        return `<details><summary>${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
 
     function appendToConsoleOutput(type, message, color) {
