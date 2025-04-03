@@ -132,17 +132,17 @@ addEventListener("DOMContentLoaded", (event) => {
             z-index: 100000000;
         }
 
-        #div > div {
-            position:fixed;
+        div[devtooltabgeoloup] {
+            position:absolute;
             top:20px;
-            right:0px;
-            max-width:100%;
+            left:0px;
+            width:400px;
             overflow:scroll;
             max-height: calc(100vh - 20px);
             display:none;
         }
 
-        #div > div.show {
+        div[devtooltabgeoloup].show {
             display:block;
         }
 
@@ -218,6 +218,7 @@ addEventListener("DOMContentLoaded", (event) => {
     devtool.appendChild(view);
 
     // append element to the vieww
+    topBar.appendChild(elementSelector)
     topBar.appendChild(elementSwitch)
     topBar.appendChild(consoleSwitch)
     view.appendChild(topBar)
@@ -232,9 +233,10 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // toggle tabs
     function switchTab(event) {
+        console.log('c')
         var target = event.target
         var text = target.innerHTML
-        var tabs = devtool.querySelectorAll('div[DevToolTabGeoloup]')
+        var tabs = view.querySelectorAll('div[DevToolTabGeoloup]')
         for (const tab of tabs) {
             tab.classList.remove('show')
         }
