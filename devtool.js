@@ -414,11 +414,11 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     function createBetterArray(array, depth) {
-        return `<details><summary>[Array(${array.length})]</summary><pre style="margin-left:${depth * 8 + 8}px">${array.map(v => formatLog(v, depth + 1)).join("\n")}</pre></details>`;
+        return `<details><summary style="margin-left:${depth * 8 + 8}px">[Array(${array.length})]</summary><pre style="margin-left:${depth * 8 + 8}px">${array.map(v => formatLog(v, depth + 1)).join("\n")}</pre></details>`;
     }
 
     function createInspectableObject(obj, depth) {
-        return `<details><summary>${obj.constructor.name || "Object"}</summary><pre style="margin-left:${depth * 8 + 8}px">${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
+        return `<details><summary style="margin-left:${depth * 8 + 8}px">${obj.constructor.name || "Object"}</summary><pre style="margin-left:${depth * 8 + 8}px">${Object.entries(obj).map(([k, v]) => `${k}: ${formatLog(v, depth + 1)}`).join("\n")}</pre></details>`;
     }
 
     function createInspectableElement(element, depth,maxDepth=10) {
