@@ -337,7 +337,7 @@ addEventListener("DOMContentLoaded", (event) => {
             return moreinfo();
         }
         try {
-            const result = exec(command); // Directly execute command
+            const result = exec('console.log(' + command + ')'); // Directly execute command
             console.log(result); // Log the result
         } catch (error) {
             console.error(error);
@@ -546,7 +546,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // element view
     function updateTreeView() {
-        elementView.innerHTML = `<p style='margin-left:10px;'>${createInspectableElement(document.body,0,20)}</p>`
+        elementView.innerHTML = `<p style='margin-left:10px;'>${formatLog(document.body,0)}</p>`
     }
     const targetNode = document.body;
     const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] };
