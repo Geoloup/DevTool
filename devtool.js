@@ -118,11 +118,10 @@ addEventListener("DOMContentLoaded", (event) => {
         #view {
             position: fixed;
             bottom: 0;
-            padding-top:20px;
             right: 0;
             width: ${devtoolSize}px;
-            max-height: calc(100vh - 10px);
-            height: calc(100vh - 10px);
+            max-height: calc(100vh);
+            height: calc(100vh);
             background-color: #1e1e1e;
             color: #dcdcdc;
             font-family: monospace;
@@ -183,10 +182,10 @@ addEventListener("DOMContentLoaded", (event) => {
             background:gray;
         }
         #topBar {
-            position:absolute;
-            top:10px;
-            left:0px;
-            width:100%;
+            position:fixed;
+            top:0px;
+            right:0px;
+            width:${devtoolSize}px;
             height:20px;
             background:rgb(255,255,255,0.5)
         }
