@@ -578,7 +578,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 html.push(`<summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
             } else {
                 const isOpen = previousOpen.get(tag) === el && lastOfType.get(tag) === el;
-                html.push(`<details${isOpen ? "" : " open"}><summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
+                html.push(`<details${isOpen ? " open" : ""}><summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
                 for (let i = children.length - 1; i >= 0; i--) {
                     stack.push({ el: children[i], depth: depth + 1 });
                 }
