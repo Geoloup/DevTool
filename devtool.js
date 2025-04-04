@@ -555,12 +555,20 @@ addEventListener("DOMContentLoaded", (event) => {
         elementView.appendChild(tree)
     }
     const targetNode = document.body;
+    var updateList = []
+    function TreeUpdate() {
+        var lval = updateList.length > 4 ? 5 : updateList.length
+        for (let i = 0; i < lval; i++) {
+            updateList.pop()()
+        }
+    }
+    setInterval(TreeUpdate,100)
     const config = { childList: true, subtree: true, attributes: true};
     const callback = (mutationsList) => {
         for (const mutation of mutationsList) {
             const target = mutation.target;
             if (!devtool.contains(target)) {
-                updateTreeView()
+                updateList.push(updateTreeView)
             }
         }
     };
