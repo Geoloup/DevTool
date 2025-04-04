@@ -555,7 +555,7 @@ addEventListener("DOMContentLoaded", (event) => {
         elementView.appendChild(tree)
     }
     const targetNode = document.body;
-    const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] };
+    const config = { childList: true, subtree: true, attributes: true};
     const callback = (mutationsList) => {
         for (const mutation of mutationsList) {
             const target = mutation.target;
