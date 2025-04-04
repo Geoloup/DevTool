@@ -138,7 +138,7 @@ addEventListener("DOMContentLoaded", (event) => {
             position:absolute;
             top:20px;
             left:0px;
-            z-index:100000000000000
+            z-index:100000000000000;
             width:400px;
             overflow:scroll;
             max-height: calc(100vh - 20px);
@@ -559,7 +559,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const callback = (mutationsList) => {
         for (const mutation of mutationsList) {
             const target = mutation.target;
-            if (document.body.contains(target)) {
+            if (!devtool.contains(target)) {
                 updateTreeView()
             }
         }
