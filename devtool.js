@@ -548,46 +548,56 @@ addEventListener("DOMContentLoaded", (event) => {
 
 
     // element view    
-    function createTree(root, previousOpen = new Map()) {
-        const html = [];
-        const stack = [{ el: root, depth: 0 }];
-        const lastOfType = new Map();
+    function createTree(root, previousOpen = new Set()) {
+        const stack = [{ el: root, depth: 0, path: [] }];
+        const openPaths = new Set();
+        const htmlMap = new Map(); // path -> child HTML
     
-        // First pass: track last element per tag type
-        const queue = [{ el: root, depth: 0 }];
-        for (let i = 0; i < queue.length; i++) {
-            const { el, depth } = queue[i];
-            if (depth >= 10) continue;
-            lastOfType.set(el.tagName.toLowerCase(), el);
-            const children = el.children;
-            for (let j = 0; j < children.length; j++) {
-                queue.push({ el: children[j], depth: depth + 1 });
-            }
-        }
-    
-        // Build HTML
+        // First pass: walk tree, build path-based structure
         while (stack.length) {
-            const { el, depth } = stack.pop();
+            const { el, depth, path } = stack.pop();
+            if (depth > 10) continue;
+    
             const tag = el.tagName.toLowerCase();
+            const index = Array.from(el.parentNode?.children || []).indexOf(el);
+            const currentPath = [...path, `${tag}:nth-child(${index + 1})`];
+            const pathKey = currentPath.join(">");
+    
             const indent = 8 + depth * 8;
             const attrs = el.hasAttributes() ? [...el.attributes].map(a => `${a.name}="${a.value}"`).join(" ") : "";
             const tagOpen = `&lt;${tag}${attrs ? " " + attrs : ""}&gt;`;
-            const children = el.children;
     
-            if (!children.length || depth >= 10) {
-                html.push(`<summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
-            } else {
-                const isOpen = previousOpen.get(tag) === el && lastOfType.get(tag) === el;
-                html.push(`<details${isOpen ? " open" : ""}><summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
-                for (let i = children.length - 1; i >= 0; i--) {
-                    stack.push({ el: children[i], depth: depth + 1 });
+            let childrenHTML = '';
+            if (el.children.length && depth < 10) {
+                for (let i = 0; i < el.children.length; i++) {
+                    const child = el.children[i];
+                    const childTag = child.tagName.toLowerCase();
+                    const childIndex = Array.from(child.parentNode.children).indexOf(child);
+                    const childPath = [...currentPath, `${childTag}:nth-child(${childIndex + 1})`].join(">");
+    
+                    childrenHTML += htmlMap.get(childPath) || '';
                 }
-                html.push(`</details>`);
+            }
+    
+            if (el.children.length && depth < 10) {
+                const isOpen = previousOpen.has(pathKey);
+                if (isOpen) openPaths.add(pathKey);
+                htmlMap.set(pathKey,
+                    `<details${isOpen ? " open" : ""}><summary style="margin-left:${indent}px;">${tagOpen}</summary>${childrenHTML}</details>`
+                );
+            } else {
+                htmlMap.set(pathKey,
+                    `<summary style="margin-left:${indent}px;">${tagOpen}</summary>`
+                );
             }
         }
     
-        return html.join('');
-    }    
+        const rootPath = `${root.tagName.toLowerCase()}:nth-child(${Array.from(root.parentNode?.children || []).indexOf(root) + 1})`;
+        const finalHTML = htmlMap.get(rootPath) || '';
+        createTree._lastOpen = openPaths;
+        return finalHTML;
+    }
+
     let lastOpen = new Map();
     const treeHTML = createTree(document.body, lastOpen);
 
