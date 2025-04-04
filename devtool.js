@@ -547,20 +547,66 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
 
-    // element view
+    // element view    
+    function createTree(root, previousOpen = new Map()) {
+        const html = [];
+        const stack = [{ el: root, depth: 0 }];
+        const lastOfType = new Map();
+    
+        // First pass: track last element per tag type
+        const queue = [{ el: root, depth: 0 }];
+        for (let i = 0; i < queue.length; i++) {
+            const { el, depth } = queue[i];
+            if (depth >= 10) continue;
+            lastOfType.set(el.tagName.toLowerCase(), el);
+            const children = el.children;
+            for (let j = 0; j < children.length; j++) {
+                queue.push({ el: children[j], depth: depth + 1 });
+            }
+        }
+    
+        // Build HTML
+        while (stack.length) {
+            const { el, depth } = stack.pop();
+            const tag = el.tagName.toLowerCase();
+            const indent = 8 + depth * 8;
+            const attrs = el.hasAttributes() ? [...el.attributes].map(a => `${a.name}="${a.value}"`).join(" ") : "";
+            const tagOpen = `&lt;${tag}${attrs ? " " + attrs : ""}&gt;`;
+            const children = el.children;
+    
+            if (!children.length || depth >= 10) {
+                html.push(`<summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
+            } else {
+                const isOpen = previousOpen.get(tag) === el && lastOfType.get(tag) === el;
+                html.push(`<details${isOpen ? " open" : ""}><summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
+                for (let i = children.length - 1; i >= 0; i--) {
+                    stack.push({ el: children[i], depth: depth + 1 });
+                }
+                html.push(`</details>`);
+            }
+        }
+    
+        return html.join('');
+    }    
+    let lastOpen = new Map();
+    const treeHTML = createTree(document.body, lastOpen);
+
     function updateTreeView() {
-        elementView.innerHTML = ''
-        var tree = document.createElement('p')
-        tree.innerHTML = formatLog(document.body,0)
-        elementView.appendChild(tree)
+        lastOpen = new Map();
+        document.querySelectorAll("#tree details[open]").forEach(d => {
+            const tag = d.querySelector("summary")?.textContent?.match(/^<(\w+)/)?.[1];
+            if (tag) lastOpen.set(tag, d);
+        });
+        elementView.innerHTML = createTree(document.body,lastOpen)
     }
     const targetNode = document.body;
     var updateList = []
     function TreeUpdate() {
-        var lval = updateList.length > 4 ? 5 : updateList.length
+        var lval = updateList.length > 4 ? 10 : updateList.length
         for (let i = 0; i < lval; i++) {
-            updateList.pop()()
+            updateList.pop()
         }
+        updateTreeView()
     }
     setInterval(TreeUpdate,100)
     const config = { childList: true, subtree: true, attributes: true};
@@ -574,5 +620,4 @@ addEventListener("DOMContentLoaded", (event) => {
     };
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
-    updateTreeView()
 });
