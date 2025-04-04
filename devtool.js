@@ -557,7 +557,12 @@ addEventListener("DOMContentLoaded", (event) => {
     const targetNode = document.body;
     const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] };
     const callback = (mutationsList) => {
-        updateTreeView()
+        for (const mutation of mutationsList) {
+            const target = mutation.target;
+            if (document.body.contains(target)) {
+                updateTreeView()
+            }
+        }
     };
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
