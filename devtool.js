@@ -552,18 +552,31 @@ addEventListener("DOMContentLoaded", (event) => {
         const html = [];
         const stack = [{ el: root, depth: 0 }];
         const lastOfType = new Map();
+        const repeatedMap = new Map();
     
-        // First pass: track last element per tag type
+        // First pass: track last element per tag type and count repeated text content
         const queue = [{ el: root, depth: 0 }];
         for (let i = 0; i < queue.length; i++) {
             const { el, depth } = queue[i];
             if (depth >= 10) continue;
-            lastOfType.set(el.tagName.toLowerCase(), el);
+    
+            const tag = el.tagName.toLowerCase();
+            lastOfType.set(tag, el);
+    
+            const text = el.textContent.trim();
+            if (text) {
+                const key = `${tag}|${text}`;
+                repeatedMap.set(key, (repeatedMap.get(key) || 0) + 1);
+            }
+    
             const children = el.children;
             for (let j = 0; j < children.length; j++) {
                 queue.push({ el: children[j], depth: depth + 1 });
             }
         }
+    
+        // Track how many times we've seen each tag+text combo (for rendering xN only once)
+        const renderedRepeats = new Map();
     
         // Build HTML
         while (stack.length) {
@@ -573,12 +586,21 @@ addEventListener("DOMContentLoaded", (event) => {
             const attrs = el.hasAttributes() ? [...el.attributes].map(a => `${a.name}="${a.value}"`).join(" ") : "";
             const tagOpen = `&lt;${tag}${attrs ? " " + attrs : ""}&gt;`;
             const children = el.children;
+            const text = el.textContent.trim();
+            const key = `${tag}|${text}`;
+            let repeatLabel = '';
     
-            if (!children.length || depth >= 10) {
-                html.push(`<summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
-            } else {
-                const isOpen = previousOpen.get(tag) === el && lastOfType.get(tag) === el;
-                html.push(`<summary style="margin-left:${indent}px;">${tagOpen}</summary>`);
+            if (text && repeatedMap.get(key) > 1) {
+                if (!renderedRepeats.has(key)) {
+                    repeatLabel = ` x${repeatedMap.get(key)}`;
+                    renderedRepeats.set(key, true);
+                }
+            }
+    
+            const line = `<summary style="margin-left:${indent}px;">${tagOpen}${repeatLabel}</summary>`;
+            html.push(line);
+    
+            if (children.length && depth < 10) {
                 for (let i = children.length - 1; i >= 0; i--) {
                     stack.push({ el: children[i], depth: depth + 1 });
                 }
@@ -586,7 +608,8 @@ addEventListener("DOMContentLoaded", (event) => {
         }
     
         return html.join('');
-    }    
+    }
+
     let lastOpen = new Map();
     const treeHTML = createTree(document.body, lastOpen);
 
