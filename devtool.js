@@ -573,8 +573,6 @@ addEventListener("DOMContentLoaded", (event) => {
         }
     };
     const observer = new MutationObserver(callback);
-    setTimeout(()=> {
-        observer.observe(targetNode, config);
-    },1000*60) // 1 minute
+    observer.observe(targetNode, config);
     updateTreeView()
 });
