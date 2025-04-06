@@ -554,7 +554,7 @@ addEventListener("DOMContentLoaded", (event) => {
         const lastOfType = new Map();
         const repeatedMap = new Map();
     
-        // First pass: track last element per tag type and count repeated text content
+        // First pass: count all repeated tag+text pairs
         const queue = [{ el: root, depth: 0 }];
         for (let i = 0; i < queue.length; i++) {
             const { el, depth } = queue[i];
@@ -575,40 +575,68 @@ addEventListener("DOMContentLoaded", (event) => {
             }
         }
     
-        // Track how many times we've seen each tag+text combo (for rendering xN only once)
+        // For tracking when repeat label has already been shown
         const renderedRepeats = new Map();
     
-        // Build HTML
+        // Main render function using DFS with manual stack
         while (stack.length) {
             const { el, depth } = stack.pop();
             const tag = el.tagName.toLowerCase();
+            const text = el.textContent.trim();
+            const key = `${tag}|${text}`;
             const indent = 8 + depth * 8;
             const attrs = el.hasAttributes() ? [...el.attributes].map(a => `${a.name}="${a.value}"`).join(" ") : "";
             const tagOpen = `&lt;${tag}${attrs ? " " + attrs : ""}&gt;`;
-            const children = el.children;
-            const text = el.textContent.trim();
-            const key = `${tag}|${text}`;
-            let repeatLabel = '';
     
-            if (text && repeatedMap.get(key) > 1) {
-                if (!renderedRepeats.has(key)) {
-                    repeatLabel = ` x${repeatedMap.get(key)}`;
-                    renderedRepeats.set(key, true);
-                }
+            let repeatLabel = '';
+            if (text && repeatedMap.get(key) > 1 && !renderedRepeats.has(key)) {
+                repeatLabel = ` x${repeatedMap.get(key)}`;
+                renderedRepeats.set(key, true);
             }
     
             const line = `<summary style="margin-left:${indent}px;">${tagOpen}${repeatLabel}</summary>`;
             html.push(line);
     
+            const children = Array.from(el.children);
             if (children.length && depth < 10) {
-                for (let i = children.length - 1; i >= 0; i--) {
-                    stack.push({ el: children[i], depth: depth + 1 });
+                // Check for duplicates next to each other and group them
+                let i = children.length - 1;
+                while (i >= 0) {
+                    const current = children[i];
+                    const group = [current];
+                    const currentKey = `${current.tagName.toLowerCase()}|${current.textContent.trim()}`;
+    
+                    // Look backwards to group duplicates
+                    let j = i - 1;
+                    while (j >= 0) {
+                        const prev = children[j];
+                        const prevKey = `${prev.tagName.toLowerCase()}|${prev.textContent.trim()}`;
+                        if (prevKey === currentKey) {
+                            group.push(prev);
+                            j--;
+                        } else {
+                            break;
+                        }
+                    }
+    
+                    if (group.length > 1) {
+                        // Create a dummy wrapper to nest duplicates
+                        const wrapper = document.createElement('div');
+                        wrapper.setAttribute('data-duplicate-group', 'true');
+                        group.forEach(el => wrapper.appendChild(el.cloneNode(true)));
+    
+                        stack.push({ el: wrapper, depth: depth + 1 });
+                        i = j;
+                    } else {
+                        stack.push({ el: current, depth: depth + 1 });
+                        i--;
+                    }
                 }
             }
         }
     
         return html.join('');
-    }
+    }    
 
     let lastOpen = new Map();
     const treeHTML = createTree(document.body, lastOpen);
