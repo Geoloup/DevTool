@@ -32,9 +32,6 @@ function exec(jsCode) {
     const blob = new Blob([jsCode], { type: "application/javascript" });
     const blobURL = URL.createObjectURL(blob);
     const script = document.createElement("script");
-    script.onload = ()=> {
-        console.log('Code loaded')
-    }
     script.src = blobURL;
     document.body.appendChild(script);
 
@@ -585,7 +582,7 @@ addEventListener("DOMContentLoaded", (event) => {
         devtool.addEventListener("mousemove", mousehandle);
     }
     elementSelector.onclick = startSelection
-    if (localStorage.getItem('devtoolOpen&url=' + location.origin) == true) {
+    if (localStorage.getItem('devtoolOpen&url=' + location.origin) == 'true') {
         toggleConsole()
     }
 
