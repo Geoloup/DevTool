@@ -620,7 +620,7 @@ addEventListener("DOMContentLoaded", (event) => {
             if (tagOpen == lastEl) {
                 lastC++
             } else if (lastC != 0){
-                const line = `<span class="element nested" style="margin-left:${indent}px;">${tagOpen} <span class='nestedCount'>x${String(lastC)}</span></span>`;
+                const line = `<span class="element nested" style="margin-left:${indent}px;"><span class='nestedCount'>x${String(lastC)}</span> ${tagOpen}</span>`;
                 html.push(line);
                 lastC = 0
             } else {
