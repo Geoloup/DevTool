@@ -580,6 +580,7 @@ addEventListener("DOMContentLoaded", (event) => {
     
         // Build HTML
         var lastEl = ''
+        var lastC = 0
         while (stack.length) {
             const { el, depth } = stack.pop();
             const tag = el.tagName.toLowerCase();
@@ -589,17 +590,20 @@ addEventListener("DOMContentLoaded", (event) => {
             const children = el.children;
             const text = el.textContent.trim();
             const key = `${tag}|${text}`;
-            let repeatLabel = '';
-    
-            if (text && repeatedMap.get(key) > 1) {
-                if (!renderedRepeats.has(key)) {
-                    repeatLabel = ` x${repeatedMap.get(key)}`;
-                    renderedRepeats.set(key, true);
-                }
+
+            if (tagOpen == lastEl) {
+                lastC++
+            } else if (lastC != 0){
+                lastC = 0
+                const line = `<summary style="margin-left:${indent}px;">${tagOpen} x${lastEl}</summary>`;
+                html.push(line);
+            } else{
+                lastC = 0
+                const line = `<summary style="margin-left:${indent}px;">${tagOpen}</summary>`;
+                html.push(line);
             }
-    
-            const line = `<summary style="margin-left:${indent}px;">${tagOpen}${repeatLabel}</summary>`;
-            html.push(line);
+
+            lastEl = tagOpen
     
             if (children.length && depth < 10) {
                 for (let i = children.length - 1; i >= 0; i--) {
