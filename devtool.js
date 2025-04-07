@@ -207,7 +207,7 @@ addEventListener("DOMContentLoaded", (event) => {
             font-family: monospace;
             background: #1e1e1e;
             color: #d4d4d4;
-            padding: 6px 10px;
+            padding: 4px;
             border-radius: 2px;
             width:100%;
             white-space: pre;
@@ -475,10 +475,10 @@ addEventListener("DOMContentLoaded", (event) => {
         return `<details><summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
     }
 
-    function appendToConsoleOutput(type, message, color) {
+    function appendToConsoleOutput(type, message) {
         const messageElement = document.createElement("div");
         messageElement.innerHTML = `${message}`;
-        messageElement.style.color = color;
+        messageElement.style.color = 'white';
         messageElement.classList.add(type.toLowerCase())
         consoleOutput.appendChild(messageElement);
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
