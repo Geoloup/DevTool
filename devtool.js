@@ -203,6 +203,32 @@ addEventListener("DOMContentLoaded", (event) => {
             border:none;
             border-bottom:solid 1px blue;
         }
+        .element {  
+            font-family: monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 6px 10px;
+            border-radius: 2px;
+            width:100%;
+            white-space: pre;
+            display: inline-block;
+        }
+
+        .nested {
+
+        }
+
+        .nestedCount {
+            background-color: #3c3c3c;
+            color: #cccccc;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 6px;
+            vertical-align: middle;
+            font-weight: bold;
+            display: inline-block;
+        }
     `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
@@ -594,13 +620,13 @@ addEventListener("DOMContentLoaded", (event) => {
             if (tagOpen == lastEl) {
                 lastC++
             } else if (lastC != 0){
-                lastC = 0
-                const line = `<summary style="margin-left:${indent}px;">${tagOpen} x${lastEl}</summary>`;
+                const line = `<span class="element nested" style="margin-left:${indent}px;">${tagOpen} <span class='nestedCount'>x${String(lastC)}</span></span>`;
                 html.push(line);
-            } else{
                 lastC = 0
-                const line = `<summary style="margin-left:${indent}px;">${tagOpen}</summary>`;
+            } else {
+                const line = `<psan class="element" style="margin-left:${indent}px;">${tagOpen}</span>`;
                 html.push(line);
+                lastC = 0
             }
 
             lastEl = tagOpen
