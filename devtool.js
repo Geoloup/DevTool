@@ -229,6 +229,22 @@ addEventListener("DOMContentLoaded", (event) => {
             font-weight: bold;
             display: inline-block;
         }
+        
+        .log {
+
+        }
+
+        .error {
+            background:#df4c4c;
+        }
+
+        .info {
+            background:#dddf4c;
+        }
+
+        .warn {
+            background:orange;
+        }
     `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
@@ -461,8 +477,9 @@ addEventListener("DOMContentLoaded", (event) => {
 
     function appendToConsoleOutput(type, message, color) {
         const messageElement = document.createElement("div");
-        messageElement.innerHTML = `[${type}] ${message}`;
+        messageElement.innerHTML = `${message}`;
         messageElement.style.color = color;
+        messageElement.classList.add(type.toLowerCase())
         consoleOutput.appendChild(messageElement);
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
