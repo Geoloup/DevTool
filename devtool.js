@@ -624,7 +624,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 html.push(line);
                 lastC = 0
             } else {
-                const line = `<psan class="element" style="margin-left:${indent}px;">${tagOpen}</span>`;
+                const line = `<span class="element" style="margin-left:${indent}px;">${tagOpen}</span>`;
                 html.push(line);
                 lastC = 0
             }
