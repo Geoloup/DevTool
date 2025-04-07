@@ -427,8 +427,10 @@ addEventListener("DOMContentLoaded", (event) => {
         const original = console[method];
         console[method] = function (...args) {
             const filteredArgs = args.length > 0 ? args : ["undefined"];
-            const message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
-
+            var message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
+            if (method == "error") {
+                var message = message.replaceAll('\n','<br>')
+            }
             appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
             original.apply(console, args);
         };
