@@ -277,7 +277,6 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // toggle tabs
     function switchTab(event) {
-        console.log('c')
         var target = event.target
         var text = target.innerHTML
         var tabs = view.querySelectorAll('div[DevToolTabGeoloup]')
@@ -429,6 +428,7 @@ addEventListener("DOMContentLoaded", (event) => {
             const filteredArgs = args.length > 0 ? args : ["undefined"];
             var message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
             if (method == "error") {
+                console.log('salut')
                 var message = message.replaceAll('\n','<br>')
             }
             appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
@@ -584,10 +584,6 @@ addEventListener("DOMContentLoaded", (event) => {
         devtool.addEventListener("mousemove", mousehandle);
     }
     elementSelector.onclick = startSelection
-    if (localStorage.getItem('devtoolOpen&url=' + location.origin) == 'true') {
-        toggleConsole()
-    }
-
 
     // element view    
     function createTree(root, previousOpen = new Map()) {
@@ -689,4 +685,7 @@ addEventListener("DOMContentLoaded", (event) => {
     };
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
+    if (localStorage.getItem('devtoolOpen&url=' + location.origin) == 'true') {
+        toggleConsole()
+    }
 });
