@@ -412,8 +412,25 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     addEventListener("error", (event) => {
-        var message = `${event.error ? event.error.stack : "N/A"}` // \n at ${event.filename} ${event.lineno}:${event.colno}
+        var message = `${event.error ? event.error.stack : "N/A"}` // \n at ${event.filename} ${event.lineno}:${event.colno}        
         console.error(message)
+        try {
+            if (file.startsWith('blob')) {
+                fetch (file)
+                .then(x => x.text())
+                .then((res) => {
+                    
+                });   
+            } else {
+                fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
+                .then(x => x.text())
+                .then((res) => {
+                    
+                });    
+            }
+        } catch {
+
+        }
     });
 
     ["log", "warn", "error", "info"].forEach(function (method) {
