@@ -56,6 +56,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const elementSelector = document.createElement("button");
     const elementSwitch = document.createElement("button");
     const consoleSwitch = document.createElement("button");
+    const sourceSwitch = document.createElement("button");
     var devtoolId = generateCustomUUID()
     devtool.id = devtoolId
     devtool.classList.add('devtool')
@@ -64,6 +65,7 @@ addEventListener("DOMContentLoaded", (event) => {
     elementSelector.classList.add('selectElement')
     elementSelector.textContent = '🖱️' // emoji
     elementSwitch.classList.add('DevButton')
+    sourceSwitch.classList.add('DevButton')
     consoleSwitch.classList.add('DevButton')
     consoleSwitch.textContent = "console"
     elementSwitch.textContent = "element"
@@ -83,6 +85,13 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInput.setAttribute('autocomplete', 'off')
     consoleToggle.innerHTML = "≡";
     consoleView.setAttribute('DevToolTabGeoloup', 'true')
+
+    // source
+    const sourceView = document.createElement('div')
+    const sourceFile = document.createElement('div')    
+    const sourceContent = document.createElement('pre')
+    sourceFile.classList.add('sourcesFile')
+    sourceContent.classList.add('sourceCode')
 
     // Add style to html
     var devtoolSize = 400
