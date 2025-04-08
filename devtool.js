@@ -427,17 +427,13 @@ addEventListener("DOMContentLoaded", (event) => {
         console[method] = function (...args) {
             const filteredArgs = args.length > 0 ? args : ["undefined"];
             var message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
-            if (method == "error") {
-                console.log('salut')
-                var message = message.replaceAll('\\n;','<br>')
-            }
-            appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
+            appendToConsoleOutput(method.toUpperCase(), message);
             original.apply(console, args);
         };
     });
     function sanitizeHTML(html) {
-        var html = html.replaceAll('\n', '&#92;n;')
-        const allowedTags = new Set(["pre", "p", "details", "summary", "span", "img", "a"]);
+        var html = html.replaceAll('\n', '<br>')
+        const allowedTags = new Set(["pre", "p", "details", "summary", "span", "img", "a","br"]);
         return html.replace(/<(\/?)(\w+)(\s+[^>]*)?>/g, (match, slash, tag, attrs = '') => {
             if (!allowedTags.has(tag.toLowerCase())) return "";
             attrs = attrs.replace(/\son\w+="[^"]*"/g, '')
