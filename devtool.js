@@ -412,13 +412,7 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     addEventListener("error", (event) => {
-        var message =
-            "Error detected!\n" +
-            "Message  : " + event.message + "\n" +
-            "Source   : " + event.filename + "\n" +
-            "Line     : " + event.lineno + "\n" +
-            "Column   : " + event.colno + "\n" +
-            "Error Obj: " + (event.error ? event.error.stack : "N/A") + "\n"
+        var message = `${event.error ? event.error.stack : "N/A"}\n at ${event.filename} ${event.lineno}:${event.colno}`
         console.error(message)
     });
 
