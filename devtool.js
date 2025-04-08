@@ -429,7 +429,7 @@ addEventListener("DOMContentLoaded", (event) => {
             var message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
             if (method == "error") {
                 console.log('salut')
-                var message = message.replaceAll('\n;','<br>')
+                var message = message.replaceAll('\\n;','<br>')
             }
             appendToConsoleOutput(method.toUpperCase(), message, getColor(method));
             original.apply(console, args);
