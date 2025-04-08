@@ -69,6 +69,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleSwitch.classList.add('DevButton')
     consoleSwitch.textContent = "console"
     elementSwitch.textContent = "element"
+    sourceSwitch.textContent = "source"
     // element view
     const elementView = document.createElement("div");
     elementView.id = "elementView"
