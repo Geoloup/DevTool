@@ -412,7 +412,7 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     addEventListener("error", (event) => {
-        var message = `${event.error ? event.error.stack : "N/A"}\n at ${event.filename} ${event.lineno}:${event.colno}`
+        var message = `${event.error ? event.error.stack : "N/A"}\n` //  at ${event.filename} ${event.lineno}:${event.colno}
         console.error(message)
     });
 
