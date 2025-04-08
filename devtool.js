@@ -274,13 +274,18 @@ addEventListener("DOMContentLoaded", (event) => {
     topBar.appendChild(elementSelector)
     topBar.appendChild(elementSwitch)
     topBar.appendChild(consoleSwitch)
+    topBar.appendChild(sourceSwitch)
     view.appendChild(topBar)
     view.appendChild(elementView)
     view.appendChild(consoleView)
+    view.appendChild(sourceView)
 
     consoleView.appendChild(consoleOutput);
     consoleView.appendChild(consoleInputContainer);
     consoleInputContainer.appendChild(consoleInput);
+
+    sourceView.appendChild(sourceFile)
+    sourceView.appendChild(sourceCode)
 
     document.documentElement.appendChild(devtool)
 
