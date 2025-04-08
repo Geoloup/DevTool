@@ -285,7 +285,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInputContainer.appendChild(consoleInput);
 
     sourceView.appendChild(sourceFile)
-    sourceView.appendChild(sourceCode)
+    sourceView.appendChild(sourceContent)
 
     document.documentElement.appendChild(devtool)
 
