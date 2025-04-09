@@ -708,6 +708,8 @@ addEventListener("DOMContentLoaded", (event) => {
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
     if (localStorage.getItem('devtoolOpen&url=' + location.origin) == 'true') {
+        console.log('autopenned consoole')
         toggleConsole()
     }
+    console.log(localStorage.getItem('devtoolOpen&url=' + location.origin))
 });
