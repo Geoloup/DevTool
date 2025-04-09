@@ -507,7 +507,6 @@ addEventListener("DOMContentLoaded", (event) => {
 
     const getColor = method => ({ error: "red", warn: "orange" }[method] || "inherit");
 
-    toggleConsole() // bug fix for the rest
 
     function internalFunc1(element) {
         const classNames = element.classList;
@@ -710,6 +709,5 @@ addEventListener("DOMContentLoaded", (event) => {
     if (localStorage.getItem('devtoolOpen&url=' + location.origin) == 'true') {
         toggleConsole()
     }
-    console.log(localStorage.getItem('devtoolOpen&url=' + location.origin))
-    console.log(location.origin)
+    toggleConsole() // bug fix for the rest
 });
