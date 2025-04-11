@@ -39,7 +39,7 @@ function devtoolFunctionEnable(event) {
 function highlightHTML(html) {
     // Highlight anything that looks like a tag (e.g. &lt;tag&gt;)
     return html.replace(/(&lt;[^&]+?&gt;)/g, match => {
-      return `<span class='element' style="color:blue; font-weight:bold;">${match}</span>`;
+      return `<span class='element' style="color:#9f87e6; font-weight:bold;">${match}</span>`;
     });
 }  
 
