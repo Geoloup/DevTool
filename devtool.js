@@ -702,6 +702,9 @@ addEventListener("DOMContentLoaded", (event) => {
     const targetNode = document.body;
     var updateList = []
     function TreeUpdate() {
+        if (updateList.length == 0) {
+            return;
+        }
         var lval = updateList.length > 4 ? 10 : updateList.length
         for (let i = 0; i < lval; i++) {
             updateList.pop()
