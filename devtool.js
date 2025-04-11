@@ -37,14 +37,6 @@ function devtoolFunctionEnable(event) {
 }
 
 function highlightHTML(html) {
-    // Normalize < and > into escaped versions, including &gl; &gt; and &lt;
-    html = html
-      .replace(/&gl;/g, '&lt;')  // Convert fake open tag
-      .replace(/&lt;/g, '&lt;')  // Ensure actual &lt; remains
-      .replace(/</g, '&lt;')     // Escape real < just in case
-      .replace(/&gt;/g, '&gt;')  // Keep &gt; as is
-      .replace(/>/g, '&gt;');    // Escape >
-  
     // Highlight anything that looks like a tag (e.g. &lt;tag&gt;)
     return html.replace(/(&lt;[^&]+?&gt;)/g, match => {
       return `<span style="color:#d73a49; font-weight:bold;">${match}</span>`;
