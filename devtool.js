@@ -664,11 +664,11 @@ addEventListener("DOMContentLoaded", (event) => {
             if (tagOpen == lastEl) {
                 lastC++
             } else if (lastC != 0){
-                const line = `<input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element nested" style="margin-left:${indent}px;"><span class='nestedCount'>x${String(lastC)}</span> ${tagOpen}</input>`;
+                const line = `<span class='nestedCount' >x${String(lastC)}</span><input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element nested" style="margin-left:${indent}px; value="${tagOpen}">`;
                 html.push(line);
                 lastC = 0
             } else {
-                const line = `<input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element" style="margin-left:${indent}px;">${tagOpen}</input>`;
+                const line = `<input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element" style="margin-left:${indent}px;" value="${tagOpen}">`;
                 html.push(line);
                 lastC = 0
             }
@@ -699,7 +699,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const targetNode = document.body;
     var updateList = []
     function TreeUpdate() {
-        if (updateList.length == 0) {
+        if (updateList.length == 0 || updateList.length == 1) {
             return;
         }
         var lval = updateList.length > 4 ? 10 : updateList.length
@@ -708,6 +708,7 @@ addEventListener("DOMContentLoaded", (event) => {
         }
         updateTreeView()
     }
+
     setInterval(TreeUpdate,100)
     const config = { childList: true, subtree: true, attributes: true};
     const callback = (mutationsList) => {
