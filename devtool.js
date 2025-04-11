@@ -28,13 +28,27 @@ function showMessage(text, duration = 3000) {
     }, duration);
 }
 
+function highlightHTML(html) {
+    // Normalize < and > into escaped versions, including &gl; &gt; and &lt;
+    html = html
+      .replace(/&gl;/g, '&lt;')  // Convert fake open tag
+      .replace(/&lt;/g, '&lt;')  // Ensure actual &lt; remains
+      .replace(/</g, '&lt;')     // Escape real < just in case
+      .replace(/&gt;/g, '&gt;')  // Keep &gt; as is
+      .replace(/>/g, '&gt;');    // Escape >
+  
+    // Highlight anything that looks like a tag (e.g. &lt;tag&gt;)
+    return html.replace(/(&lt;[^&]+?&gt;)/g, match => {
+      return `<span style="color:#d73a49; font-weight:bold;">${match}</span>`;
+    });
+}  
+
 function exec(jsCode) { 
     const blob = new Blob([jsCode], { type: "application/javascript" });
     const blobURL = URL.createObjectURL(blob);
     const script = document.createElement("script");
     script.src = blobURL;
     document.body.appendChild(script);
-
 }
 
 addEventListener("DOMContentLoaded", (event) => {
@@ -683,7 +697,7 @@ addEventListener("DOMContentLoaded", (event) => {
             const tag = d.querySelector("summary")?.textContent?.match(/^<(\w+)/)?.[1];
             if (tag) lastOpen.set(tag, d);
         });
-        elementView.innerHTML = createTree(document.body,lastOpen)
+        elementView.innerHTML = highlightHTML(createTree(document.body,lastOpen))
     }
     const targetNode = document.body;
     var updateList = []
