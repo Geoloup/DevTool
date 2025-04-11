@@ -656,7 +656,7 @@ addEventListener("DOMContentLoaded", (event) => {
             const tag = el.tagName.toLowerCase();
             const indent = 8 + depth * 8;
             const attrs = el.hasAttributes() ? [...el.attributes].map(a => `${a.name}="${a.value}"`).join(" ") : "";
-            const tagOpen = `&lt;${tag}${attrs ? " " + attrs : ""}&gt;`;
+            const tagOpen = `&lt;${tag.replaceAll('&','&amp;')}${(attrs ? " " + attrs : "").replaceAll('&','&amp;')}&gt;`.replaceAll('"','&quot;').replaceAll("'",'&apos');
             const children = el.children;
             const text = el.textContent.trim();
             const key = `${tag}|${text}`;
