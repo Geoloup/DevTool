@@ -28,6 +28,14 @@ function showMessage(text, duration = 3000) {
     }, duration);
 }
 
+function devtoolFunction(event) {
+    console.log(event.target.value)
+}
+
+function devtoolFunctionEnable(event) {
+    event.target.disabled = false
+}
+
 function highlightHTML(html) {
     // Normalize < and > into escaped versions, including &gl; &gt; and &lt;
     html = html
@@ -229,14 +237,11 @@ addEventListener("DOMContentLoaded", (event) => {
             background: #1e1e1e;
             color: #d4d4d4;
             padding: 4px;
+            border:none;
             border-radius: 2px;
             width:100%;
             white-space: pre;
             display: inline-block;
-        }
-
-        .nested {
-
         }
 
         .nestedCount {
@@ -667,11 +672,11 @@ addEventListener("DOMContentLoaded", (event) => {
             if (tagOpen == lastEl) {
                 lastC++
             } else if (lastC != 0){
-                const line = `<span class="element nested" style="margin-left:${indent}px;"><span class='nestedCount'>x${String(lastC)}</span> ${tagOpen}</span>`;
+                const line = `<input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element nested" style="margin-left:${indent}px;"><span class='nestedCount'>x${String(lastC)}</span> ${tagOpen}</input>`;
                 html.push(line);
                 lastC = 0
             } else {
-                const line = `<span class="element" style="margin-left:${indent}px;">${tagOpen}</span>`;
+                const line = `<input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element" style="margin-left:${indent}px;">${tagOpen}</input>`;
                 html.push(line);
                 lastC = 0
             }
