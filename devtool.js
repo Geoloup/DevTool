@@ -694,7 +694,7 @@ addEventListener("DOMContentLoaded", (event) => {
             const tag = d.querySelector("summary")?.textContent?.match(/^<(\w+)/)?.[1];
             if (tag) lastOpen.set(tag, d);
         });
-        elementView.innerHTML = highlightHTML(createTree(document.body,lastOpen))
+        elementView.innerHTML = (createTree(document.body,lastOpen))
     }
     const targetNode = document.body;
     var updateList = []
