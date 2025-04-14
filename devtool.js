@@ -264,6 +264,11 @@ addEventListener("DOMContentLoaded", (event) => {
         .warn {
             background:orange;
         }
+        
+        .sourceButton {
+            border:none;
+            font-size:1rem;            
+        }
     `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
@@ -446,13 +451,20 @@ addEventListener("DOMContentLoaded", (event) => {
                 fetch (file)
                 .then(x => x.text())
                 .then((res) => {
-                    
+                    sourceContent.innerHTML = res
                 });   
             } else {
                 fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
                 .then(x => x.text())
                 .then((res) => {
-                    
+                    var tab = document.createElement('button')
+                    tab.classList.add('sourceButton')
+                    tab.innerHTML = res
+                    tab.onclick = (event) => {
+                        sourceContent.innerHTML = res                    
+                    }
+                    sourceFile.appendChild(tab)
+
                 });    
             }
         } catch {
