@@ -233,6 +233,7 @@ addEventListener("DOMContentLoaded", (event) => {
             border-radius: 2px;
             width:100%;
             white-space: pre;
+            font-size:10px;
             display: inline-block;
         }
 
