@@ -451,7 +451,13 @@ addEventListener("DOMContentLoaded", (event) => {
                 fetch (file)
                 .then(x => x.text())
                 .then((res) => {
-                    sourceContent.innerHTML = res
+                    var tab = document.createElement('button')
+                    tab.classList.add('sourceButton')
+                    tab.innerHTML = res
+                    tab.onclick = (event) => {
+                        sourceContent.innerHTML = res                    
+                    }
+                    sourceFile.appendChild(tab)
                 });   
             } else {
                 fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
@@ -464,7 +470,6 @@ addEventListener("DOMContentLoaded", (event) => {
                         sourceContent.innerHTML = res                    
                     }
                     sourceFile.appendChild(tab)
-
                 });    
             }
         } catch {
