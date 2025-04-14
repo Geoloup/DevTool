@@ -472,8 +472,8 @@ addEventListener("DOMContentLoaded", (event) => {
                     sourceFile.appendChild(tab)
                 });    
             }
-        } catch {
-
+        } catch (err){
+            showMessage('fail ' + err.message)
         }
     });
 
