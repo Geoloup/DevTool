@@ -827,5 +827,8 @@ addEventListener("DOMContentLoaded", (event) => {
             genSource(p1)
         })
     }
-    populateSource()
+    setInterval(() => {
+        sourceFile.innerHTML = ''
+        populateSource()        
+    }, 10000);
 });
