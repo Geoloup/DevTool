@@ -331,6 +331,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     consoleSwitch.onclick = switchTab
     elementSwitch.onclick = switchTab
+    sourceSwitch.onclick = switchTab
 
     // Toggle console visibility
     function toggleConsole() {
