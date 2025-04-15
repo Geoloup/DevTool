@@ -766,27 +766,39 @@ addEventListener("DOMContentLoaded", (event) => {
         .then((res) => {
             var tab = document.createElement('button')
             tab.classList.add('sourceButton')
-            tab.innerHTML = file
+            tab.innerHTML = file.split('/')[file.split('/').length]
             tab.onclick = (event) => {
                 sourceContent.innerHTML = res                    
             }
             sourceFile.appendChild(tab)
         });    
     }
+    function isURL(str) {
+        const pattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[\w\-./?%&=]*)?$/i;
+        return pattern.test(str);
+    }
+    function genSource(p1) {
+        if (isURL(p1)) {
+            addSource(p1)
+        } else {
+            addSource(location.origin + p1)
+        }
+    }
+
     function populateSource() {
         var body = document.body.innerHTML
         var head = document.head.innerHTML
         body.replace(/["' ]src=["']([^"']+)["']/g,(match,p1)=> {
-            addSource(p1)
+            genSource(p1)
         })
         body.replace(/["' ]href=["']([^"']+)["']/g,(match,p1)=> {
-            addSource(p1)
+            genSource(p1)
         })
         head.replace(/["' ]src=["']([^"']+)["']/g,(match,p1)=> {
-            addSource(p1)
+            genSource(p1)
         })
         head.replace(/["' ]href=["']([^"']+)["']/g,(match,p1)=> {
-            addSource(p1)
+            genSource(p1)
         })
     }
     populateSource()
