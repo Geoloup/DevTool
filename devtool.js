@@ -766,7 +766,7 @@ addEventListener("DOMContentLoaded", (event) => {
         .then((res) => {
             var tab = document.createElement('button')
             tab.classList.add('sourceButton')
-            tab.innerHTML = res
+            tab.innerHTML = file
             tab.onclick = (event) => {
                 sourceContent.innerHTML = res                    
             }
