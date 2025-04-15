@@ -768,6 +768,10 @@ addEventListener("DOMContentLoaded", (event) => {
     toggleConsole() // bug fix for the rest
 
     function addSource(file) {
+        if (isURL(file)) {} else {
+            var file = location.origin + '/' + file
+        }
+
         fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
         .then(x => x.text())
         .then((res) => {
