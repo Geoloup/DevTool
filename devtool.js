@@ -266,15 +266,22 @@ addEventListener("DOMContentLoaded", (event) => {
         .warn {
             background:orange;
         }
+
+        .sourcesFile {
+            display:flex;
+            width:${devtoolSize/4}px;
+            flex-direction: column;
+            overflow:hidden;
+            height:100%;
+            border-right:2px solid black;
+        }
         
         .sourceButton {
-            border:none;
-            font-size:1rem;            
+            font-size:1rem;
+            border:1px solid black;
             width:${devtoolSize/4}px;
-            border-right:2px solid black;
             overflow:hidden;
             text-overflow: ellipsis;
-            height:100%;
         }
         .sourceContent {
             width:${devtoolSize - devtoolSize/4 - 2}px;
