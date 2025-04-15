@@ -743,4 +743,34 @@ addEventListener("DOMContentLoaded", (event) => {
         toggleConsole()
     }
     toggleConsole() // bug fix for the rest
+
+    function addSource(file) {
+        fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
+        .then(x => x.text())
+        .then((res) => {
+            var tab = document.createElement('button')
+            tab.classList.add('sourceButton')
+            tab.innerHTML = res
+            tab.onclick = (event) => {
+                sourceContent.innerHTML = res                    
+            }
+            sourceFile.appendChild(tab)
+        });    
+    }
+    function populateSource() {
+        var body = document.body.innerHTML
+        var head = document.head.innerHTML
+        body.replace(/["' ]src=["']([^"']+)["']/g,(match,p1)=> {
+            addSource(p1)
+        })
+        body.replace(/["' ]href=["']([^"']+)["']/g,(match,p1)=> {
+            addSource(p1)
+        })
+        head.replace(/["' ]src=["']([^"']+)["']/g,(match,p1)=> {
+            addSource(p1)
+        })
+        head.replace(/["' ]href=["']([^"']+)["']/g,(match,p1)=> {
+            addSource(p1)
+        })
+    }
 });
