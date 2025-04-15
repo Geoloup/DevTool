@@ -106,6 +106,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const sourceFile = document.createElement('div')    
     const sourceContent = document.createElement('pre')
     sourceFile.classList.add('sourcesFile')
+    sourceView.setAttribute('DevToolTabGeoloup', 'true')
     sourceContent.classList.add('sourceCode')
 
     // Add style to html
