@@ -105,6 +105,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const sourceView = document.createElement('div')
     const sourceFile = document.createElement('div')    
     const sourceContent = document.createElement('pre')
+    sourceContent.classList.add('sourceContent')
     sourceFile.classList.add('sourcesFile')
     sourceView.setAttribute('DevToolTabGeoloup', 'true')
     sourceContent.classList.add('sourceCode')
@@ -269,6 +270,16 @@ addEventListener("DOMContentLoaded", (event) => {
         .sourceButton {
             border:none;
             font-size:1rem;            
+            width:${devtoolSize/4}px;
+            border-right:2px solid black;
+            overflow:hidden;
+            text-overflow: ellipsis;
+            height:100%;
+        }
+        .sourceContent {
+            width:${devtoolSize - devtoolSize/4 - 2}px;
+            overflow:scroll;
+            height:100%;
         }
     `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
