@@ -334,7 +334,10 @@ addEventListener("DOMContentLoaded", (event) => {
             case 'console':
                 consoleView.classList.add('show')
                 break;
-
+            case 'source':
+                sourceView.classList.add('show')
+                break;
+    
             default:
                 break;
         }
