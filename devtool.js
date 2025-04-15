@@ -107,6 +107,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const sourceContent = document.createElement('pre')
     sourceContent.classList.add('sourceContent')
     sourceFile.classList.add('sourcesFile')
+    sourceView.classList.add('sourceView')
     sourceView.setAttribute('DevToolTabGeoloup', 'true')
     sourceContent.classList.add('sourceCode')
 
@@ -274,6 +275,11 @@ addEventListener("DOMContentLoaded", (event) => {
             overflow:hidden;
             height:100%;
             border-right:2px solid black;
+        }
+        
+        .sourceView {
+            display:flex;
+            flex-direction: row;
         }
         
         .sourceButton {
