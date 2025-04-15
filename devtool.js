@@ -280,6 +280,9 @@ addEventListener("DOMContentLoaded", (event) => {
         .sourceView {
             display:flex;
             flex-direction: row;
+            width:${devtoolSize}px;
+            overflow:scroll;
+            height:100%;
         }
         
         .sourceButton {
@@ -795,6 +798,12 @@ addEventListener("DOMContentLoaded", (event) => {
         return pattern.test(str);
     }
     function genSource(p1) {
+        var filename = p1.split('/')[p1.split('/').length-1]
+        var filename = filename.split('.')[filename.split('.').length-1]
+        var etxs = ['png','jpeg','gif']
+        if (etxs.some(etx => filename.includes(etx))) {
+            return;
+        }
         if (isURL(p1)) {
             addSource(p1)
         } else {
