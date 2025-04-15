@@ -773,4 +773,5 @@ addEventListener("DOMContentLoaded", (event) => {
             addSource(p1)
         })
     }
+    populateSource()
 });
