@@ -426,7 +426,7 @@ addEventListener("DOMContentLoaded", (event) => {
             return moreinfo();
         }
         try {
-            const result = exec('console.log(' + command + ')'); // Directly execute command
+            const result = exec(command); // Directly execute command
             console.log(result); // Log the result
         } catch (error) {
             console.error(error);
