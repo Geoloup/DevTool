@@ -788,7 +788,7 @@ addEventListener("DOMContentLoaded", (event) => {
         if (isURL(p1)) {
             addSource(p1)
         } else {
-            addSource(location.origin + p1)
+            addSource(location.origin + '/' + p1)
         }
     }
 
