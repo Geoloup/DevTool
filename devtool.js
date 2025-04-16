@@ -831,4 +831,5 @@ addEventListener("DOMContentLoaded", (event) => {
         sourceFile.innerHTML = ''
         populateSource()        
     }, 10000);
+    populateSource()        
 });
