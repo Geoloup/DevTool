@@ -800,6 +800,8 @@ addEventListener("DOMContentLoaded", (event) => {
     function genSource(p1) {
         var filename = p1.split('/')[p1.split('/').length-1]
         var filename = filename.split('.')[filename.split('.').length-1]
+        console.log(filename)
+        console.log(etxs.some(etx => filename.includes(etx)))
         var etxs = ['png','jpeg','gif']
         if (etxs.some(etx => filename.includes(etx))) {
             return;
@@ -827,9 +829,5 @@ addEventListener("DOMContentLoaded", (event) => {
             genSource(p1)
         })
     }
-    setInterval(() => {
-        sourceFile.innerHTML = ''
-        populateSource()        
-    }, 10000);
     populateSource()        
 });
