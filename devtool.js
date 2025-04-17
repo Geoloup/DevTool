@@ -485,9 +485,9 @@ addEventListener("DOMContentLoaded", (event) => {
                 .then((res) => {
                     var tab = document.createElement('button')
                     tab.classList.add('sourceButton')
-                    tab.innerHTML = res
+                    tab.innerText = res
                     tab.onclick = (event) => {
-                        sourceContent.innerHTML = res                    
+                        sourceContent.innerText = res                    
                     }
                     sourceFile.appendChild(tab)
                 });   
@@ -497,9 +497,9 @@ addEventListener("DOMContentLoaded", (event) => {
                 .then((res) => {
                     var tab = document.createElement('button')
                     tab.classList.add('sourceButton')
-                    tab.innerHTML = res
+                    tab.innerText = res
                     tab.onclick = (event) => {
-                        sourceContent.innerHTML = res                    
+                        sourceContent.innerText = res                    
                     }
                     sourceFile.appendChild(tab)
                 });    
