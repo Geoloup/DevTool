@@ -802,7 +802,7 @@ addEventListener("DOMContentLoaded", (event) => {
         var filename = filename.split('.')[filename.split('.').length-1]
         var etxs = ['png','jpeg','gif']
         console.log(filename)
-g        if (isURL(p1)) {
+        if (isURL(p1)) {
             addSource(p1)
         } else {
             addSource(location.origin + '/' + p1)
