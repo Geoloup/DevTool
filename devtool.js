@@ -828,4 +828,4 @@ addEventListener("DOMContentLoaded", (event) => {
     setTimeout(() => {
         populateSource()               
     }, 1000);
-é});
+});
