@@ -829,5 +829,7 @@ addEventListener("DOMContentLoaded", (event) => {
             genSource(p1)
         })
     }
-    populateSource()        
-});
+    setTimeout(() => {
+        populateSource()               
+    }, 1000);
+é});
