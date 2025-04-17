@@ -781,7 +781,7 @@ addEventListener("DOMContentLoaded", (event) => {
             var file = location.origin + '/' + file
         }
         try {
-            fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
+            fetch (file)
             .then(x => x.text())
             .then((res) => {
                 var tab = document.createElement('button')
@@ -793,7 +793,19 @@ addEventListener("DOMContentLoaded", (event) => {
                 sourceFile.appendChild(tab)
             });
         } catch {
-
+            try {
+                fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
+                .then(x => x.text())
+                .then((res) => {
+                    var tab = document.createElement('button')
+                    tab.classList.add('sourceButton')
+                    tab.innerHTML = file.split('/')[file.split('/').length-1]
+                    tab.onclick = (event) => {
+                        sourceContent.innerHTML = res                    
+                    }
+                    sourceFile.appendChild(tab)
+                });    
+            } catch {}
         }
     }
     function isURL(str) {
