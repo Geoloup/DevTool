@@ -780,18 +780,21 @@ addEventListener("DOMContentLoaded", (event) => {
         if (isURL(file)) {} else {
             var file = location.origin + '/' + file
         }
+        try {
+            fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
+            .then(x => x.text())
+            .then((res) => {
+                var tab = document.createElement('button')
+                tab.classList.add('sourceButton')
+                tab.innerHTML = file.split('/')[file.split('/').length-1]
+                tab.onclick = (event) => {
+                    sourceContent.innerHTML = res                    
+                }
+                sourceFile.appendChild(tab)
+            });
+        } catch {
 
-        fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
-        .then(x => x.text())
-        .then((res) => {
-            var tab = document.createElement('button')
-            tab.classList.add('sourceButton')
-            tab.innerHTML = file.split('/')[file.split('/').length-1]
-            tab.onclick = (event) => {
-                sourceContent.innerHTML = res                    
-            }
-            sourceFile.appendChild(tab)
-        });    
+        }
     }
     function isURL(str) {
         const pattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[\w\-./?%&=]*)?$/i;
