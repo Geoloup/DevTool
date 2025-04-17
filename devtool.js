@@ -803,7 +803,8 @@ addEventListener("DOMContentLoaded", (event) => {
         var etxs = ['png','jpeg','gif']
         console.log(filename)
         console.log(etxs.some(etx => filename.includes(etx)))
-        if (etxs.some(etx => filename.includes(etx))== true) {
+        console.log((etxs.some(etx => filename.includes(etx)) == "true"))
+        if (etxs.some(etx => filename.includes(etx)) == "true") {
             return;
         }
         if (isURL(p1)) {
