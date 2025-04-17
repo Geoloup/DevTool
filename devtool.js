@@ -788,7 +788,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 tab.classList.add('sourceButton')
                 tab.innerHTML = file.split('/')[file.split('/').length-1]
                 tab.onclick = (event) => {
-                    sourceContent.innerHTML = res                    
+                    sourceContent.innerText = res                    
                 }
                 sourceFile.appendChild(tab)
             });
@@ -801,7 +801,7 @@ addEventListener("DOMContentLoaded", (event) => {
                     tab.classList.add('sourceButton')
                     tab.innerHTML = file.split('/')[file.split('/').length-1]
                     tab.onclick = (event) => {
-                        sourceContent.innerHTML = res                    
+                        sourceContent.innerText = res                    
                     }
                     sourceFile.appendChild(tab)
                 });    
