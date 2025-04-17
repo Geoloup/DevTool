@@ -786,7 +786,7 @@ addEventListener("DOMContentLoaded", (event) => {
             .then((res) => {
                 var tab = document.createElement('button')
                 tab.classList.add('sourceButton')
-                tab.innerHTML = file.split('/')[file.split('/').length-1]
+                tab.innerText = file.split('/')[file.split('/').length-1]
                 tab.onclick = (event) => {
                     sourceContent.innerText = res                    
                 }
@@ -799,7 +799,7 @@ addEventListener("DOMContentLoaded", (event) => {
                 .then((res) => {
                     var tab = document.createElement('button')
                     tab.classList.add('sourceButton')
-                    tab.innerHTML = file.split('/')[file.split('/').length-1]
+                    tab.innerText = file.split('/')[file.split('/').length-1]
                     tab.onclick = (event) => {
                         sourceContent.innerText = res                    
                     }
