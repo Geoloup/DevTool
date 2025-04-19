@@ -294,6 +294,9 @@ addEventListener("DOMContentLoaded", (event) => {
             text-overflow: ellipsis;
         }
         .sourceContent {
+            position:fixed;
+            top:20px;
+            right:0px;
             width:${devtoolSize - devtoolSize/4 - 2}px;
             overflow:scroll;
             height:100%;
