@@ -289,6 +289,7 @@ addEventListener("DOMContentLoaded", (event) => {
             border:1px solid black;
             width:${devtoolSize/4}px;
             overflow:hidden;
+            line-break:none;
             height:2rem;
             padding-bottom:2px;
             text-overflow: ellipsis;
