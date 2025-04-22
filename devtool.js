@@ -64,7 +64,6 @@ addEventListener("DOMContentLoaded", (event) => {
     }
     // devtool elements and top bar
     const devtool = document.createElement("div");
-    const consoleToggle = document.createElement("div");
     const view = document.createElement("div");
     const topBar = document.createElement("div")
     const elementSelector = document.createElement("button");
@@ -94,11 +93,9 @@ addEventListener("DOMContentLoaded", (event) => {
     const consoleOutput = document.createElement("div");
     const consoleInputContainer = document.createElement("div");
     const consoleInput = document.createElement("textarea");
-    consoleToggle.id = "consoleToggle";
     consoleOutput.id = "consoleOutput";
     consoleInput.id = "consoleCommand";
     consoleInput.setAttribute('autocomplete', 'off')
-    consoleToggle.innerHTML = "≡";
     consoleView.setAttribute('DevToolTabGeoloup', 'true')
 
     // source
@@ -115,25 +112,6 @@ addEventListener("DOMContentLoaded", (event) => {
     var devtoolSize = 400
     const style = document.createElement("style");
     var css = `
-        #consoleToggle {
-            position: fixed;
-            bottom: 20px;
-            right: 10px;
-            width: 50px;
-            height: 50px;
-            background-color: #007acc;
-            color: #fff;
-            font-size: 24px;
-            text-align: center;
-            line-height: 50px;
-            border-radius: 50%;
-            padding:0px;
-            margin:0px;
-            cursor: move;
-            z-index: 1000000000000000000;
-            font-family: sans-serif;
-        }
-
         #consoleCommand {
             resize:none;
             width:100%;
@@ -317,7 +295,6 @@ addEventListener("DOMContentLoaded", (event) => {
     // Update on window resize
     window.addEventListener("resize", resizeBody);
     // join devtool content
-    devtool.appendChild(consoleToggle);
     document.head.appendChild(style)
     devtool.appendChild(view);
 
@@ -389,37 +366,6 @@ addEventListener("DOMContentLoaded", (event) => {
         view.style.display = view.style.display === "none" ? "flex" : "none";
         window.devtool = window.devtool ? false : true
     }
-
-    // Make the console toggle button draggable
-    function makeDraggable(element) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        element.onmousedown = function (e) {
-            e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-        };
-
-        function elementDrag(e) {
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            element.style.top = (element.offsetTop - pos2) + "px";
-            element.style.left = (element.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
-    makeDraggable(consoleToggle);
-
-    // Toggle console on double-click of the toggle button
-    consoleToggle.ondblclick = toggleConsole;
 
     // Override F12 key to toggle the custom console
     document.addEventListener("keydown", function (event) {
