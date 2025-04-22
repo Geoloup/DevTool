@@ -291,7 +291,7 @@ addEventListener("DOMContentLoaded", (event) => {
             width:${devtoolSize/4}px;
             overflow:hidden;
             height:2rem;
-            padding-bottom-2px;
+            padding-bottom:2px;
             text-overflow: ellipsis;
         }
         .sourceContent {
