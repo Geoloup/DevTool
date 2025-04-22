@@ -822,9 +822,6 @@ addEventListener("DOMContentLoaded", (event) => {
         var filename = filename.split('.')[filename.split('.').length-1]
         var etxs = ['png','jpeg','gif']
         console.log(exts.some((ext) => {return ext == filename}))
-        if (exts.some((ext) => {return ext == filename})) {
-            return;
-        }
         console.log(filename)
         if (isURL(p1)) {
             addSource(p1)
