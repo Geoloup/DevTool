@@ -821,6 +821,7 @@ addEventListener("DOMContentLoaded", (event) => {
         var filename = p1.split('/')[p1.split('/').length-1]
         var filename = filename.split('.')[filename.split('.').length-1]
         var etxs = ['png','jpeg','gif']
+        console.log(exts.some((ext) => {return ext == filename}))
         if (exts.some((ext) => {return ext == filename})) {
             return;
         }
