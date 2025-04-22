@@ -282,7 +282,6 @@ addEventListener("DOMContentLoaded", (event) => {
             flex-direction: row;
             width:${devtoolSize}px;
             overflow:scroll;
-            height:100%;
         }
         
         .sourceButton {
