@@ -272,7 +272,7 @@ addEventListener("DOMContentLoaded", (event) => {
             display:flex;
             width:${devtoolSize/4}px;
             flex-direction: column;
-            overflow:hidden;
+            overflow:scroll;
             height:100%;
             border-right:2px solid black;
         }
