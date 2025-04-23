@@ -711,15 +711,17 @@ addEventListener("DOMContentLoaded", (event) => {
         updateTreeView()
     }
 
-    setInterval(TreeUpdate,100)
     const config = { childList: true, subtree: true, attributes: true};
     const callback = (mutationsList) => {
         for (const mutation of mutationsList) {
             const target = mutation.target;
             if (!devtool.contains(target)) {
                 updateList.push(updateTreeView)
+            } else {
+                updateList = []
             }
         }
+        TreeUpdate()
     };
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
