@@ -365,6 +365,7 @@ addEventListener("DOMContentLoaded", (event) => {
         }
         view.style.display = view.style.display === "none" ? "flex" : "none";
         window.devtool = window.devtool ? false : true
+        resizeBody();
     }
 
     // Override F12 key to toggle the custom console
