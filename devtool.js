@@ -284,7 +284,7 @@ addEventListener("DOMContentLoaded", (event) => {
     `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
-        if (window.devtool == true) {
+        if (window.devtool == false) {
             document.body.style.width = (window.innerWidth - devtoolSize) + "px";
             document.body.style.height = window.innerHeight + "px";    
         } else {
