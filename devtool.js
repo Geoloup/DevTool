@@ -70,6 +70,7 @@ addEventListener("DOMContentLoaded", (event) => {
     const elementSwitch = document.createElement("button");
     const consoleSwitch = document.createElement("button");
     const sourceSwitch = document.createElement("button");
+    window.devtool = false
     var devtoolId = generateCustomUUID()
     devtool.id = devtoolId
     devtool.classList.add('devtool')
@@ -141,7 +142,7 @@ addEventListener("DOMContentLoaded", (event) => {
             top:20px;
             left:0px;
             z-index:100000000000000;
-            width:400px;
+            width: ${devtoolSize};
             overflow:scroll;
             max-height: calc(100vh - 20px);
             display:none;
@@ -284,13 +285,12 @@ addEventListener("DOMContentLoaded", (event) => {
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
     function resizeBody() {
         if (!window.devtool) { return; }
-        // Set body's width and height based on window size minus 250px from width
-        document.body.style.width = (window.innerWidth - 250) + "px";
+        document.body.style.width = (window.innerWidth - devtoolSize) + "px";
         document.body.style.height = window.innerHeight + "px";
     }
 
     // Run on page load
-    resizeBody();
+    setTimeout(resizeBody,1000)
 
     // Update on window resize
     window.addEventListener("resize", resizeBody);
