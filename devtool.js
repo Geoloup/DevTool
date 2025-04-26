@@ -39,11 +39,11 @@ function devtoolFunctionEnable(event) {
 function highlightHTML(html) {
     // Highlight anything that looks like a tag (e.g. &lt;tag&gt;)
     return html.replace(/(&lt;[^&]+?&gt;)/g, match => {
-      return `<span class='element' style="color:#9f87e6; font-weight:bold;;margin:0px;">${match}</span>`;
+        return `<span class='element' style="color:#9f87e6; font-weight:bold;;margin:0px;">${match}</span>`;
     });
-}  
+}
 
-function exec(jsCode) { 
+function exec(jsCode) {
     const blob = new Blob([jsCode], { type: "application/javascript" });
     const blobURL = URL.createObjectURL(blob);
     const script = document.createElement("script");
@@ -101,7 +101,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
     // source
     const sourceView = document.createElement('div')
-    const sourceFile = document.createElement('div')    
+    const sourceFile = document.createElement('div')
     const sourceContent = document.createElement('pre')
     sourceContent.classList.add('sourceContent')
     sourceFile.classList.add('sourcesFile')
@@ -249,7 +249,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
         .sourcesFile {
             display:flex;
-            width:${devtoolSize/4}px;
+            width:${devtoolSize / 4}px;
             flex-direction: column;
             overflow:scroll;
             height:100%;
@@ -266,7 +266,7 @@ addEventListener("DOMContentLoaded", (event) => {
         .sourceButton {
             font-size:1rem;
             border:1px solid black;
-            width:${devtoolSize/4}px;
+            width:${devtoolSize / 4}px;
             overflow:hidden;
             line-break:none;
             height:2rem;
@@ -277,24 +277,56 @@ addEventListener("DOMContentLoaded", (event) => {
             position:fixed;
             top:20px;
             right:0px;
-            width:${devtoolSize - devtoolSize/4 - 2}px;
+            width:${devtoolSize - devtoolSize / 4 - 2}px;
             overflow:scroll;
             height:100%;
         }
     `;
     style.innerHTML = css.replace(/([^\n]*{)/g, `#${devtoolId} $1`) // add devtool to be sure
+    function repos(size = 0) {
+        const elements = document.querySelectorAll('*');
+
+        elements.forEach(el => {
+            const computedStyle = window.getComputedStyle(el);
+
+            if (computedStyle.position === 'fixed') {
+                // Save the original right if not already saved
+                if (!el.dataset.originalRight) {
+                    let originalRight = computedStyle.right;
+
+                    if (originalRight && originalRight !== 'auto') {
+                        let originalRightValue = parseFloat(originalRight);
+                        if (!isNaN(originalRightValue)) {
+                            el.dataset.originalRight = originalRightValue;
+                        }
+                    }
+                }
+
+                // Now, use the saved original right position
+                if (el.dataset.originalRight) {
+                    const baseRight = parseFloat(el.dataset.originalRight);
+
+                    // Apply adjustment based on size
+                    const newRight = baseRight + size;
+                    el.style.right = `${newRight}px`;
+                }
+            }
+        });
+    }
     function resizeBody() {
         if (window.devtool == false) {
             document.body.style.width = (window.innerWidth - devtoolSize) + "px";
-            document.body.style.height = window.innerHeight + "px";    
+            document.body.style.height = window.innerHeight + "px";
+            repos(devtoolSize)
         } else {
             document.body.style.width = window.innerWidth + "px";
-            document.body.style.height = window.innerHeight + "px";    
+            document.body.style.height = window.innerHeight + "px";
+            repos()
         }
     }
 
     // Run on page load
-    setTimeout(resizeBody,1000)
+    setTimeout(resizeBody, 1000)
 
     // Update on window resize
     window.addEventListener("resize", resizeBody);
@@ -339,7 +371,7 @@ addEventListener("DOMContentLoaded", (event) => {
             case 'source':
                 sourceView.classList.add('show')
                 break;
-    
+
             default:
                 break;
         }
@@ -437,31 +469,31 @@ addEventListener("DOMContentLoaded", (event) => {
         var file = error.filename
         try {
             if (file.startsWith('blob')) {
-                fetch (file)
-                .then(x => x.text())
-                .then((res) => {
-                    var tab = document.createElement('button')
-                    tab.classList.add('sourceButton')
-                    tab.innerText = res
-                    tab.onclick = (event) => {
-                        sourceContent.innerText = res                    
-                    }
-                    sourceFile.appendChild(tab)
-                });   
+                fetch(file)
+                    .then(x => x.text())
+                    .then((res) => {
+                        var tab = document.createElement('button')
+                        tab.classList.add('sourceButton')
+                        tab.innerText = res
+                        tab.onclick = (event) => {
+                            sourceContent.innerText = res
+                        }
+                        sourceFile.appendChild(tab)
+                    });
             } else {
-                fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
-                .then(x => x.text())
-                .then((res) => {
-                    var tab = document.createElement('button')
-                    tab.classList.add('sourceButton')
-                    tab.innerText = res
-                    tab.onclick = (event) => {
-                        sourceContent.innerText = res                    
-                    }
-                    sourceFile.appendChild(tab)
-                });    
+                fetch("https://api.codetabs.com/v1/proxy?quest=" + file)
+                    .then(x => x.text())
+                    .then((res) => {
+                        var tab = document.createElement('button')
+                        tab.classList.add('sourceButton')
+                        tab.innerText = res
+                        tab.onclick = (event) => {
+                            sourceContent.innerText = res
+                        }
+                        sourceFile.appendChild(tab)
+                    });
             }
-        } catch (err){
+        } catch (err) {
             showMessage('fail ' + err.message)
         }
     });
@@ -477,7 +509,7 @@ addEventListener("DOMContentLoaded", (event) => {
     });
     function sanitizeHTML(html) {
         var html = html.replaceAll('\n', '<br>')
-        const allowedTags = new Set(["pre", "p", "details", "summary", "span", "img", "a","br"]);
+        const allowedTags = new Set(["pre", "p", "details", "summary", "span", "img", "a", "br"]);
         return html.replace(/<(\/?)(\w+)(\s+[^>]*)?>/g, (match, slash, tag, attrs = '') => {
             if (!allowedTags.has(tag.toLowerCase())) return "";
             attrs = attrs.replace(/\son\w+="[^"]*"/g, '')
@@ -630,31 +662,31 @@ addEventListener("DOMContentLoaded", (event) => {
         const stack = [{ el: root, depth: 0 }];
         const lastOfType = new Map();
         const repeatedMap = new Map();
-    
+
         // First pass: track last element per tag type and count repeated text content
         const queue = [{ el: root, depth: 0 }];
         for (let i = 0; i < queue.length; i++) {
             const { el, depth } = queue[i];
             if (depth >= 10) continue;
-    
+
             const tag = el.tagName.toLowerCase();
             lastOfType.set(tag, el);
-    
+
             const text = el.textContent.trim();
             if (text) {
                 const key = `${tag}|${text}`;
                 repeatedMap.set(key, (repeatedMap.get(key) || 0) + 1);
             }
-    
+
             const children = el.children;
             for (let j = 0; j < children.length; j++) {
                 queue.push({ el: children[j], depth: depth + 1 });
             }
         }
-    
+
         // Track how many times we've seen each tag+text combo (for rendering xN only once)
         const renderedRepeats = new Map();
-    
+
         // Build HTML
         var lastEl = ''
         var lastC = 0
@@ -663,14 +695,14 @@ addEventListener("DOMContentLoaded", (event) => {
             const tag = el.tagName.toLowerCase();
             const indent = 8 + depth * 8;
             const attrs = el.hasAttributes() ? [...el.attributes].map(a => `${a.name}="${a.value}"`).join(" ") : "";
-            const tagOpen = `&lt;${tag.replaceAll('&','&amp;')}${(attrs ? " " + attrs : "").replaceAll('&','&amp;')}&gt;`.replaceAll('"','&quot;').replaceAll("'",'&apos');
+            const tagOpen = `&lt;${tag.replaceAll('&', '&amp;')}${(attrs ? " " + attrs : "").replaceAll('&', '&amp;')}&gt;`.replaceAll('"', '&quot;').replaceAll("'", '&apos');
             const children = el.children;
             const text = el.textContent.trim();
             const key = `${tag}|${text}`;
 
             if (tagOpen == lastEl) {
                 lastC++
-            } else if (lastC != 0){
+            } else if (lastC != 0) {
                 const line = `<span class='nestedCount' >x${String(lastC)}</span><input disabled oninput="devtoolFunction()" onclick="devtoolFunctionEnable()" class="element nested" style="margin-left:${indent}px; value="${tagOpen}">`;
                 html.push(line);
                 lastC = 0
@@ -681,14 +713,14 @@ addEventListener("DOMContentLoaded", (event) => {
             }
 
             lastEl = tagOpen
-    
+
             if (children.length && depth < 10) {
                 for (let i = children.length - 1; i >= 0; i--) {
                     stack.push({ el: children[i], depth: depth + 1 });
                 }
             }
         }
-    
+
         return html.join('');
     }
 
@@ -701,7 +733,7 @@ addEventListener("DOMContentLoaded", (event) => {
             const tag = d.querySelector("summary")?.textContent?.match(/^<(\w+)/)?.[1];
             if (tag) lastOpen.set(tag, d);
         });
-        elementView.innerHTML = (createTree(document.body,lastOpen))
+        elementView.innerHTML = (createTree(document.body, lastOpen))
     }
     const targetNode = document.body;
     var updateList = []
@@ -716,7 +748,7 @@ addEventListener("DOMContentLoaded", (event) => {
         updateTreeView()
     }
 
-    const config = { childList: true, subtree: true, attributes: true};
+    const config = { childList: true, subtree: true, attributes: true };
     const callback = (mutationsList) => {
         for (const mutation of mutationsList) {
             const target = mutation.target;
@@ -736,35 +768,35 @@ addEventListener("DOMContentLoaded", (event) => {
     toggleConsole() // bug fix for the rest
 
     function addSource(file) {
-        if (isURL(file)) {} else {
+        if (isURL(file)) { } else {
             var file = location.origin + '/' + file
         }
         try {
-            fetch (file)
-            .then(x => x.text())
-            .then((res) => {
-                var tab = document.createElement('button')
-                tab.classList.add('sourceButton')
-                tab.innerText = file.split('/')[file.split('/').length-1]
-                tab.onclick = (event) => {
-                    sourceContent.innerText = res                    
-                }
-                sourceFile.appendChild(tab)
-            });
-        } catch {
-            try {
-                fetch ("https://api.codetabs.com/v1/proxy?quest=" + file)
+            fetch(file)
                 .then(x => x.text())
                 .then((res) => {
                     var tab = document.createElement('button')
                     tab.classList.add('sourceButton')
-                    tab.innerText = file.split('/')[file.split('/').length-1]
+                    tab.innerText = file.split('/')[file.split('/').length - 1]
                     tab.onclick = (event) => {
-                        sourceContent.innerText = res                    
+                        sourceContent.innerText = res
                     }
                     sourceFile.appendChild(tab)
-                });    
-            } catch {}
+                });
+        } catch {
+            try {
+                fetch("https://api.codetabs.com/v1/proxy?quest=" + file)
+                    .then(x => x.text())
+                    .then((res) => {
+                        var tab = document.createElement('button')
+                        tab.classList.add('sourceButton')
+                        tab.innerText = file.split('/')[file.split('/').length - 1]
+                        tab.onclick = (event) => {
+                            sourceContent.innerText = res
+                        }
+                        sourceFile.appendChild(tab)
+                    });
+            } catch { }
         }
     }
     function isURL(str) {
@@ -772,10 +804,10 @@ addEventListener("DOMContentLoaded", (event) => {
         return pattern.test(str);
     }
     function genSource(p1) {
-        var filename = p1.split('/')[p1.split('/').length-1]
-        var filename = filename.split('.')[filename.split('.').length-1]
-        var etxs = ['png','jpeg','gif']
-        console.log(exts.some((ext) => {return ext == filename}))
+        var filename = p1.split('/')[p1.split('/').length - 1]
+        var filename = filename.split('.')[filename.split('.').length - 1]
+        var etxs = ['png', 'jpeg', 'gif']
+        console.log(exts.some((ext) => { return ext == filename }))
         console.log(filename)
         if (isURL(p1)) {
             addSource(p1)
@@ -787,20 +819,20 @@ addEventListener("DOMContentLoaded", (event) => {
     function populateSource() {
         var body = document.body.innerHTML
         var head = document.head.innerHTML
-        body.replace(/["' ]src=["']([^"']+)["']/g,(match,p1)=> {
+        body.replace(/["' ]src=["']([^"']+)["']/g, (match, p1) => {
             genSource(p1)
         })
-        body.replace(/["' ]href=["']([^"']+)["']/g,(match,p1)=> {
+        body.replace(/["' ]href=["']([^"']+)["']/g, (match, p1) => {
             genSource(p1)
         })
-        head.replace(/["' ]src=["']([^"']+)["']/g,(match,p1)=> {
+        head.replace(/["' ]src=["']([^"']+)["']/g, (match, p1) => {
             genSource(p1)
         })
-        head.replace(/["' ]href=["']([^"']+)["']/g,(match,p1)=> {
+        head.replace(/["' ]href=["']([^"']+)["']/g, (match, p1) => {
             genSource(p1)
         })
     }
     setTimeout(() => {
-        populateSource()               
+        populateSource()
     }, 1000);
 });
