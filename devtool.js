@@ -287,29 +287,31 @@ addEventListener("DOMContentLoaded", (event) => {
         const elements = document.querySelectorAll('*');
 
         elements.forEach(el => {
-            const computedStyle = window.getComputedStyle(el);
+            if (elements == devtool) {
+                const computedStyle = window.getComputedStyle(el);
 
-            if (computedStyle.position === 'fixed') {
-                // Save the original right if not already saved
-                if (!el.dataset.originalRight) {
-                    let originalRight = computedStyle.right;
-
-                    if (originalRight && originalRight !== 'auto') {
-                        let originalRightValue = parseFloat(originalRight);
-                        if (!isNaN(originalRightValue)) {
-                            el.dataset.originalRight = originalRightValue;
+                if (computedStyle.position === 'fixed') {
+                    // Save the original right if not already saved
+                    if (!el.dataset.originalRight) {
+                        let originalRight = computedStyle.right;
+    
+                        if (originalRight && originalRight !== 'auto') {
+                            let originalRightValue = parseFloat(originalRight);
+                            if (!isNaN(originalRightValue)) {
+                                el.dataset.originalRight = originalRightValue;
+                            }
                         }
                     }
-                }
-
-                // Now, use the saved original right position
-                if (el.dataset.originalRight) {
-                    const baseRight = parseFloat(el.dataset.originalRight);
-
-                    // Apply adjustment based on size
-                    const newRight = baseRight + size;
-                    el.style.right = `${newRight}px`;
-                }
+    
+                    // Now, use the saved original right position
+                    if (el.dataset.originalRight) {
+                        const baseRight = parseFloat(el.dataset.originalRight);
+    
+                        // Apply adjustment based on size
+                        const newRight = baseRight + size;
+                        el.style.right = `${newRight}px`;
+                    }
+                }                    
             }
         });
     }
@@ -317,11 +319,11 @@ addEventListener("DOMContentLoaded", (event) => {
         if (window.devtool == false) {
             document.body.style.width = (window.innerWidth - devtoolSize) + "px";
             document.body.style.height = window.innerHeight + "px";
-            repos(devtoolSize)
+            //repos(devtoolSize)
         } else {
             document.body.style.width = window.innerWidth + "px";
             document.body.style.height = window.innerHeight + "px";
-            repos()
+            //repos()
         }
     }
 
