@@ -761,7 +761,7 @@ addEventListener("DOMContentLoaded", (event) => {
             }
         }
     };
-    TreeUpdate()
+    setTimeout(treeHTML,1000)
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
     if (localStorage.getItem('devtoolOpen&url=' + location.origin) == 'true') {
