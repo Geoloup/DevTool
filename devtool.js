@@ -504,11 +504,20 @@ addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
+    function secureHTML(arg) {
+        if (typeof arg == "string") {
+            return arg.replaceAll('<','&gt;').replaceAll('>','&le;')
+        } else {
+            return arg
+        }
+    }
+
     ["log", "warn", "error", "info"].forEach(function (method) {
         const original = console[method];
         console[method] = function (...args) {
             const filteredArgs = args.length > 0 ? args : ["undefined"];
-            var message = filteredArgs.map(arg => formatLog(arg, 0)).join(" ");
+            var message = filteredArgs.map(arg => secureHTML(arg, 0)).join(" ");
+            var message = message.map(arg => formatLog(arg, 0)).join(" ");
             appendToConsoleOutput(method.toUpperCase(), message);
             original.apply(console, args);
         };
