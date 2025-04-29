@@ -472,7 +472,7 @@ addEventListener("DOMContentLoaded", (event) => {
         } else {
             console.error(event)
         }
-        var file = error.filename
+        var file = event.error.filename
         try {
             if (file.startsWith('blob')) {
                 fetch(file)
@@ -825,6 +825,7 @@ addEventListener("DOMContentLoaded", (event) => {
     function populateSource() {
         var body = document.body.innerHTML
         var head = document.head.innerHTML
+        console.log(body)
         body.replace(/["' ]src=["']([^"']+)["']/g, (match, p1) => {
             genSource(p1)
         })
