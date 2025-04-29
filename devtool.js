@@ -467,7 +467,11 @@ addEventListener("DOMContentLoaded", (event) => {
 
     addEventListener("error", (event) => {
         var message = `${event.error ? event.error.stack : "N/A"}` // \n at ${event.filename} ${event.lineno}:${event.colno}        
-        console.error(message)
+        if (message != "N/A") {
+            console.error(message)
+        } else {
+            console.error(event)
+        }
         var file = error.filename
         try {
             if (file.startsWith('blob')) {
