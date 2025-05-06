@@ -158,6 +158,7 @@ addEventListener("DOMContentLoaded", (event) => {
             white-space: pre-wrap;
             word-wrap: break-word;
             overflow:scroll;
+            width:${devtoolSize}px;
             max-height: calc(100vh - 40px);
         }
         summary.element {
