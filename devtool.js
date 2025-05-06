@@ -102,12 +102,18 @@ addEventListener("DOMContentLoaded", (event) => {
     // source
     const sourceView = document.createElement('div')
     const sourceFile = document.createElement('div')
-    const sourceContent = document.createElement('pre')
+    const sourceContentPre = document.createElement('pre')
+    const sourceContent = document.createElement('code')
+    sourceContentPre.appendChild(sourceContent)
     sourceContent.classList.add('sourceContent')
     sourceFile.classList.add('sourcesFile')
     sourceView.classList.add('sourceView')
     sourceView.setAttribute('DevToolTabGeoloup', 'true')
     sourceContent.classList.add('sourceCode')
+    const highlight = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css">
+                        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+                    `
+    document.head.innerHTML += highlight 
 
     // Add style to html
     var devtoolSize = 400
@@ -352,7 +358,7 @@ addEventListener("DOMContentLoaded", (event) => {
     consoleInputContainer.appendChild(consoleInput);
 
     sourceView.appendChild(sourceFile)
-    sourceView.appendChild(sourceContent)
+    sourceView.appendChild(sourceContentPre)
 
     document.documentElement.appendChild(devtool)
 
