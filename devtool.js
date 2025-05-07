@@ -579,22 +579,21 @@ addEventListener("DOMContentLoaded", (event) => {
 
     const getColor = method => ({ error: "red", warn: "orange" }[method] || "inherit");
     
-    function cleanInlineStyles(styleObject) {
-        // Convert style object to string and remove empty properties
-        const cleanedStyles = [];
+    function cleanInlineStyleObject(styleObject) {
+        const cleaned = {};
       
         for (let i = 0; i < styleObject.length; i++) {
-          const property = styleObject[i];
-          const value = styleObject.getPropertyValue(property).trim();
+            const property = styleObject[i];
+            const value = styleObject.getPropertyValue(property).trim();
       
-          if (value) {
-            cleanedStyles.push(`${property}: ${value}`);
-          }
+            if (value) {
+                cleaned[property] = value;
+            }
         }
       
-        return cleanedStyles.join('; ');
+        return cleaned;
     }
-    
+      
     function internalFunc1(element) {
         const classNames = element.classList;
         const inlineStyles = element.style;
