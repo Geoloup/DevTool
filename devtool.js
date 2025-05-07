@@ -671,6 +671,7 @@ addEventListener("DOMContentLoaded", (event) => {
         };
         const clickHandler2 = (event) => {
             event.preventDefault();
+            event.stopImmediatePropagation();
             event.stopPropagation();
             if (lastEv) {
                 lastEv.style.border = lastB
