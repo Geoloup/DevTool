@@ -578,7 +578,18 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     const getColor = method => ({ error: "red", warn: "orange" }[method] || "inherit");
-
+    
+    function cleanInlineStyles(inlineStyles) {
+        return inlineStyles
+          .split(';')                             // Split styles by semicolon
+          .map(style => style.trim())            // Trim whitespace
+          .filter(style => {
+            // Only keep if it contains a colon and the value isn't empty
+            const [key, value] = style.split(':').map(s => s.trim());
+            return key && value;
+          })
+          .join('; ');
+      }
 
     function internalFunc1(element) {
         const classNames = element.classList;
@@ -587,7 +598,7 @@ addEventListener("DOMContentLoaded", (event) => {
         return {
             eventType: event.type,
             classNames: classNames,
-            inlineStyles: inlineStyles,
+            inlineStyles: cleanInlineStyles(inlineStyles),
             eventListeners: eventListeners
         };
     }
