@@ -601,7 +601,7 @@ addEventListener("DOMContentLoaded", (event) => {
         return {
             eventType: event.type,
             classNames: classNames,
-            inlineStyles: cleanInlineStyles(inlineStyles),
+            inlineStyles: cleanInlineStyleObject(inlineStyles),
             eventListeners: eventListeners
         };
     }
