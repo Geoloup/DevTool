@@ -507,7 +507,7 @@ addEventListener("DOMContentLoaded", (event) => {
                     });
             }
         } catch (err) {
-            showMessage('fail ' + err.message)
+            console.log('fail ' + err.message)
         }
     });
 
