@@ -479,36 +479,19 @@ addEventListener("DOMContentLoaded", (event) => {
         } else {
             console.error(event)
         }
+        return;
         var file = event.error.filename
-        try {
-            if (file.startsWith('blob')) {
-                fetch(file)
-                    .then(x => x.text())
-                    .then((res) => {
-                        var tab = document.createElement('button')
-                        tab.classList.add('sourceButton')
-                        tab.innerText = res
-                        tab.onclick = (event) => {
-                            sourceContent.innerText = res
-                        }
-                        sourceFile.appendChild(tab)
-                    });
-            } else {
-                fetch("https://api.codetabs.com/v1/proxy?quest=" + file)
-                    .then(x => x.text())
-                    .then((res) => {
-                        var tab = document.createElement('button')
-                        tab.classList.add('sourceButton')
-                        tab.innerText = res
-                        tab.onclick = (event) => {
-                            sourceContent.innerText = res
-                        }
-                        sourceFile.appendChild(tab)
-                    });
-            }
-        } catch (err) {
-            console.log('fail ' + err.message)
-        }
+        fetch("https://api.codetabs.com/v1/proxy?quest=" + file)
+                .then(x => x.text())
+                .then((res) => {
+                    var tab = document.createElement('button')
+                    tab.classList.add('sourceButton')
+                    tab.innerText = res
+                    tab.onclick = (event) => {
+                        sourceContent.innerText = res
+                    }
+                    sourceFile.appendChild(tab)
+                });
     });
 
     function secureHTML(arg) {
