@@ -539,7 +539,7 @@ addEventListener("DOMContentLoaded", (event) => {
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
         let Content = element.innerText.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
         let tagClose = `&lt;/${element.tagName.toLowerCase()}&gt;`;
-        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}$${Content}{tagClose}</summary>`;
+        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}${Content}${tagClose}</summary>`;
         return `<details><summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}${tagClose}</details>`;
     }
 
