@@ -540,10 +540,8 @@ addEventListener("DOMContentLoaded", (event) => {
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
         let Content = element.innerText.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
         let tagClose = `&lt;/${element.tagName.toLowerCase()}&gt;`;
-        let style = `#ss${id}:not([open])::after {
+        let style = `#ss${id}::after {
                         content: "${tagClose}";
-                        color: red; /* Optional styling */
-                        font-weight: bold;
                         margin-left: 10px;
                     }`
         if (!element.children.length || depth >= 10) return `<style>${style}</style><summary id="${id}" style="margin-left:${8 + depth * 8}px;">${tagOpen}${Content}${tagClose}</summary>`;
