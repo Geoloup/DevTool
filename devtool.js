@@ -536,11 +536,18 @@ addEventListener("DOMContentLoaded", (event) => {
         let attributes = Array.from(element.attributes)
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(" ");
+        let id = 'ss' + generateCustomUUID()
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
         let Content = element.innerText.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
         let tagClose = `&lt;/${element.tagName.toLowerCase()}&gt;`;
-        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}${Content}${tagClose}</summary>`;
-        return `<details><summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}${tagClose}</details>`;
+        let style = `#ss${id}:not([open])::after {
+                        content: "${tagClose}";
+                        color: red; /* Optional styling */
+                        font-weight: bold;
+                        margin-left: 10px;
+                    }`
+        if (!element.children.length || depth >= 10) return `<style>${style}</style><summary id="${id}" style="margin-left:${8 + depth * 8}px;">${tagOpen}${Content}${tagClose}</summary>`;
+        return `<details><style>${style}</style><summary id='${id}' style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}${tagClose}</details>`;
     }
 
     function appendToConsoleOutput(type, message) {
