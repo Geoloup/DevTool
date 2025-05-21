@@ -473,25 +473,15 @@ addEventListener("DOMContentLoaded", (event) => {
     }
 
     addEventListener("error", (event) => {
-        var message = `${event.error ? event.error : "N/A"}` // \n at ${event.filename} ${event.lineno}:${event.colno}        
+        var message = `${event.error ? event.error : "N/A"}`       
         if (message != "N/A") {
             console.error(message)
         } else {
+            console.error(event.message)
             console.error(event.error)
+            console.error(event)
         }
         return;
-        var file = event.error.filename
-        fetch("https://api.codetabs.com/v1/proxy?quest=" + file)
-                .then(x => x.text())
-                .then((res) => {
-                    var tab = document.createElement('button')
-                    tab.classList.add('sourceButton')
-                    tab.innerText = res
-                    tab.onclick = (event) => {
-                        sourceContent.innerText = res
-                    }
-                    sourceFile.appendChild(tab)
-                });
     });
 
     function secureHTML(arg) {
@@ -547,8 +537,9 @@ addEventListener("DOMContentLoaded", (event) => {
             .map(attr => `${attr.name}="${attr.value}"`)
             .join(" ");
         let tagOpen = `&lt;${element.tagName.toLowerCase()}${attributes ? ' ' + attributes : ''}&gt;`;
-        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>`;
-        return `<details><summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}</details>`;
+        let tagClose = `&lt;/${element.tagName.toLowerCase()}&gt;`;
+        if (!element.children.length || depth >= 10) return `<summary style="margin-left:${8 + depth * 8}px;">${tagOpen}${tagClose}</summary>`;
+        return `<details><summary style="margin-left:${8 + depth * 8}px;">${tagOpen}</summary>${Array.from(element.children).map(child => createInspectableElement(child, depth + 1)).join('')}${tagClose}</details>`;
     }
 
     function appendToConsoleOutput(type, message) {
